@@ -39,11 +39,11 @@
 
         #content-wrapper {
             display: flex; flex-direction: column; align-items: center; width: 100%;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative; z-index: 1;
         }
-        .konami-active #content-wrapper { animation: flip360 1s ease-in-out; }
-        @keyframes flip360 { to { transform: rotate(360deg); } }
+
+        /* Classe per bloccare i click durante il crollo gravitazionale */
+        .gravity-active { pointer-events: none; overflow: hidden; }
 
         /* --- SFONDO ANIMATO --- */
         #bg-effects {
@@ -77,7 +77,7 @@
         }
         .action-btn:hover { filter: brightness(0.9); transform: scale(1.05); }
 
-        /* --- SEZIONE HERO E FOTO (DIMENSIONI RIDOTTE) --- */
+        /* --- SEZIONE HERO E FOTO --- */
         .hero { 
             margin-top: 100px; text-align: center; padding: 20px; 
             width: 100%; max-width: 900px; z-index: 10; 
@@ -86,7 +86,7 @@
         
         .image-container {
             position: relative; 
-            width: 100%; max-width: 300px; /* Ridotto da 380px a 300px */
+            width: 100%; max-width: 300px; 
             aspect-ratio: 1 / 1; 
             margin: 0 auto 10px;
             background: transparent;
@@ -97,51 +97,45 @@
             width: 100%; height: 100%; object-fit: contain; 
             position: absolute; top: 0; left: 0;
             transition: opacity 0.3s ease;
+            transform-origin: center center; /* Importante per l'effetto gravità */
         }
 
-        /* LOGICA DI SCAMBIO IMMAGINE INFINITO E PULITO */
         .image-container img.cartoon { opacity: 1; z-index: 2; }
         .image-container img.real { opacity: 0; z-index: 1; }
 
-        /* Hover base (Senza Click) */
+        /* Logica HOVER (PC) e TOGGLE CLICK (PC + Mobile) */
         @media (hover: hover) {
             .image-container:not(.toggled-click):hover img.cartoon { opacity: 0; }
             .image-container:not(.toggled-click):hover img.real { opacity: 1; z-index: 3; }
         }
 
-        /* Stato Cliccato */
         .image-container.toggled-click img.cartoon { opacity: 0; }
         .image-container.toggled-click img.real { opacity: 1; z-index: 3; }
 
-        /* Hover quando è GIÀ Cliccato (mostra cartoon) */
         @media (hover: hover) {
             .image-container.toggled-click:hover img.cartoon { opacity: 1; z-index: 3; }
             .image-container.toggled-click:hover img.real { opacity: 0; }
         }
 
-        /* Hint Text (Nuovo font neutro ed elegante) */
+        /* Hint Text */
         .image-hint {
             font-size: 0.9em; font-weight: 500; color: var(--text-color); 
             opacity: 0.5; margin-bottom: 20px; user-select: none;
             letter-spacing: 0.5px;
         }
 
-        /* Testi Ridotti */
         .hero h1 { font-size: 2.8em; margin: 0; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent;}
         .typewriter-tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; min-height: 1.6em; margin-top: 5px; }
         .typewriter-tagline::after { content: '_'; animation: blinkType 0.7s infinite; }
         @keyframes blinkType { 50% { opacity: 0; } }
         .hero p.bio { font-size: 1.1em; color: #888; max-width: 700px; margin: 10px auto; }
 
-        /* --- GRIGLIA CARDS (4 ALLINEATE) --- */
+        /* --- GRIGLIA CARDS --- */
         .grid-container {
-            display: grid; 
-            /* Forza 4 colonne uguali sempre allineate */
-            grid-template-columns: repeat(4, 1fr); 
+            display: grid; grid-template-columns: repeat(4, 1fr); 
             gap: 20px; width: 95%; max-width: 1200px; padding: 40px 0; z-index: 10;
         }
 
-        /* Responsive: su schermi piccoli diventano 2x2, su cellulare 1 colonna */
         @media (max-width: 900px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 500px) { .grid-container { grid-template-columns: 1fr; } }
 
@@ -206,7 +200,7 @@
             width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s;
         }
 
-        /* --- ROBOTTINO FISSO --- */
+        /* --- ROBOTTINO --- */
         #runaway-bot {
             position: fixed !important; bottom: 30px !important; right: 30px !important; 
             cursor: pointer; z-index: 99999 !important;
@@ -329,7 +323,6 @@
             const colorsDark = ['#4A90E2', '#50E3C2', '#B8E986', '#BD10E0'];
             
             const bgContainer = document.getElementById('bg-effects');
-            
             for(let i = 0; i < 80; i++) { 
                 let el = document.createElement('div');
                 el.className = 'floating-code';
@@ -385,7 +378,7 @@
             if(!isCaught) document.getElementById('bot-bubble').innerText = document.getElementById('bot-bubble').getAttribute('data-' + currentLang);
         }
 
-        // 2. MACCHINA DA SCRIVERE E FOTO SWAP INFINITO
+        // 2. MACCHINA DA SCRIVERE E FOTO SWAP
         const imageSwapContainer = document.getElementById('image-swap-container');
         const textToType = document.getElementById('typing-text').getAttribute('data-' + currentLang);
         let charIndex = 0;
@@ -403,29 +396,23 @@
             const rect = imageSwapContainer.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            const rotateX = y / 15; 
-            const rotateY = -x / 15;
-            imageSwapContainer.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            imageSwapContainer.style.transform = `perspective(1000px) rotateX(${y/15}deg) rotateY(${-x/15}deg) scale(1.02)`;
         });
         imageSwapContainer.addEventListener('mouseleave', () => {
             imageSwapContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
         });
-
-        // Click Infinito per invertire l'immagine
         imageSwapContainer.addEventListener('click', () => {
             imageSwapContainer.classList.toggle('toggled-click');
         });
 
-        // 3. KONAMI CODE (Tastiera) E MOBILE EASTER EGG (Tap sul nome)
+        // 3. KONAMI CODE (GRAVITÀ)
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
+        
         document.addEventListener('keydown', (e) => {
             if (e.key === konamiCode[konamiIndex]) {
                 konamiIndex++;
-                if (konamiIndex === konamiCode.length) {
-                    executeKonamiEffect();
-                    konamiIndex = 0;
-                }
+                if (konamiIndex === konamiCode.length) { executeGravityEffect(); konamiIndex = 0; }
             } else konamiIndex = 0;
         });
 
@@ -435,20 +422,46 @@
         secretName.addEventListener('touchstart', (e) => {
             tapCount++;
             clearTimeout(tapTimer);
-            if (tapCount === 5) {
-                executeKonamiEffect();
-                tapCount = 0;
-            } else {
-                tapTimer = setTimeout(() => { tapCount = 0; }, 400); 
-            }
+            if (tapCount === 5) { executeGravityEffect(); tapCount = 0; } 
+            else { tapTimer = setTimeout(() => { tapCount = 0; }, 400); }
         });
 
-        function executeKonamiEffect() {
-            document.body.classList.add('konami-active');
-            setTimeout(() => { document.body.classList.remove('konami-active'); }, 1000);
+        // EFFETTO GRAVITÀ
+        function executeGravityEffect() {
+            if (document.body.classList.contains('gravity-active')) return;
+            document.body.classList.add('gravity-active');
+            
+            // Seleziona tutti gli elementi da far precipitare
+            const fallers = document.querySelectorAll('h1, h2, h3, p, img, button, input, textarea, .card-icon, .action-btn');
+
+            fallers.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                // Calcola caduta oltre il fondo dello schermo
+                const dropY = window.innerHeight - rect.top + (Math.random() * 500 + 200);
+                const rot = (Math.random() - 0.5) * 360; 
+                const duration = 0.5 + Math.random() * 1.5;
+
+                el.style.transition = `transform ${duration}s cubic-bezier(0.55, 0.085, 0.68, 0.53)`;
+                el.style.transform = `translateY(${dropY}px) rotate(${rot}deg)`;
+            });
+
+            // Ritorno indietro dopo 3 secondi
+            setTimeout(() => {
+                fallers.forEach(el => {
+                    const duration = 1 + Math.random() * 1.5;
+                    el.style.transition = `transform ${duration}s cubic-bezier(0.175, 0.885, 0.32, 1.275)`;
+                    el.style.transform = `translateY(0) rotate(0deg)`;
+                });
+
+                // Pulizia
+                setTimeout(() => {
+                    fallers.forEach(el => { el.style.transition = ''; el.style.transform = ''; });
+                    document.body.classList.remove('gravity-active');
+                }, 2500);
+            }, 3000);
         }
 
-        // 4. LOGICA COMPLETA DEL ROBOTTINO (TORNATO A SCAPPARE LONTANO)
+        // 4. LOGICA ROBOTTINO (FIXATO BUG PARALISI)
         const bot = document.getElementById('runaway-bot');
         const bubble = document.getElementById('bot-bubble');
         const botFace = document.getElementById('bot-face');
@@ -458,12 +471,12 @@
         let footprintInterval;
         let isCaught = false;
         let touchAttempts = 0;
+        let isEscaping = false; // <-- LA CURA AL BUG
 
         window.addEventListener('DOMContentLoaded', () => {
             bot.style.bottom = '30px'; 
             bot.style.right = '30px';
-            bot.style.top = 'auto'; 
-            bot.style.left = 'auto';
+            bot.style.top = 'auto'; bot.style.left = 'auto';
         });
 
         function setBubbleText(testoIT, testoEN) {
@@ -473,26 +486,29 @@
         }
 
         function triggerRunHover() {
-            if (isCaught) return; 
+            if (isCaught || isEscaping) return; // Se sta già fuggendo, ignora il mouse
+            isEscaping = true;
+
             botFace.innerText = '😱';
             setBubbleText("Mancato!", "Missed!");
             bot.classList.add('running');
             startFootprints();
 
-            clearTimeout(runTimeout);
-            runTimeout = setTimeout(() => { 
+            setTimeout(() => { 
                 runAway();
                 setTimeout(() => {
                     if (!isCaught) {
                         bot.classList.remove('running');
                         botFace.innerText = '🤖'; 
                         stopFootprints();
+                        isEscaping = false; // Fine fuga, pronto a riscappare
                     }
                 }, 400); 
             }, 50); 
         }
 
         function forceRunAway() {
+            isEscaping = true;
             bot.classList.add('running');
             startFootprints();
             runAway();
@@ -500,7 +516,8 @@
                 if (!isCaught) {
                     bot.classList.remove('running');
                     botFace.innerText = '🤖'; 
-                        stopFootprints();
+                    stopFootprints();
+                    isEscaping = false;
                 }
             }, 400);
         }
@@ -508,8 +525,9 @@
         function handleTouch(e) {
             if (isCaught) return;
             e.preventDefault(); 
+            if (isEscaping) return; // Niente spam di dita
+
             touchAttempts++;
-            
             if (touchAttempts < 5) { 
                 botFace.innerText = '😱';
                 let itTexts = ["Mancato!", "Troppo lento!", "Ritenta!", "Ci sei quasi..."];
@@ -530,7 +548,6 @@
             const rect = bot.getBoundingClientRect();
             const currentX = rect.left;
             const currentY = rect.top;
-
             const maxX = window.innerWidth - 120;
             const maxY = window.innerHeight - 150;
             
@@ -538,11 +555,10 @@
             let distance = 0;
             let attempts = 0;
             
-            // RIPRISTINATO IL CALCOLO DELLA DISTANZA: Deve saltare via di almeno 400px!
+            // Costretto a saltare LONTANISSIMO (minimo 400px)
             do {
                 randomX = Math.max(20, Math.floor(Math.random() * maxX));
                 randomY = Math.max(80, Math.floor(Math.random() * maxY));
-                
                 let dx = randomX - currentX;
                 let dy = randomY - currentY;
                 distance = Math.sqrt(dx*dx + dy*dy);
@@ -572,7 +588,6 @@
 
         function executeCatch() {
             isCaught = true;
-            clearTimeout(runTimeout);
             stopFootprints();
             bot.classList.remove('running');
             
@@ -580,10 +595,10 @@
             setBubbleText("Preso!", "Got me!");
             
             setTimeout(() => { bot.classList.add('bot-vanish'); }, 500);
-            setTimeout(() => { modal.classList.add('active'); }, 900);
+            setTimeout(() => { document.getElementById('custom-modal').classList.add('active'); }, 900);
         }
 
-        function closeModal() { modal.classList.remove('active'); }
+        function closeModal() { document.getElementById('custom-modal').classList.remove('active'); }
     </script>
 </body>
 </html>
