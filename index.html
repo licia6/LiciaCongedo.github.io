@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Giacomo Rossi - Portfolio</title>
+    <title>Portfolio - Home</title>
     <style>
-        /* --- STILI CSS (Il "vestito" del sito) --- */
-        
-        /* Variabili per colori (facilita la Dark Mode) */
+        /* --- VARIABILI E STILI BASE --- */
         :root {
             --bg-color: #ffffff;
             --text-color: #333333;
             --card-bg: #f9f9f9;
-            --shadow: 0 4px 6px rgba(0,0,0,0.1);
-            --accent: #007bff; /* Colore blu per i pulsanti */
+            --shadow: 0 4px 15px rgba(0,0,0,0.05);
+            --accent: #007bff;
+            --accent-hover: #0056b3;
         }
 
-        /* Stili generali */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -27,179 +25,302 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Intestazione (Header) */
+        /* --- HEADER E PULSANTI --- */
         header {
             width: 100%;
-            padding: 20px 0;
+            padding: 15px 30px;
             display: flex;
-            justify-content: flex-end; /* Mette il selettore a destra */
+            justify-content: flex-end;
             position: fixed;
             top: 0;
-            background: rgba(255,255,255,0.9);
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
             z-index: 1000;
+            box-sizing: border-box;
+            gap: 15px;
         }
 
-        .theme-toggle {
-            margin-right: 50px;
+        .action-btn {
             cursor: pointer;
-            padding: 5px 10px;
+            padding: 8px 15px;
             border: 1px solid #ccc;
             border-radius: 20px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-weight: bold;
+            transition: all 0.2s;
+            user-select: none;
         }
 
-        /* Sezione Hero (Foto + Bio) */
+        .action-btn:hover { background: #eee; }
+
+        /* --- SEZIONE HERO --- */
         .hero {
-            margin-top: 100px; /* Spazio per l'header fisso */
+            margin-top: 120px;
             text-align: center;
-            padding: 40px 20px;
+            padding: 20px;
             max-width: 800px;
         }
 
         .hero img {
             width: 150px;
             height: 150px;
-            border-radius: 50%; /* Foto rotonda */
+            border-radius: 50%;
             object-fit: cover;
-            border: 5px solid white;
+            border: 4px solid var(--accent);
             box-shadow: var(--shadow);
+            margin-bottom: 15px;
         }
 
-        .hero h1 {
-            font-size: 2.5em;
-            margin: 10px 0;
-        }
+        .hero h1 { font-size: 2.8em; margin: 0; }
+        .hero p.tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; }
+        .hero p.bio { font-size: 1.1em; color: #666; }
 
-        .hero p.tagline {
-            font-size: 1.2em;
-            color: #666;
-            font-weight: bold;
-        }
-
-        /* Sezione Griglia dei Progetti (Cards) */
+        /* --- GRIGLIA CARDS --- */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            gap: 25px;
             width: 90%;
-            max-width: 1200px;
+            max-width: 1000px;
             padding: 40px 0;
         }
 
         .card {
             background-color: var(--card-bg);
-            padding: 20px;
-            border-radius: 10px;
+            padding: 30px 20px;
+            border-radius: 15px;
             box-shadow: var(--shadow);
             text-align: center;
-            transition: transform 0.2s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(0,0,0,0.05);
         }
 
         .card:hover {
-            transform: translateY(-5px); /* Effetto sollevamento al passaggio del mouse */
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
         }
 
-        .card-icon {
-            font-size: 3em;
-            margin-bottom: 15px;
-        }
-
-        .card h3 {
-            margin: 10px 0;
-        }
-
+        .card-icon { font-size: 3.5em; margin-bottom: 10px; }
+        .card h3 { margin: 10px 0; font-size: 1.4em; }
+        
         .card button {
             background-color: var(--accent);
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1em;
-            margin-top: 15px;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: background 0.2s;
+        }
+        .card button:hover { background-color: var(--accent-hover); }
+
+        /* --- SEZIONE NEWSLETTER / CONTATTI --- */
+        .contact-section {
+            width: 90%;
+            max-width: 600px;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 40px 0;
+            box-shadow: var(--shadow);
         }
 
-        /* Footer */
-        footer {
-            margin-top: auto;
-            padding: 20px;
-            font-size: 0.9em;
-            color: #777;
+        .contact-section input[type="email"], .contact-section textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: inherit;
         }
+
+        .contact-section button {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            width: 100%;
+            font-size: 1.1em;
+        }
+
+        /* --- ROBOTTINO DISPETTOSO --- */
+        #runaway-bot {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            font-size: 45px;
+            cursor: pointer;
+            z-index: 9999;
+            transition: top 0.2s ease-out, left 0.2s ease-out; /* Movimento fluido ma veloce */
+            user-select: none;
+        }
+
+        .bubble {
+            position: absolute;
+            top: -35px;
+            left: -20px;
+            background: white;
+            color: black;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            white-space: nowrap;
+            border: 1px solid #ddd;
+        }
+
+        /* Triangolino della nuvoletta */
+        .bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            border-width: 5px 5px 0;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+        }
+
+        /* --- FOOTER --- */
+        footer { margin-top: auto; padding: 30px; font-size: 0.9em; color: #888; text-align: center; }
 
     </style>
 </head>
 <body>
 
     <header>
-        <div class="theme-toggle" onclick="toggleTheme()">☀️ Light Mode</div>
+        <div class="action-btn" onclick="toggleTheme()" id="theme-btn">🌙 Dark Mode</div>
+        <div class="action-btn" onclick="toggleLanguage()" id="lang-btn">🇬🇧 English</div>
     </header>
 
     <section class="hero">
-        <img src="https://via.placeholder.com/150" alt="Foto di Giacomo Rossi">
-        <h1>Giacomo Rossi</h1>
-        <p class="tagline">Digital Architect & Creative Code Alchemist</p>
-        <p>Trasformo idee in codice e pixel. Specializzato in UX/UI design, sviluppo web avanzato e narrazione digitale. Esplora il mio mondo.</p>
+        <img src="https://via.placeholder.com/150" alt="Profile Picture">
+        <h1 data-it="Nome Cognome" data-en="Firstname Lastname">Nome Cognome</h1>
+        <p class="tagline" data-it="Qualifica o Ruolo Creativo" data-en="Creative Role or Title">Qualifica o Ruolo Creativo</p>
+        <p class="bio" data-it="Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro. Sii creativo e diretto!" data-en="This is a sample short bio. Here you can write who you are, what you are passionate about, and your mission in the professional world. Be creative and direct!">Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro. Sii creativo e diretto!</p>
     </section>
 
     <section class="grid-container">
         
         <div class="card">
-            <div class="card-icon">📂</div>
-            <h3>PROGETTI VARI</h3>
-            <p>Scopri le mie creazioni e i lavori più recenti.</p>
-            <button onclick="location.href='#projects'">APRI DETTAGLI</button>
+            <div class="card-icon">🚀</div>
+            <h3 data-it="PROGETTI" data-en="PROJECTS">PROGETTI</h3>
+            <p data-it="Descrizione di esempio dei tuoi progetti migliori e dei lavori passati." data-en="Sample description of your best projects and past works.">Descrizione di esempio dei tuoi progetti migliori e dei lavori passati.</p>
+            <button data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button>
         </div>
 
         <div class="card">
-            <div class="card-icon">🧭</div>
-            <h3>ESPERIENZE</h3>
-            <p>Il mio percorso professionale e formativo.</p>
-            <button onclick="location.href='#cv'">VISUALIZZA CV</button>
+            <div class="card-icon">💼</div>
+            <h3 data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3>
+            <p data-it="Riassunto di esempio del tuo background, studi e competenze." data-en="Sample summary of your background, studies, and skills.">Riassunto di esempio del tuo background, studi e competenze.</p>
+            <button data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button>
         </div>
 
         <div class="card">
-            <div class="card-icon">✉️</div>
-            <h3>CONTATTI</h3>
-            <p>Parliamo del tuo prossimo progetto o opportunità.</p>
-            <button onclick="location.href='#contact'">INVIAMI UN MESSAGGIO</button>
-        </div>
-
-        <div class="card">
-            <div class="card-icon">📖</div>
-            <h3>BLOG</h3>
-            <p>Pensieri, tutorial e scoperte nel mondo tech.</p>
-            <button onclick="location.href='#blog'">LEGGI GLI ARTICOLI</button>
+            <div class="card-icon">✍️</div>
+            <h3 data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3>
+            <p data-it="Articoli di esempio, pensieri, tutorial o notizie sul tuo settore." data-en="Sample articles, thoughts, tutorials or news about your field.">Articoli di esempio, pensieri, tutorial o notizie sul tuo settore.</p>
+            <button data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button>
         </div>
 
     </section>
 
+    <section class="contact-section">
+        <h2 data-it="Rimaniamo in contatto!" data-en="Let's stay in touch!">Rimaniamo in contatto!</h2>
+        <p data-it="Iscriviti per ricevere aggiornamenti sui miei progetti o scrivimi un messaggio." data-en="Subscribe to get updates on my projects or drop me a message.">Iscriviti per ricevere aggiornamenti sui miei progetti o scrivimi un messaggio.</p>
+        <form onsubmit="event.preventDefault(); alert('Funzionalità in arrivo!');">
+            <input type="email" placeholder="La tua email (Your email)" required>
+            <textarea rows="3" placeholder="Scrivi un messaggio (opzionale) / Write a message (optional)"></textarea>
+            <button type="submit" data-it="Invia / Iscriviti" data-en="Send / Subscribe">Invia / Iscriviti</button>
+        </form>
+    </section>
+
+    <div id="runaway-bot" onmouseover="runAway()" ontouchstart="runAway()" onclick="catchBot()">
+        <div class="bubble" id="bot-bubble" data-it="Prendimi!" data-en="Catch me!">Prendimi!</div>
+        🤖
+    </div>
+
     <footer>
-        <p>© 2024 Giacomo Rossi Portfolio - Fatto con codice e passione.</p>
+        <p data-it="© 2024 Portfolio. Creato con fantasia." data-en="© 2024 Portfolio. Created with imagination.">© 2024 Portfolio. Creato con fantasia.</p>
     </footer>
 
     <script>
-        // --- JAVASCRIPT (Per la funzionalità Dark Mode) ---
+        // 1. GESTIONE DARK MODE
         function toggleTheme() {
             const body = document.body;
-            const toggleBtn = document.querySelector('.theme-toggle');
+            const themeBtn = document.getElementById('theme-btn');
             
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
-                toggleBtn.innerHTML = '☀️ Light Mode';
-                // Reset delle variabili per la modalità chiara
+                themeBtn.innerHTML = '🌙 Dark Mode';
                 document.documentElement.style.setProperty('--bg-color', '#ffffff');
                 document.documentElement.style.setProperty('--text-color', '#333333');
                 document.documentElement.style.setProperty('--card-bg', '#f9f9f9');
+                // Colore per l'header in chiaro
+                document.querySelector('header').style.background = 'rgba(255,255,255,0.8)';
             } else {
                 body.setAttribute('data-theme', 'dark');
-                toggleBtn.innerHTML = '🌙 Dark Mode';
-                // Set delle variabili per la modalità scura
-                document.documentElement.style.setProperty('--bg-color', '#1a1a1a');
+                themeBtn.innerHTML = '☀️ Light Mode';
+                document.documentElement.style.setProperty('--bg-color', '#121212');
                 document.documentElement.style.setProperty('--text-color', '#f1f1f1');
-                document.documentElement.style.setProperty('--card-bg', '#2d2d2d');
+                document.documentElement.style.setProperty('--card-bg', '#1e1e1e');
+                // Colore per l'header in scuro
+                document.querySelector('header').style.background = 'rgba(18,18,18,0.8)';
             }
+        }
+
+        // 2. GESTIONE TRADUZIONE
+        let currentLang = 'it';
+        function toggleLanguage() {
+            currentLang = currentLang === 'it' ? 'en' : 'it';
+            const langBtn = document.getElementById('lang-btn');
+            langBtn.innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
+            
+            // Trova tutti gli elementi con l'attributo data-it
+            const elements = document.querySelectorAll('[data-it]');
+            elements.forEach(el => {
+                // Imposta il testo in base alla lingua scelta
+                el.innerText = el.getAttribute('data-' + currentLang);
+            });
+        }
+
+        // 3. GESTIONE ROBOTTINO
+        const bot = document.getElementById('runaway-bot');
+        
+        function runAway() {
+            // Calcola le dimensioni sicure dello schermo (sottraendo la grandezza del bot)
+            const maxX = window.innerWidth - 80;
+            const maxY = window.innerHeight - 80;
+            
+            // Genera coordinate casuali
+            const randomX = Math.floor(Math.random() * maxX);
+            const randomY = Math.floor(Math.random() * maxY);
+            
+            // Applica la nuova posizione
+            bot.style.left = randomX + 'px';
+            bot.style.top = randomY + 'px';
+            bot.style.bottom = 'auto'; // Rimuove il "bottom" iniziale per usare solo top/left
+            bot.style.right = 'auto';
+        }
+
+        function catchBot() {
+            // Messaggio che cambia in base alla lingua
+            const msg = currentLang === 'it' 
+                ? "Preso! 🎯 Grazie per aver visitato il sito, buon proseguimento!" 
+                : "Caught me! 🎯 Thanks for visiting the site, enjoy your stay!";
+            alert(msg);
         }
     </script>
 
