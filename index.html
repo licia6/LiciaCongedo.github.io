@@ -27,20 +27,26 @@
             --card-glow: 0 0 15px rgba(0, 123, 255, 0.15); 
         }
 
+        * { box-sizing: border-box; }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0; padding: 0;
             background-color: var(--bg-color); color: var(--text-color);
             line-height: 1.6; overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            perspective: 1000px; /* Perspective per l'effetto 3D */
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* Konami Code animation class */
-        .konami-active { animation: flip360 1s ease-in-out; }
+        /* Wrapper principale per centrare e gestire il Konami code */
+        #content-wrapper {
+            display: flex; flex-direction: column; align-items: center; width: 100%;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative; z-index: 1;
+        }
+        .konami-active #content-wrapper { animation: flip360 1s ease-in-out; }
         @keyframes flip360 { to { transform: rotate(360deg); } }
 
-        /* --- SFONDO ANIMATO STILE TECH CON PROFONDITÀ --- */
+        /* --- SFONDO ANIMATO --- */
         #bg-effects {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1; overflow: hidden; pointer-events: none;
@@ -50,19 +56,19 @@
             font-weight: bold; white-space: nowrap; opacity: 0; 
         }
         @keyframes floatUp {
-            0% { transform: translateY(0); opacity: 0; }
+            0% { transform: translateY(10vh); opacity: 0; }
             10% { opacity: var(--current-opacity); } 
             90% { opacity: var(--current-opacity); }
-            100% { transform: translateY(-30vh); opacity: 0; }
+            100% { transform: translateY(-40vh); opacity: 0; }
         }
 
         /* --- HEADER --- */
         header {
             width: 100%; padding: 15px 30px; display: flex; justify-content: flex-end;
-            position: fixed; top: 0; 
+            position: fixed; top: 0; left: 0;
             background: var(--header-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(128,128,128,0.1); 
-            z-index: 1000; box-sizing: border-box; gap: 15px;
+            z-index: 1000; gap: 15px;
             transition: background 0.4s ease;
         }
 
@@ -73,62 +79,41 @@
         }
         .action-btn:hover { filter: brightness(0.9); transform: scale(1.05); }
 
-        /* --- SEZIONE HERO E FOTO SWAP (NITIDA E GIGANTE) --- */
-        .hero { margin-top: 100px; text-align: center; padding: 20px; max-width: 900px; z-index: 10; }
+        /* --- SEZIONE HERO E FOTO (RESA RESPONSIVE E CENTRATA) --- */
+        .hero { 
+            margin-top: 100px; text-align: center; padding: 20px; 
+            width: 100%; max-width: 900px; z-index: 10; 
+            display: flex; flex-direction: column; align-items: center;
+        }
         
         .image-container {
             position: relative; 
-            /* DIMENSIONI GIGANTI */
-            width: 350px; height: 350px; 
-            margin: 0 auto 20px;
-            /* MOSSO IL CERCHIO E IL BORDO */
-            border-radius: 0; border: none;
-            box-shadow: none; overflow: hidden;
-            transition: transform 0.1s ease-out; cursor: pointer; background: var(--card-bg);
-            -webkit-tap-highlight-color: transparent; 
+            width: 100%; max-width: 380px; aspect-ratio: 1 / 1; /* Mantiene la foto quadrata ma scalabile */
+            margin: 0 auto 5px;
+            background: transparent;
+            cursor: pointer; -webkit-tap-highlight-color: transparent; 
         }
         
-        .hero img.cartoon {
-            width: 100%; height: 100%; object-fit: contain; /* Contain per non deformare */
-            position: relative; z-index: 1; transition: opacity 0.3s ease-out;
+        .image-container img {
+            width: 100%; height: 100%; object-fit: contain; /* Non deforma mai la foto */
+            position: absolute; top: 0; left: 0;
+            transition: opacity 0.4s ease;
         }
 
-        /* Pseudo-elementi per lo sbattito d'occhi (palpebre) */
-        .hero .cartoon-container { position: relative; width: 100%; height: 100%; }
-        .hero .cartoon-container::before, .hero .cartoon-container::after {
-            content: ''; position: absolute; 
-            top: 29.5%; /* Regolato altezza occhi */
-            width: 38px; height: 30px; /* Ingrandite palpebre */
-            background: #F3D9C6; /* Colore pelle cartoon aggiornato */
-            border-radius: 50%; z-index: 2; opacity: 0; 
-            transform: scaleY(0); transform-origin: top;
-            animation: blink 4s infinite; 
-        }
-        .hero .cartoon-container::before { left: 40.5%; } /* Occhio sinistro */
-        .hero .cartoon-container::after { right: 38.5%; } /* Occhio destro */
+        .image-container img.cartoon { opacity: 1; z-index: 2; }
+        .image-container img.real { opacity: 0; z-index: 1; }
 
-        @keyframes blink {
-            90% { transform: scaleY(0); opacity: 0; }
-            92% { transform: scaleY(1); opacity: 1; } 
-            94% { transform: scaleY(0); opacity: 0; }
-        }
-
-        .hero img.real {
-            width: 100%; height: 100%; object-fit: contain;
-            position: absolute; top: 0; left: 0; z-index: 0;
-            opacity: 0; transition: opacity 0.3s ease-in-out;
-            /* RIMOSSO BLUR E CONTRASTO - ORA È NITIDA */
-            filter: none; 
-        }
-
-        /* Effetto SWAP su HOVER/TOUCH (Scompare cartoon, appare real) */
-        .image-container:hover img.real,
-        .image-container.show-real-touch img.real {
-            z-index: 3; opacity: 1;
-        }
+        /* Logica HOVER (PC) e TOGGLE CLICK (PC + Mobile) */
         .image-container:hover img.cartoon,
-        .image-container.show-real-touch img.cartoon {
-            opacity: 0;
+        .image-container.toggled img.cartoon { opacity: 0; z-index: 1; }
+        
+        .image-container:hover img.real,
+        .image-container.toggled img.real { opacity: 1; z-index: 2; }
+
+        /* Hint Text per capire l'interazione */
+        .image-hint {
+            font-size: 0.9em; font-style: italic; color: var(--accent);
+            margin-bottom: 20px; opacity: 0.8; user-select: none;
         }
 
         .hero h1 { font-size: 3.2em; margin: 0; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent;}
@@ -139,7 +124,7 @@
 
         /* --- GRIGLIA CARDS --- */
         .grid-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px; width: 90%; max-width: 1100px; padding: 50px 0; z-index: 10;
         }
 
@@ -147,24 +132,25 @@
             background-color: var(--card-bg); padding: 40px 25px; border-radius: 15px;
             border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
             text-align: center; transition: transform 0.3s, box-shadow 0.3s, background-color 0.4s, border 0.4s;
-            display: flex; flex-direction: column;
+            display: flex; flex-direction: column; align-items: center;
         }
         .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.2), var(--card-glow); }
         .card-icon { font-size: 3.5em; margin-bottom: 15px; }
         .card h3 { margin: 10px 0; font-size: 1.3em; }
-        .card p { flex-grow: 1; font-size: 1em; }
+        .card p { flex-grow: 1; font-size: 1em; width: 100%; }
         
         .card button {
             background-color: var(--accent); color: white; border: none;
             padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold;
-            margin-top: 25px; transition: background 0.2s; font-size: 1em;
+            margin-top: 25px; transition: background 0.2s; font-size: 1em; width: 80%;
         }
         .card button:hover { background-color: var(--accent-hover); }
 
-        /* --- MODAL (POPUP ROBOTTINO) --- */
+        /* --- MODAL (POPUP ROBOTTINO, ORA FISSO AL 100%) --- */
         .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.6); z-index: 20000; display: none; 
+            position: fixed !important; top: 0 !important; left: 0 !important; 
+            width: 100vw !important; height: 100vh !important;
+            background: rgba(0,0,0,0.7); z-index: 999999 !important; display: none; 
             justify-content: center; align-items: center; opacity: 0; 
             transition: opacity 0.3s; backdrop-filter: blur(5px);
         }
@@ -182,6 +168,7 @@
             border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em;
         }
 
+        /* --- SEZIONE CONTATTI --- */
         .contact-section {
             width: 90%; max-width: 650px; background-color: var(--card-bg);
             padding: 50px; border-radius: 15px; text-align: center; margin: 50px 0; 
@@ -202,9 +189,10 @@
             width: 100%; font-size: 1.2em; transition: background-color 0.4s, color 0.4s;
         }
 
-        /* --- ROBOTTINO (FISSO SULLO SCHERMO) --- */
+        /* --- ROBOTTINO (RISOLTO IL BUG DEL FISSO) --- */
         #runaway-bot {
-            position: fixed; bottom: 30px; right: 30px; cursor: pointer; z-index: 19000;
+            position: fixed !important; bottom: 30px !important; right: 30px !important; 
+            cursor: pointer; z-index: 99999 !important;
             transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         transform 0.4s, opacity 0.4s; 
@@ -239,9 +227,9 @@
         @keyframes runBackwards { from { transform: rotate(45deg); } to { transform: rotate(-45deg); } }
 
         .footprint {
-            position: fixed; 
+            position: fixed !important; 
             width: 14px; height: 7px; background: rgba(0,0,0,0.15); 
-            border-radius: 50%; pointer-events: none; z-index: 18000; animation: fadeOutFoot 1s forwards;
+            border-radius: 50%; pointer-events: none; z-index: 99998 !important; animation: fadeOutFoot 1s forwards;
         }
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
@@ -261,11 +249,11 @@
     <div id="content-wrapper">
         <section class="hero">
             <div class="image-container" id="image-swap-container">
-                <div class="cartoon-container">
-                    <img class="cartoon" src="foto-cartoon.png" alt="Profile Cartoon" onerror="this.src='https://via.placeholder.com/350?text=Cartoon+PNG';">
-                </div>
+                <img class="cartoon" src="foto-cartoon.png" alt="Profile Cartoon" onerror="this.src='https://via.placeholder.com/350?text=Cartoon+PNG';">
                 <img class="real" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/350?text=Reale+PNG';">
             </div>
+            
+            <div class="image-hint" id="hint-text" data-it="👉 Clicca o passa il mouse sull'immagine per scoprire chi sono" data-en="👉 Click or hover over the image to reveal">👉 Clicca o passa il mouse sull'immagine per scoprire chi sono</div>
 
             <h1 id="secret-name" data-it="Licia Congedo" data-en="Licia Congedo">Licia Congedo</h1>
             <p class="typewriter-tagline" id="typing-text" data-it="Digital Architect & Creative Code Alchemist" data-en="Digital Architect & Creative Code Alchemist"></p>
@@ -331,12 +319,9 @@
                 let el = document.createElement('div');
                 el.className = 'floating-code';
                 el.innerText = snippets[Math.floor(Math.random() * snippets.length)];
-                
                 el.style.left = (Math.random() * 100) + 'vw';
                 el.style.top = (Math.random() * 100) + 'vh'; 
-                
-                let size = Math.random() * 14 + 10;
-                el.style.fontSize = size + 'px';
+                el.style.fontSize = (Math.random() * 14 + 10) + 'px';
                 
                 let isDark = document.body.getAttribute('data-theme') === 'dark';
                 let colorList = isDark ? colorsDark : colorsLight;
@@ -349,7 +334,6 @@
                 el.style.animation = `floatUp ${duration}s linear infinite`;
                 bgContainer.appendChild(el);
             }
-            console.log("%cAh, vedo che sei uno smanettone anche tu! 😉 Assumimi!", "color: #007bff; font-size: 20px; font-weight: bold;");
         });
 
         // 1. DARK MODE E TRADUZIONE
@@ -386,11 +370,9 @@
             if(!isCaught) document.getElementById('bot-bubble').innerText = document.getElementById('bot-bubble').getAttribute('data-' + currentLang);
         }
 
-        // 2. FOTO SWAP E MACCHINA DA SCRIVERE (3D SENZA GLITCH)
-        const imageSwapContainer = document.getElementById('image-swap-container');
+        // 2. MACCHINA DA SCRIVERE
         const textToType = document.getElementById('typing-text').getAttribute('data-' + currentLang);
         let charIndex = 0;
-        
         function typeWriter() {
             if (charIndex < textToType.length) {
                 document.getElementById('typing-text').innerText += textToType.charAt(charIndex);
@@ -400,33 +382,17 @@
         }
         typeWriter();
 
-        imageSwapContainer.addEventListener('mousemove', (e) => {
-            const rect = imageSwapContainer.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            const rotateX = y / 12; // Ridotta sensibilità per foto grande
-            const rotateY = -x / 12;
-            // perspective applicata al container, mantenuto effetto 3D ma rimosso glitch
-            imageSwapContainer.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
-        });
+        // 3. FOTO SWAP (CLICCA PER BLOCCARE LA REALE)
+        const imageSwapContainer = document.getElementById('image-swap-container');
         
-        imageSwapContainer.addEventListener('mouseleave', () => {
-            imageSwapContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        imageSwapContainer.addEventListener('click', () => {
+            // Aggiunge o rimuove la classe 'toggled' per bloccare la foto reale
+            imageSwapContainer.classList.toggle('toggled');
         });
 
-        // SWAP SU MOBILE: Tieni premuto per vedere l'effetto reale NITIDO
-        imageSwapContainer.addEventListener('touchstart', (e) => {
-            imageSwapContainer.classList.add('show-real-touch');
-        });
-        imageSwapContainer.addEventListener('touchend', () => {
-            imageSwapContainer.classList.remove('show-real-touch');
-        });
-
-        // 3. KONAMI CODE (Tastiera) E MOBILE EASTER EGG (Tap sul nome)
+        // 4. KONAMI CODE (Tastiera) E MOBILE EASTER EGG (Tap sul nome)
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
-        
-        // Da PC:
         document.addEventListener('keydown', (e) => {
             if (e.key === konamiCode[konamiIndex]) {
                 konamiIndex++;
@@ -437,11 +403,9 @@
             } else konamiIndex = 0;
         });
 
-        // Da Mobile (5 tap veloci sul nome Licia Congedo):
         let tapCount = 0;
         let tapTimer;
         const secretName = document.getElementById('secret-name');
-        
         secretName.addEventListener('touchstart', (e) => {
             tapCount++;
             clearTimeout(tapTimer);
@@ -458,7 +422,7 @@
             setTimeout(() => { document.body.classList.remove('konami-active'); }, 1000);
         }
 
-        // 4. LOGICA COMPLETA DEL ROBOTTINO
+        // 5. LOGICA COMPLETA DEL ROBOTTINO
         const bot = document.getElementById('runaway-bot');
         const bubble = document.getElementById('bot-bubble');
         const botFace = document.getElementById('bot-face');
@@ -470,10 +434,11 @@
         let touchAttempts = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
-            const rectBot = bot.getBoundingClientRect();
-            bot.style.left = rectBot.left + 'px';
-            bot.style.top = rectBot.top + 'px';
-            bot.style.bottom = 'auto'; bot.style.right = 'auto';
+            // Usa le coordinate assolute della finestra per bloccare il robot
+            bot.style.bottom = '30px'; 
+            bot.style.right = '30px';
+            bot.style.top = 'auto'; 
+            bot.style.left = 'auto';
         });
 
         function setBubbleText(testoIT, testoEN) {
@@ -537,27 +502,17 @@
         }
 
         function runAway() {
-            const rect = bot.getBoundingClientRect();
-            const currentX = rect.left;
-            const currentY = rect.top;
-
+            // Calcola la posizione rispetto all'intera altezza/larghezza visibile DELLO SCHERMO
             const maxX = window.innerWidth - 120;
             const maxY = window.innerHeight - 150;
             
             let randomX, randomY;
-            let distance = 0;
-            let attempts = 0;
+            randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            randomY = Math.max(80, Math.floor(Math.random() * maxY));
             
-            do {
-                randomX = Math.max(20, Math.floor(Math.random() * maxX));
-                randomY = Math.max(80, Math.floor(Math.random() * maxY));
-                
-                let dx = randomX - currentX;
-                let dy = randomY - currentY;
-                distance = Math.sqrt(dx*dx + dy*dy);
-                attempts++;
-            } while (distance < 300 && attempts < 20); 
-            
+            // Applica la nuova posizione resettando i margini
+            bot.style.bottom = 'auto';
+            bot.style.right = 'auto';
             bot.style.left = randomX + 'px';
             bot.style.top = randomY + 'px';
         }
@@ -568,7 +523,7 @@
                 const rect = bot.getBoundingClientRect();
                 const print = document.createElement('div');
                 print.className = 'footprint';
-                print.style.left = (rect.left + 50) + 'px'; // Centrate orme grandi
+                print.style.left = (rect.left + 50) + 'px'; 
                 print.style.top = (rect.top + 90) + 'px';
                 document.body.appendChild(print);
                 setTimeout(() => print.remove(), 1000);
