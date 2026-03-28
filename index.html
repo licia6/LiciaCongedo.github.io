@@ -75,33 +75,40 @@
         }
         .action-btn:hover { filter: brightness(0.9); transform: scale(1.05); }
 
-        /* --- SEZIONE HERO E FOTO GLITCH --- */
-        .hero { margin-top: 120px; text-align: center; padding: 20px; max-width: 800px; z-index: 10; }
+        /* --- SEZIONE HERO E FOTO GLITCH (MOLTO PIÙ GRANDE E SENZA CERCHIO) --- */
+        .hero { margin-top: 100px; text-align: center; padding: 20px; max-width: 900px; z-index: 10; }
         
         .glitch-image-container {
-            position: relative; width: 180px; height: 180px; margin: 0 auto 15px;
-            border-radius: 50%; border: 4px solid var(--accent);
-            box-shadow: var(--shadow); overflow: hidden;
-            transition: transform 0.1s ease-out; cursor: pointer; background: var(--card-bg);
-            /* Evita l'evidenziazione azzurra del tocco su mobile */
+            position: relative; 
+            /* DIMENSIONI RADDOPPIATE */
+            width: 350px; height: 350px; 
+            margin: 0 auto 20px;
+            /* MOSSO IL CERCHIO E IL BORDO */
+            border-radius: 0; border: none;
+            box-shadow: none; overflow: visible; /* Overflow visible per l'effetto 3D */
+            transition: transform 0.1s ease-out; cursor: pointer; 
+            background: transparent; /* Sfondo trasparente per i veri PNG */
             -webkit-tap-highlight-color: transparent; 
         }
         
         .hero img.cartoon {
-            width: 100%; height: 100%; object-fit: cover;
+            width: 100%; height: 100%; object-fit: contain; /* Contain per non deformare */
             position: relative; z-index: 1; transition: opacity 0.3s;
         }
 
+        /* --- SBATTITO OCCHI REGOLATO PER LE NUOVE DIMENSIONI --- */
         .hero .cartoon-container { position: relative; width: 100%; height: 100%; }
         .hero .cartoon-container::before, .hero .cartoon-container::after {
-            content: ''; position: absolute; top: 31%; 
-            width: 20px; height: 16px; background: #E0C7B4; 
+            content: ''; position: absolute; 
+            top: 29.5%; /* Regolato altezza occhi */
+            width: 38px; height: 30px; /* Ingrandite palpebre */
+            background: #F3D9C6; /* Colore pelle cartoon aggiornato */
             border-radius: 50%; z-index: 2; opacity: 0; 
             transform: scaleY(0); transform-origin: top;
             animation: blink 4s infinite; 
         }
-        .hero .cartoon-container::before { left: 42%; } 
-        .hero .cartoon-container::after { right: 38%; } 
+        .hero .cartoon-container::before { left: 40.5%; } /* Occhio sinistro */
+        .hero .cartoon-container::after { right: 38.5%; } /* Occhio destro */
 
         @keyframes blink {
             90% { transform: scaleY(0); opacity: 0; }
@@ -110,9 +117,11 @@
         }
 
         .hero img.real {
-            width: 100%; height: 100%; object-fit: cover;
+            width: 100%; height: 100%; object-fit: contain;
             position: absolute; top: 0; left: 0; z-index: 0;
-            opacity: 0; filter: contrast(150%) blur(1px);
+            opacity: 0; 
+            /* RIMOSSO BLUR E CONTRASTO - ORA È NITIDA */
+            filter: none; 
         }
 
         .glitch-image-container:hover img.real,
@@ -120,42 +129,43 @@
             animation: glitchEffect 0.5s step-end infinite; z-index: 3; opacity: 1;
         }
 
+        /* Glitch animazione mantenuta ma resa più pulita */
         @keyframes glitchEffect {
-            0% { clip-path: inset(5% 0 85% 0); transform: translate(-3px, 0); }
-            5% { clip-path: inset(10% 0 10% 0); transform: translate(3px, 0); }
-            10% { clip-path: inset(45% 0 35% 0); transform: translate(-3px, 0); }
-            15% { clip-path: inset(80% 0 5% 0); transform: translate(3px, 0); }
-            20% { clip-path: inset(10% 0 10% 0); transform: translate(-3px, 0); }
-            100% { clip-path: inset(0% 0 0% 0); transform: translate(0, 0); filter: contrast(100%) blur(0);}
+            0% { clip-path: inset(5% 0 85% 0); transform: translate(-5px, 0); }
+            5% { clip-path: inset(10% 0 10% 0); transform: translate(5px, 0); }
+            10% { clip-path: inset(45% 0 35% 0); transform: translate(-5px, 0); }
+            15% { clip-path: inset(80% 0 5% 0); transform: translate(5px, 0); }
+            20% { clip-path: inset(10% 0 10% 0); transform: translate(-5px, 0); }
+            100% { clip-path: inset(0% 0 0% 0); transform: translate(0, 0); }
         }
 
-        .hero h1 { font-size: 2.8em; margin: 0; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent;}
-        .typewriter-tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; min-height: 1.6em; }
+        .hero h1 { font-size: 3.2em; margin: 0; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent;}
+        .typewriter-tagline { font-size: 1.5em; color: var(--accent); font-weight: bold; min-height: 1.6em; }
         .typewriter-tagline::after { content: '_'; animation: blinkType 0.7s infinite; }
         @keyframes blinkType { 50% { opacity: 0; } }
-        .hero p.bio { font-size: 1.1em; color: #888; }
+        .hero p.bio { font-size: 1.2em; color: #888; max-width: 700px; margin: 10px auto; }
 
         /* --- GRIGLIA CARDS --- */
         .grid-container {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px; width: 90%; max-width: 1100px; padding: 40px 0; z-index: 10;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px; width: 90%; max-width: 1100px; padding: 50px 0; z-index: 10;
         }
 
         .card {
-            background-color: var(--card-bg); padding: 30px 20px; border-radius: 15px;
+            background-color: var(--card-bg); padding: 40px 25px; border-radius: 15px;
             border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
             text-align: center; transition: transform 0.3s, box-shadow 0.3s, background-color 0.4s, border 0.4s;
             display: flex; flex-direction: column;
         }
         .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.2), var(--card-glow); }
-        .card-icon { font-size: 3em; margin-bottom: 10px; }
-        .card h3 { margin: 10px 0; font-size: 1.2em; }
-        .card p { flex-grow: 1; font-size: 0.9em; }
+        .card-icon { font-size: 3.5em; margin-bottom: 15px; }
+        .card h3 { margin: 10px 0; font-size: 1.3em; }
+        .card p { flex-grow: 1; font-size: 1em; }
         
         .card button {
             background-color: var(--accent); color: white; border: none;
-            padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold;
-            margin-top: 20px; transition: background 0.2s;
+            padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold;
+            margin-top: 25px; transition: background 0.2s; font-size: 1em;
         }
         .card button:hover { background-color: var(--accent-hover); }
 
@@ -174,29 +184,30 @@
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-content h2 { margin-top: 0; font-size: 2em; }
+        .modal-content h2 { margin-top: 0; font-size: 2.2em; }
         .modal-content button {
-            background: var(--accent); color: white; border: none; padding: 10px 25px; 
-            border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.1em;
+            background: var(--accent); color: white; border: none; padding: 12px 30px; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em;
         }
 
         .contact-section {
-            width: 90%; max-width: 600px; background-color: var(--card-bg);
-            padding: 40px; border-radius: 15px; text-align: center; margin: 40px 0; 
+            width: 90%; max-width: 650px; background-color: var(--card-bg);
+            padding: 50px; border-radius: 15px; text-align: center; margin: 50px 0; 
             border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
             transition: background-color 0.4s, border 0.4s; z-index: 10;
         }
+        .contact-section h2 { font-size: 2em; }
         .contact-section input, .contact-section textarea {
-            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; 
-            border-radius: 8px; box-sizing: border-box; font-family: inherit;
+            width: 100%; padding: 15px; margin: 12px 0; border: 1px solid #ccc; 
+            border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 1em;
         }
         [data-theme='dark'] .contact-section input, [data-theme='dark'] .contact-section textarea {
             background: #2a2a2a; color: white; border-color: #444;
         }
         .contact-section button {
             background-color: var(--text-color); color: var(--bg-color); border: none; 
-            padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; 
-            width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s;
+            padding: 15px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; 
+            width: 100%; font-size: 1.2em; transition: background-color 0.4s, color 0.4s;
         }
 
         /* --- ROBOTTINO (FISSO SULLO SCHERMO) --- */
@@ -218,14 +229,14 @@
             content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
             border-width: 5px 5px 0; border-style: solid; border-color: white transparent transparent transparent;
         }
-        .bot-head { font-size: 38px; line-height: 1; z-index: 3; position: relative; transition: transform 0.2s; }
-        .bot-body-part { width: 22px; height: 14px; background: #888; border-radius: 4px; margin-top: -4px; z-index: 2; position: relative; }
+        .bot-head { font-size: 42px; line-height: 1; z-index: 3; position: relative; transition: transform 0.2s; }
+        .bot-body-part { width: 24px; height: 16px; background: #888; border-radius: 4px; margin-top: -4px; z-index: 2; position: relative; }
         .bot-limbs-container { position: relative; display: flex; justify-content: center; width: 100%; }
-        .bot-arms { position: absolute; top: -12px; display: flex; gap: 26px; z-index: 1; }
-        .bot-legs { display: flex; gap: 8px; margin-top: -2px; z-index: 1; position: relative; }
-        .limb { width: 6px; background: #555; border-radius: 3px; transform-origin: top; }
-        .arm { height: 12px; background: #666; }
-        .leg { height: 14px; }
+        .bot-arms { position: absolute; top: -12px; display: flex; gap: 30px; z-index: 1; }
+        .bot-legs { display: flex; gap: 10px; margin-top: -2px; z-index: 1; position: relative; }
+        .limb { width: 7px; background: #555; border-radius: 3px; transform-origin: top; }
+        .arm { height: 14px; background: #666; }
+        .leg { height: 16px; }
         .running .left-leg { animation: runForwards 0.1s infinite alternate; }
         .running .right-leg { animation: runBackwards 0.1s infinite alternate; }
         .running .left-arm { animation: runBackwards 0.1s infinite alternate; }
@@ -237,13 +248,13 @@
 
         .footprint {
             position: fixed; 
-            width: 12px; height: 6px; background: rgba(0,0,0,0.15); 
+            width: 14px; height: 7px; background: rgba(0,0,0,0.15); 
             border-radius: 50%; pointer-events: none; z-index: 18000; animation: fadeOutFoot 1s forwards;
         }
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        footer { margin-top: auto; padding: 30px; font-size: 0.9em; color: #888; text-align: center; width: 100%; }
+        footer { margin-top: auto; padding: 40px; font-size: 1em; color: #888; text-align: center; width: 100%; }
     </style>
 </head>
 <body>
@@ -259,9 +270,9 @@
         <section class="hero">
             <div class="glitch-image-container" id="glitch-image">
                 <div class="cartoon-container">
-                    <img class="cartoon" src="foto-cartoon.png" alt="Profile Cartoon" onerror="this.src='https://via.placeholder.com/150?text=Cartoon';">
+                    <img class="cartoon" src="foto-cartoon.png" alt="Profile Cartoon" onerror="this.src='https://via.placeholder.com/350?text=Cartoon+PNG';">
                 </div>
-                <img class="real" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/150?text=Reale';">
+                <img class="real" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/350?text=Reale+PNG';">
             </div>
 
             <h1 id="secret-name" data-it="Licia Congedo" data-en="Licia Congedo">Licia Congedo</h1>
@@ -346,7 +357,7 @@
                 el.style.animation = `floatUp ${duration}s linear infinite`;
                 bgContainer.appendChild(el);
             }
-            console.log("%cAh, vedo che sei uno smanettone anche tu! 😉", "color: #007bff; font-size: 20px; font-weight: bold;");
+            console.log("%cAh, vedo che sei uno smanettone anche tu! 😉 Assumimi!", "color: #007bff; font-size: 20px; font-weight: bold;");
         });
 
         // 1. DARK MODE E TRADUZIONE
@@ -401,9 +412,10 @@
             const rect = glitchImage.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            const rotateX = y / 8;
-            const rotateY = -x / 8;
-            glitchImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
+            const rotateX = y / 10; // Ridotta sensibilità per foto grande
+            const rotateY = -x / 10;
+            // Aggiunta perspective direttamente qui per non rompere il robot fisso
+            glitchImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
         });
         
         glitchImage.addEventListener('mouseleave', () => {
@@ -445,14 +457,13 @@
                 executeKonamiEffect();
                 tapCount = 0;
             } else {
-                // Se non fai il tap successivo entro 400ms, il contatore si azzera
                 tapTimer = setTimeout(() => { tapCount = 0; }, 400); 
             }
         });
 
         function executeKonamiEffect() {
             document.body.classList.add('konami-active');
-            setTimeout(() => document.body.classList.remove('konami-active'), 1000);
+            setTimeout(() => { document.body.classList.remove('konami-active'); }, 1000);
         }
 
         // 4. LOGICA COMPLETA DEL ROBOTTINO
@@ -507,7 +518,7 @@
                 if (!isCaught) {
                     bot.classList.remove('running');
                     botFace.innerText = '🤖'; 
-                    stopFootprints();
+                        stopFootprints();
                 }
             }, 400);
         }
@@ -565,8 +576,8 @@
                 const rect = bot.getBoundingClientRect();
                 const print = document.createElement('div');
                 print.className = 'footprint';
-                print.style.left = (rect.left + 45) + 'px';
-                print.style.top = (rect.top + 80) + 'px';
+                print.style.left = (rect.left + 50) + 'px'; // Centrate orme grandi
+                print.style.top = (rect.top + 90) + 'px';
                 document.body.appendChild(print);
                 setTimeout(() => print.remove(), 1000);
             }, 100);
