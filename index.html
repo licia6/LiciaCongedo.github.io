@@ -252,11 +252,11 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* MODAL GENERICO (ROBOT E EMAIL) */
+        /* MODAL GENERICO E GALLERIA PROGETTI */
         .modal-overlay {
             position: fixed !important; top: 0 !important; left: 0 !important; 
             width: 100vw !important; height: 100vh !important;
-            background: rgba(0,0,0,0.7); z-index: 999999 !important; display: none; 
+            background: rgba(0,0,0,0.8); z-index: 999999 !important; display: none; 
             justify-content: center; align-items: center; opacity: 0; 
             transition: opacity 0.3s; backdrop-filter: blur(5px);
         }
@@ -275,48 +275,63 @@
             border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em;
         }
 
-        /* --- STILI MODAL DEI PROGETTI (GALLERIA) --- */
-        #projects-modal .modal-content {
-            max-width: 1000px; width: 95%; background: var(--bg-color);
-            padding: 30px;
-        }
+        /* --- STILI SPECIFICI MODAL PROGETTI --- */
+        #projects-modal .modal-content { max-width: 1100px; width: 95%; padding: 30px; }
         #projects-modal .modal-header {
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 20px;
+            border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 25px;
         }
         #projects-modal .modal-header h2 { margin: 0; font-size: 2em; }
         #projects-modal .close-icon {
-            font-size: 1.5em; cursor: pointer; background: none; border: none; color: var(--text-color);
+            font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color); transition: color 0.2s;
         }
+        #projects-modal .close-icon:hover { color: var(--accent); }
+
+        /* Griglia dei 13 progetti */
         .projects-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
-            text-align: left;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left;
         }
         .project-card {
-            background: var(--card-bg); padding: 20px; border-radius: 12px;
+            background: var(--card-bg); padding: 25px; border-radius: 15px;
             border: var(--card-border); transition: transform 0.2s, box-shadow 0.2s;
             display: flex; flex-direction: column;
         }
         .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
-        .project-card h4 { margin: 0 0 10px 0; font-size: 1.3em; color: var(--accent); }
-        .project-card p.short-desc { font-size: 0.95em; margin: 0 0 15px 0; flex-grow: 1; }
-        .project-card .long-desc {
-            max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease;
-            font-size: 0.9em; color: #777; margin: 0;
-        }
-        .project-card.expanded .long-desc {
-            max-height: 500px; opacity: 1; margin-top: 15px; margin-bottom: 15px; padding-top: 15px;
-            border-top: 1px dashed rgba(128,128,128,0.2);
-        }
+        .project-card h4 { margin: 0 0 10px 0; font-size: 1.4em; color: var(--accent); }
+        .project-card p.short-desc { font-size: 0.95em; margin: 0 0 20px 0; flex-grow: 1; color: #666; }
+        [data-theme='dark'] .project-card p.short-desc { color: #aaa; }
+        
         .project-card button.toggle-btn {
-            background: transparent; color: var(--text-color); border: 1px solid var(--text-color);
-            padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;
-            margin-top: auto; transition: all 0.2s; width: 100%;
+            background: transparent; color: var(--text-color); border: 2px solid var(--text-color);
+            padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;
+            margin-top: auto; transition: all 0.2s; width: 100%; font-size: 1em;
         }
-        .project-card button.toggle-btn:hover {
-            background: var(--text-color); color: var(--bg-color);
+        .project-card button.toggle-btn:hover { background: var(--text-color); color: var(--bg-color); }
+
+        /* Vista Dettaglio Singolo Progetto */
+        #project-detail-container { text-align: left; display: none; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .back-btn {
+            background: transparent; color: var(--text-color); border: none; font-size: 1.1em;
+            cursor: pointer; font-weight: bold; padding: 0; margin-bottom: 20px;
+            display: flex; align-items: center; gap: 8px; transition: color 0.2s;
         }
-        [data-theme='dark'] .project-card .long-desc { color: #aaa; }
+        .back-btn:hover { color: var(--accent); }
+        
+        #detail-title { font-size: 2.5em; margin: 0 0 20px 0; color: var(--accent); }
+        #detail-desc { font-size: 1.15em; line-height: 1.8; margin-bottom: 40px; }
+        
+        .github-link-btn {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: #24292e; color: white; text-decoration: none;
+            padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 1.1em;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .github-link-btn:hover { background: #000000; transform: scale(1.05); color: white; }
+        [data-theme='dark'] .github-link-btn { background: #f0f6fc; color: #24292e; }
+        [data-theme='dark'] .github-link-btn:hover { background: #ffffff; color: #000000;}
+        .github-icon { width: 24px; height: 24px; fill: currentColor; }
 
     </style>
 </head>
@@ -415,31 +430,46 @@
                 <h2 data-it="I Miei Progetti" data-en="My Projects">I Miei Progetti</h2>
                 <button class="close-icon" onclick="closeProjectsModal()">✖</button>
             </div>
+            
             <div class="projects-grid" id="projects-grid-container">
                 </div>
+
+            <div id="project-detail-container">
+                <button class="back-btn" onclick="showProjectsGrid()">⬅ <span data-it="Torna ai progetti" data-en="Back to projects">Torna ai progetti</span></button>
+                <h3 id="detail-title">Titolo Progetto</h3>
+                <div id="detail-desc">Descrizione lunga...</div>
+                
+                <a href="#" target="_blank" id="detail-github-btn" class="github-link-btn">
+                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
+                    </svg>
+                    <span data-it="Vedi su GitHub" data-en="View on GitHub">Vedi su GitHub</span>
+                </a>
+            </div>
         </div>
     </div>
 
     <script>
         // =====================================================================
         // 🔴🔴🔴 I TUOI 13 PROGETTI DA MODIFICARE! 🔴🔴🔴
-        // Licia, per modificare i progetti ti basta cambiare i testi qui sotto.
-        // Puoi usare <br> se vuoi andare a capo nella descrizione lunga.
+        // Aggiungi i testi completi qui e incolla i link reali di GitHub
         // =====================================================================
         const mieiProgetti = [];
         for(let i=1; i<=13; i++) {
             mieiProgetti.push({
                 titoloIT: `Progetto Speciale ${i}`,
                 titoloEN: `Special Project ${i}`,
-                breveIT: `Breve descrizione del progetto ${i}... clicca per saperne di più.`,
-                breveEN: `Short description of project ${i}... click to learn more.`,
-                lungaIT: `Qui puoi inserire tutti i dettagli del Progetto ${i}.<br><br>Quali tecnologie hai usato? Qual era il tuo ruolo? Metti pure dei link o spiega come hai superato le sfide!`,
-                lungaEN: `Here you can insert all the details of Project ${i}.<br><br>What technologies did you use? What was your role? Feel free to add links or explain how you overcame challenges!`
+                breveIT: `Descrizione sintetica del progetto ${i} per attirare l'attenzione.`,
+                breveEN: `Short synthetic description of project ${i} to grab attention.`,
+                // Qui puoi scrivere paragrafi infiniti, usare <b> per il grassetto e <br> per andare a capo
+                lungaIT: `Questa è la pagina dedicata interamente al <b>Progetto ${i}</b>.<br><br>Qui lo spazio non ti manca affatto! Puoi raccontare la storia di come è nato il progetto, le sfide tecniche che hai affrontato e superato, le tecnologie esatte che hai utilizzato (es. HTML, CSS, JavaScript, React) e il tuo ruolo all'interno della realizzazione.<br><br>Essendo una pagina a tutto schermo, il testo risulterà sempre pulito e comodissimo da leggere, sia da computer che da cellulare.`,
+                lungaEN: `This is the dedicated page entirely for <b>Project ${i}</b>.<br><br>You have plenty of space here! You can tell the story of how the project was born, the technical challenges you faced and overcame, the exact technologies used, and your role.<br><br>Since this is a full-screen view, the text will always look clean and easy to read.`,
+                linkGithub: "https://github.com/LiciaCongedo" // INCOLLA QUI IL LINK AL REPO GITHUB!
             });
         }
         // =====================================================================
 
-        // 0. GENERATORE DI SFONDO E PROGETTI INIZIALI
+        // 0. GENERATORE DI SFONDO E INIEZIONE PROGETTI
         window.addEventListener('DOMContentLoaded', () => {
             const snippets = ['<div/>', '()=>{}', '0x4F', '0110', 'git push', 'npm start', 'console', '#FF00FF', 'const', '=>', '404', 'while(1)', '#00FFFF', 'binary'];
             const colorsLight = ['#000000', '#007bff', '#28a745', '#6f42c1'];
@@ -466,25 +496,25 @@
                 bgContainer.appendChild(el);
             }
 
-            // Inietta i 13 progetti nel Modal
+            // Stampa i 13 progetti nella griglia iniziale
             const gridContainer = document.getElementById('projects-grid-container');
             mieiProgetti.forEach((prog, index) => {
                 const cardHTML = `
                     <div class="project-card">
                         <h4 data-it="${prog.titoloIT}" data-en="${prog.titoloEN}">${currentLang === 'it' ? prog.titoloIT : prog.titoloEN}</h4>
                         <p class="short-desc" data-it="${prog.breveIT}" data-en="${prog.breveEN}">${currentLang === 'it' ? prog.breveIT : prog.breveEN}</p>
-                        <p class="long-desc" data-it="${prog.lungaIT}" data-en="${prog.lungaEN}">${currentLang === 'it' ? prog.lungaIT : prog.lungaEN}</p>
-                        <button class="toggle-btn" onclick="toggleProjectDetails(this)" data-it="Più dettagli" data-en="More details">${currentLang === 'it' ? 'Più dettagli' : 'More details'}</button>
+                        <button class="toggle-btn" onclick="openProjectDetail(${index})" data-it="Più dettagli" data-en="More details">${currentLang === 'it' ? 'Più dettagli' : 'More details'}</button>
                     </div>
                 `;
                 gridContainer.innerHTML += cardHTML;
             });
         });
 
-        // LOGICA MODAL PROGETTI
+        // --- LOGICA GALLERIA E DETTAGLIO PROGETTI ---
         function openProjectsModal() {
-            document.body.classList.add('chaos-lock'); // Blocca lo scroll del sito dietro
+            document.body.classList.add('chaos-lock'); 
             document.getElementById('projects-modal').classList.add('active');
+            showProjectsGrid(); // Assicuriamoci che si apra sempre sulla griglia
         }
 
         function closeProjectsModal() {
@@ -492,19 +522,30 @@
             document.getElementById('projects-modal').classList.remove('active');
         }
 
-        function toggleProjectDetails(btn) {
-            const card = btn.parentElement;
-            card.classList.toggle('expanded');
-            if (card.classList.contains('expanded')) {
-                btn.innerText = currentLang === 'it' ? "Meno dettagli" : "Less details";
-                btn.setAttribute('data-it', "Meno dettagli");
-                btn.setAttribute('data-en', "Less details");
-            } else {
-                btn.innerText = currentLang === 'it' ? "Più dettagli" : "More details";
-                btn.setAttribute('data-it', "Più dettagli");
-                btn.setAttribute('data-en', "More details");
-            }
+        function openProjectDetail(index) {
+            const prog = mieiProgetti[index];
+            
+            // Nascondi griglia, mostra dettaglio
+            document.getElementById('projects-grid-container').style.display = 'none';
+            document.getElementById('project-detail-container').style.display = 'block';
+
+            // Popola i dati
+            document.getElementById('detail-title').innerHTML = currentLang === 'it' ? prog.titoloIT : prog.titoloEN;
+            document.getElementById('detail-desc').innerHTML = currentLang === 'it' ? prog.lungaIT : prog.lungaEN;
+            document.getElementById('detail-github-btn').href = prog.linkGithub;
+
+            // Salva l'indice attuale per i cambi lingua aperti
+            document.getElementById('project-detail-container').setAttribute('data-current-index', index);
+
+            // Riporta lo scroll del modal in alto
+            document.querySelector('#projects-modal .modal-content').scrollTop = 0;
         }
+
+        function showProjectsGrid() {
+            document.getElementById('project-detail-container').style.display = 'none';
+            document.getElementById('projects-grid-container').style.display = 'grid';
+        }
+
 
         // 1. DARK MODE E TRADUZIONE
         function toggleTheme() {
@@ -540,13 +581,19 @@
             const elements = document.querySelectorAll('[data-it]');
             elements.forEach(el => {
                 if(el.querySelector('span') && el.classList.contains('chaos-text')) return;
-                // Gestione dei testi con HTML interno (es. i <br> nei progetti)
-                if (el.classList.contains('long-desc')) {
-                    el.innerHTML = el.getAttribute('data-' + currentLang);
-                } else {
-                    el.innerText = el.getAttribute('data-' + currentLang);
-                }
+                el.innerText = el.getAttribute('data-' + currentLang);
             });
+
+            // Se stiamo guardando un progetto specifico, aggiorna la lingua di quel progetto
+            const detailContainer = document.getElementById('project-detail-container');
+            if (detailContainer.style.display === 'block') {
+                const index = detailContainer.getAttribute('data-current-index');
+                if(index !== null) {
+                    const prog = mieiProgetti[index];
+                    document.getElementById('detail-title').innerHTML = currentLang === 'it' ? prog.titoloIT : prog.titoloEN;
+                    document.getElementById('detail-desc').innerHTML = currentLang === 'it' ? prog.lungaIT : prog.lungaEN;
+                }
+            }
         }
 
         // 2. MACCHINA DA SCRIVERE E FOTO SWAP
@@ -619,7 +666,7 @@
             document.getElementById('custom-modal').classList.add('active');
         }
 
-        // 4. EASTER EGG (2 SEC RIMBALZI, 4 SEC MESSAGGIO)
+        // 4. EASTER EGG
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
         let isChaosActive = false;
@@ -636,8 +683,7 @@
         let tapCount = 0;
         let tapTimer;
         document.addEventListener('touchstart', (e) => {
-            // Ignora i bottoni veri, il menu e i modali per non fare caos sbagliato
-            if(e.target.closest('#runaway-bot') || e.target.closest('header') || e.target.closest('.modal-overlay')) return; 
+            if(e.target.closest('#runaway-bot') || e.target.closest('header')) return; 
             tapCount++;
             clearTimeout(tapTimer);
             if (tapCount === 5) { triggerBouncingChaos(); tapCount = 0; } 
@@ -782,7 +828,7 @@
                         isMoving = false; 
                     }
                 }, 400); 
-            }, 150); 
+            }, 100); 
         }
 
         function handleTouchBot(e) {
@@ -870,8 +916,6 @@
 
         function closeModal() { 
             document.getElementById('custom-modal').classList.remove('active'); 
-            document.getElementById('projects-modal').classList.remove('active'); 
-            document.body.classList.remove('chaos-lock');
         }
     </script>
 </body>
