@@ -13,10 +13,10 @@
             --shadow: 0 4px 15px rgba(0,0,0,0.05);
             --accent: #007bff;
             --accent-hover: #0056b3;
-            --header-bg: rgba(255,255,255,0.2); /* Molto meno bianco, più trasparente */
+            --header-bg: rgba(255,255,255,0.2); 
             --card-border: 1px solid rgba(0,0,0,0.05);
             --card-glow: none;
-            --code-opacity: 0.04; /* Opacità leggerissima per lo sfondo */
+            --code-opacity: 0.08; /* Opacità aumentata per renderlo visibile su sfondo bianco */
         }
 
         [data-theme='dark'] {
@@ -27,7 +27,7 @@
             --header-bg: rgba(18,18,18,0.3);
             --card-border: 1px solid rgba(0, 123, 255, 0.4); 
             --card-glow: 0 0 15px rgba(0, 123, 255, 0.15); 
-            --code-opacity: 0.08; /* Poco più visibile sul nero */
+            --code-opacity: 0.15; /* Più visibile in Dark Mode */
         }
 
         body {
@@ -44,7 +44,7 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* --- SFONDO ANIMATO CON CODICI --- */
+        /* --- SFONDO ANIMATO STILE TECH --- */
         #bg-effects {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1; overflow: hidden; pointer-events: none;
@@ -52,13 +52,13 @@
         .floating-code {
             position: absolute; font-family: 'Courier New', Courier, monospace;
             color: var(--text-color); font-weight: bold; white-space: nowrap;
-            opacity: var(--code-opacity);
-            transition: opacity 0.4s;
-            animation: floatUp linear infinite;
+            opacity: 0; /* Inizia invisibile per l'animazione */
         }
         @keyframes floatUp {
-            from { transform: translateY(110vh) rotate(-5deg); }
-            to { transform: translateY(-10vh) rotate(5deg); }
+            0% { transform: translateY(0) rotate(-5deg); opacity: 0; }
+            10% { opacity: var(--code-opacity); }
+            90% { opacity: var(--code-opacity); }
+            100% { transform: translateY(-50vh) rotate(5deg); opacity: 0; }
         }
 
         /* --- HEADER --- */
@@ -66,9 +66,9 @@
             width: 100%; padding: 15px 30px; display: flex; justify-content: flex-end;
             position: fixed; top: 0; 
             background: var(--header-bg);
-            backdrop-filter: blur(15px); /* Effetto vetro più marcato */
+            backdrop-filter: blur(15px); 
             -webkit-backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(128,128,128,0.1); /* Linea divisoria finissima */
+            border-bottom: 1px solid rgba(128,128,128,0.1); 
             z-index: 1000; box-sizing: border-box; gap: 15px;
             transition: background 0.4s ease;
         }
@@ -157,8 +157,8 @@
         /* --- ROBOTTINO --- */
         #runaway-bot {
             position: fixed; bottom: 30px; right: 30px; cursor: pointer; z-index: 9999;
-            transition: top 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                        left 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), 
+            transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         transform 0.4s, opacity 0.4s; 
             user-select: none; display: flex; flex-direction: column;
             align-items: center; padding: 25px; -webkit-tap-highlight-color: transparent; 
@@ -181,10 +181,10 @@
         .limb { width: 6px; background: #555; border-radius: 3px; transform-origin: top; }
         .arm { height: 12px; background: #666; }
         .leg { height: 14px; }
-        .running .left-leg { animation: runForwards 0.12s infinite alternate; }
-        .running .right-leg { animation: runBackwards 0.12s infinite alternate; }
-        .running .left-arm { animation: runBackwards 0.12s infinite alternate; }
-        .running .right-arm { animation: runForwards 0.12s infinite alternate; }
+        .running .left-leg { animation: runForwards 0.1s infinite alternate; }
+        .running .right-leg { animation: runBackwards 0.1s infinite alternate; }
+        .running .left-arm { animation: runBackwards 0.1s infinite alternate; }
+        .running .right-arm { animation: runForwards 0.1s infinite alternate; }
         .running .bot-head { transform: translateY(-2px) rotate(5deg); }
 
         @keyframes runForwards { from { transform: rotate(-45deg); } to { transform: rotate(45deg); } }
@@ -262,22 +262,30 @@
     </footer>
 
     <script>
-        // 0. GENERATORE DI SFONDO (Codici fluttuanti)
-        const codeSnippets = ['<div class="hero">', 'function() {}', '01101001', '=>', 'npm run build', 'console.log()', '{ padding: 0; }', '</>', 'git push', 'Hello World'];
-        const bgContainer = document.getElementById('bg-effects');
-        for(let i=0; i<15; i++) {
-            let el = document.createElement('div');
-            el.className = 'floating-code';
-            el.innerText = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
-            el.style.left = (Math.random() * 90) + 'vw';
-            el.style.fontSize = (Math.random() * 15 + 10) + 'px';
-            el.style.animationDuration = (Math.random() * 25 + 15) + 's';
-            el.style.animationDelay = (Math.random() * 10) + 's';
-            bgContainer.appendChild(el);
-        }
-
-        // 1. INIZIALIZZAZIONE POSIZIONE ROBOT
+        // 0. GENERATORE DI SFONDO (Codici fluttuanti) - ORA ATTIVO DA SUBITO E PIU' VISIBILE
         window.addEventListener('DOMContentLoaded', () => {
+            const codeSnippets = ['<div class="hero">', 'function() {}', '01101001', '=>', 'npm run build', 'console.log()', '{ padding: 0; }', '</>', 'git push', 'Hello World', 'const bot = new Robot();', '<body>', '404', 'while(true)'];
+            const bgContainer = document.getElementById('bg-effects');
+            
+            // Genera 35 frammenti di codice
+            for(let i = 0; i < 35; i++) {
+                let el = document.createElement('div');
+                el.className = 'floating-code';
+                el.innerText = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+                
+                // Distribuzione casuale su tutto lo schermo fin dall'inizio
+                el.style.left = (Math.random() * 100) + 'vw';
+                el.style.top = (Math.random() * 100) + 'vh'; 
+                el.style.fontSize = (Math.random() * 14 + 10) + 'px';
+                
+                // Assegna un'animazione continua
+                let duration = Math.random() * 15 + 15; // tra 15s e 30s
+                el.style.animation = `floatUp ${duration}s linear infinite`;
+                
+                bgContainer.appendChild(el);
+            }
+
+            // Inizializza posizione robot
             const botInit = document.getElementById('runaway-bot');
             const rect = botInit.getBoundingClientRect();
             botInit.style.left = rect.left + 'px';
@@ -320,7 +328,7 @@
         let runTimeout;
         let footprintInterval;
         let isCaught = false;
-        let touchAttempts = 0;
+        let touchAttempts = 0; // Contatore tentativi mobile
 
         function setBubbleText(testoIT, testoEN) {
             bubble.setAttribute('data-it', testoIT);
@@ -328,15 +336,15 @@
             bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
         }
 
+        // Trigger Mouse (PC)
         function triggerRunHover() {
             if (isCaught) return; 
             botFace.innerText = '😱';
-            setBubbleText("Ci sei quasi!", "Almost there!");
+            setBubbleText("Mancato!", "Missed!");
             bot.classList.add('running');
             startFootprints();
 
             clearTimeout(runTimeout);
-            // Reazione fulminea! Abbassato a 50ms!
             runTimeout = setTimeout(() => { 
                 runAway();
                 setTimeout(() => {
@@ -345,7 +353,7 @@
                         botFace.innerText = '🤖'; 
                         stopFootprints();
                     }
-                }, 500);
+                }, 400); // Rilassamento più veloce
             }, 50); 
         }
 
@@ -359,22 +367,25 @@
                     botFace.innerText = '🤖'; 
                     stopFootprints();
                 }
-            }, 500);
+            }, 400);
         }
 
+        // Trigger Touch (MOBILE - 5 TENTATIVI)
         function handleTouch(e) {
             if (isCaught) return;
             e.preventDefault(); 
             touchAttempts++;
-            if (touchAttempts === 1) {
+            
+            if (touchAttempts < 5) { // Dal 1° al 4° tocco scappa
                 botFace.innerText = '😱';
-                setBubbleText("Ci sei quasi!", "Almost there!");
+                
+                // Testi dinamici in base al numero del tentativo
+                let itTexts = ["Mancato!", "Troppo lento!", "Ritenta!", "Ci sei quasi..."];
+                let enTexts = ["Missed!", "Too slow!", "Try again!", "Almost there..."];
+                
+                setBubbleText(itTexts[touchAttempts - 1], enTexts[touchAttempts - 1]);
                 forceRunAway();
-            } else if (touchAttempts === 2) {
-                botFace.innerText = '😱';
-                setBubbleText("Ancora uno!", "One more!");
-                forceRunAway();
-            } else {
+            } else { // Al 5° tocco lo prendi!
                 executeCatch();
             }
         }
@@ -384,6 +395,7 @@
             executeCatch();
         }
 
+        // Algoritmo di fuga potenziato (Salti da gigante)
         function runAway() {
             const rect = bot.getBoundingClientRect();
             const currentX = rect.left;
@@ -396,8 +408,7 @@
             let distance = 0;
             let attempts = 0;
             
-            // Loop intelligente: cerca un punto che sia lontano ALMENO 300px dal punto attuale.
-            // Se lo schermo è piccolo o dopo 15 tentativi non lo trova, si accontenta.
+            // Cerca un punto che sia ad ALMENO 500px di distanza!
             do {
                 randomX = Math.max(20, Math.floor(Math.random() * maxX));
                 randomY = Math.max(100, Math.floor(Math.random() * maxY));
@@ -406,7 +417,7 @@
                 let dy = randomY - currentY;
                 distance = Math.sqrt(dx*dx + dy*dy);
                 attempts++;
-            } while (distance < 300 && attempts < 15);
+            } while (distance < 500 && attempts < 30); 
             
             bot.style.left = randomX + 'px';
             bot.style.top = randomY + 'px';
