@@ -29,17 +29,25 @@
 
         * { box-sizing: border-box; }
 
+        html, body {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0; padding: 0;
             background-color: var(--bg-color); color: var(--text-color);
             line-height: 1.6; overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
+        .chaos-lock {
+            overflow: hidden !important; 
+        }
+
         #content-wrapper {
             display: flex; flex-direction: column; align-items: center; width: 100%;
-            position: relative; z-index: 1;
+            position: relative; z-index: 1; min-height: 100vh;
         }
 
         /* --- SFONDO ANIMATO --- */
@@ -172,6 +180,18 @@
             width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s;
         }
 
+        /* --- STILE PER LE LETTERE DEL MESSAGGIO SEGRETO --- */
+        #secret-msg-container {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100vw; text-align: center; z-index: 9999999;
+            pointer-events: none; display: none;
+            font-size: 4em; font-weight: 900; color: var(--accent);
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+        }
+        @media (max-width: 700px) { #secret-msg-container { font-size: 2em; } }
+
+        footer { margin-top: auto; padding: 40px; font-size: 1em; color: #888; text-align: center; width: 100%; }
+
         /* --- ROBOTTINO E POPUP --- */
         #runaway-bot {
             position: fixed !important; bottom: 30px !important; right: 30px !important; 
@@ -235,18 +255,6 @@
             background: var(--accent); color: white; border: none; padding: 12px 30px; 
             border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em;
         }
-
-        /* --- STILE PER LE LETTERE DEL MESSAGGIO SEGRETO --- */
-        #secret-msg-container {
-            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 100vw; text-align: center; z-index: 9999999;
-            pointer-events: none; display: none;
-            font-size: 4em; font-weight: 900; color: var(--accent);
-            text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
-        }
-        @media (max-width: 700px) { #secret-msg-container { font-size: 2em; } }
-
-        footer { margin-top: auto; padding: 40px; font-size: 1em; color: #888; text-align: center; width: 100%; }
     </style>
 </head>
 <body>
@@ -267,36 +275,36 @@
             
             <div class="image-hint" id="hint-text" data-it="Clicca o passa il mouse sull'immagine per scoprirmi" data-en="Click or hover over the image to reveal me">Clicca o passa il mouse sull'immagine per scoprirmi</div>
 
-            <h1 id="secret-name" data-it="Licia Congedo" data-en="Licia Congedo">Licia Congedo</h1>
-            <p class="typewriter-tagline" id="typing-text" data-it="Digital Architect & Creative Code Alchemist" data-en="Digital Architect & Creative Code Alchemist"></p>
-            <p class="bio" data-it="Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro." data-en="This is a sample short bio. Here you can write who you are, what you are passionate about, and your mission.">Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro.</p>
+            <h1 id="secret-name" class="chaos-text" data-it="Licia Congedo" data-en="Licia Congedo">Licia Congedo</h1>
+            <p class="typewriter-tagline chaos-text" id="typing-text" data-it="Digital Architect & Creative Code Alchemist" data-en="Digital Architect & Creative Code Alchemist"></p>
+            <p class="bio chaos-text" data-it="Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro." data-en="This is a sample short bio. Here you can write who you are, what you are passionate about, and your mission.">Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro.</p>
         </section>
 
         <section class="grid-container">
-            <div class="card"><div class="card-icon">📂</div><h3 data-it="PROGETTI" data-en="PROJECTS">PROGETTI</h3><p data-it="I miei lavori più recenti." data-en="My most recent works.">I miei lavori più recenti.</p><button data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button></div>
-            <div class="card"><div class="card-icon">🧭</div><h3 data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3><p data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p><button data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button></div>
-            <div class="card"><div class="card-icon">✉️</div><h3 data-it="CONTATTI" data-en="CONTACT">CONTATTI</h3><p data-it="Troviamo un modo per collaborare." data-en="Let's find a way to collaborate.">Troviamo un modo per collaborare.</p><button data-it="Scrivimi" data-en="Write me">Scrivimi</button></div>
-            <div class="card"><div class="card-icon">📖</div><h3 data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3><p data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p><button data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button></div>
+            <div class="card"><div class="card-icon chaos-block">📂</div><h3 class="chaos-text" data-it="PROGETTI" data-en="PROJECTS">PROGETTI</h3><p class="chaos-text" data-it="I miei lavori più recenti." data-en="My most recent works.">I miei lavori più recenti.</p><button class="chaos-block" data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button></div>
+            <div class="card"><div class="card-icon chaos-block">🧭</div><h3 class="chaos-text" data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3><p class="chaos-text" data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p><button class="chaos-block" data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button></div>
+            <div class="card"><div class="card-icon chaos-block">✉️</div><h3 class="chaos-text" data-it="CONTATTI" data-en="CONTACT">CONTATTI</h3><p class="chaos-text" data-it="Troviamo un modo per collaborare." data-en="Let's find a way to collaborate.">Troviamo un modo per collaborare.</p><button class="chaos-block" data-it="Scrivimi" data-en="Write me">Scrivimi</button></div>
+            <div class="card"><div class="card-icon chaos-block">📖</div><h3 class="chaos-text" data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3><p class="chaos-text" data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p><button class="chaos-block" data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button></div>
         </section>
 
         <section class="contact-section">
-            <h2 data-it="Rimaniamo in contatto!" data-en="Let's stay in touch!">Rimaniamo in contatto!</h2>
-            <p data-it="Iscriviti per ricevere aggiornamenti o scrivimi." data-en="Subscribe to get updates or write me.">Iscriviti per ricevere aggiornamenti o scrivimi.</p>
+            <h2 class="chaos-text" data-it="Rimaniamo in contatto!" data-en="Let's stay in touch!">Rimaniamo in contatto!</h2>
+            <p class="chaos-text" data-it="Iscriviti per ricevere aggiornamenti o scrivimi." data-en="Subscribe to get updates or write me.">Iscriviti per ricevere aggiornamenti o scrivimi.</p>
             <form onsubmit="event.preventDefault(); alert('Funzionalità in arrivo!');">
-                <input type="email" placeholder="Email" required>
-                <textarea rows="3" placeholder="Messaggio / Message"></textarea>
-                <button type="submit" data-it="Invia" data-en="Send">Invia</button>
+                <input class="chaos-block" type="email" placeholder="Email" required>
+                <textarea class="chaos-block" rows="3" placeholder="Messaggio / Message"></textarea>
+                <button class="chaos-block" type="submit" data-it="Invia" data-en="Send">Invia</button>
             </form>
         </section>
 
         <footer>
-            <p data-it="© 2024 Licia Congedo Portfolio. Creato con fantasia." data-en="© 2024 Licia Congedo Portfolio. Created with imagination.">© 2024 Licia Congedo Portfolio. Creato con fantasia.</p>
+            <p class="chaos-text" data-it="© 2024 Licia Congedo Portfolio. Creato con fantasia." data-en="© 2024 Licia Congedo Portfolio. Created with imagination.">© 2024 Licia Congedo Portfolio. Creato con fantasia.</p>
         </footer>
     </div>
 
     <div id="secret-msg-container"></div>
 
-    <div id="runaway-bot" onmouseenter="triggerRunHover()" ontouchstart="handleTouch(event)" onmousedown="handleMouseClick(event)">
+    <div id="runaway-bot" onmouseenter="triggerRunHover()" onmousedown="handleMouseClick(event)">
         <div class="bubble" id="bot-bubble" data-it="Prendimi!" data-en="Catch me!">Prendimi!</div>
         <div class="bot-head" id="bot-face">🤖</div>
         <div class="bot-body-part"></div>
@@ -380,7 +388,10 @@
             currentLang = currentLang === 'it' ? 'en' : 'it';
             document.getElementById('lang-btn').innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
             const elements = document.querySelectorAll('[data-it]');
-            elements.forEach(el => el.innerText = el.getAttribute('data-' + currentLang));
+            elements.forEach(el => {
+                if(el.querySelector('span')) return;
+                el.innerText = el.getAttribute('data-' + currentLang);
+            });
             if(!isCaught) document.getElementById('bot-bubble').innerText = document.getElementById('bot-bubble').getAttribute('data-' + currentLang);
         }
 
@@ -411,12 +422,11 @@
             imageSwapContainer.classList.toggle('toggled-click');
         });
 
-        // 3. NUOVO EASTER EGG (IL TORNADO DI LETTERE E OGGETTI)
+        // 3. EASTER EGG (CAOS A 5 SECONDI)
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
         let isChaosActive = false;
         
-        // Attivazione PC
         document.addEventListener('keydown', (e) => {
             if (e.key === konamiCode[konamiIndex]) {
                 konamiIndex++;
@@ -424,11 +434,9 @@
             } else konamiIndex = 0;
         });
 
-        // Attivazione Mobile (5 tocchi OVUNQUE sullo schermo)
         let tapCount = 0;
         let tapTimer;
         document.addEventListener('touchstart', (e) => {
-            // Ignoriamo i click sul robot per non interferire con il suo gioco
             if(e.target.closest('#runaway-bot')) return;
             
             tapCount++;
@@ -446,34 +454,57 @@
             if (isChaosActive) return;
             isChaosActive = true;
             
-            // Prendi TUTTI i blocchi della pagina
-            const scatterEls = document.querySelectorAll('.card, .hero h1, .hero p, .image-container, .contact-section, header .action-btn');
-            
-            // Fagli fare un volo pauroso in direzioni casuali
-            scatterEls.forEach(el => {
-                const rx = (Math.random() - 0.5) * 150; // Valori enormi per buttarli fuori dallo schermo
-                const ry = (Math.random() - 0.5) * 150; 
-                const rot = (Math.random() - 0.5) * 720;
-                el.style.transition = 'transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s';
-                el.style.transform = `translate(${rx}vw, ${ry}vh) rotate(${rot}deg)`;
-                el.style.opacity = '0.3';
+            document.body.classList.add('chaos-lock');
+
+            const textEls = document.querySelectorAll('.chaos-text');
+            const originalHTML = new Map();
+            const flyingSpans = [];
+
+            textEls.forEach(el => {
+                originalHTML.set(el, el.innerHTML); 
+                const text = el.innerText;
+                el.innerHTML = '';
+                for(let i=0; i<text.length; i++) {
+                    let span = document.createElement('span');
+                    span.innerText = text[i] === ' ' ? '\u00A0' : text[i];
+                    span.style.display = 'inline-block';
+                    span.style.transition = 'transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s';
+                    el.appendChild(span);
+                    flyingSpans.push(span);
+                }
             });
 
-            // Prepara il messaggio magico che appare al centro
+            const otherBlocks = document.querySelectorAll('.chaos-block, .image-container, .action-btn');
+
+            flyingSpans.forEach(span => {
+                const rx = (Math.random() - 0.5) * 3000;
+                const ry = (Math.random() - 0.5) * 3000;
+                const rot = (Math.random() - 0.5) * 1080;
+                span.style.transform = `translate(${rx}px, ${ry}px) rotate(${rot}deg)`;
+                span.style.opacity = '0.2';
+            });
+
+            otherBlocks.forEach(block => {
+                block.style.transition = 'transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s';
+                const rx = (Math.random() - 0.5) * 2000;
+                const ry = (Math.random() - 0.5) * 2000;
+                const rot = (Math.random() - 0.5) * 720;
+                block.style.transform = `translate(${rx}px, ${ry}px) rotate(${rot}deg)`;
+                block.style.opacity = '0.2';
+            });
+
             const msgContainer = document.getElementById('secret-msg-container');
             msgContainer.style.display = 'block';
             msgContainer.innerHTML = '';
             
             const secretText = currentLang === 'it' ? "HAI TROVATO L'EASTER EGG!" : "YOU FOUND THE EASTER EGG!";
             
-            // Frammenta le lettere e falle arrivare da fuori schermo
             secretText.split('').forEach(char => {
                 const span = document.createElement('span');
-                span.innerText = char === ' ' ? '\u00A0' : char; // Mantiene gli spazi
+                span.innerText = char === ' ' ? '\u00A0' : char;
                 span.style.display = 'inline-block';
                 span.style.transition = 'transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s';
                 
-                // Posizione di partenza pazzesca (tipo esplosione)
                 const sx = (Math.random() - 0.5) * 2000;
                 const sy = (Math.random() - 0.5) * 2000;
                 const srot = (Math.random() - 0.5) * 720;
@@ -482,16 +513,14 @@
                 span.style.opacity = '0';
                 msgContainer.appendChild(span);
                 
-                // Dopo un millisecondo, ordina alle lettere di convergere al centro perfette
                 setTimeout(() => {
                     span.style.transform = 'translate(0, 0) rotate(0deg) scale(1)';
                     span.style.opacity = '1';
                 }, 50);
             });
 
-            // Dopo 3 secondi e mezzo, finisce il gioco e torna la normalità
+            // DOPO 5 SECONDI RIMETTI TUTTO A POSTO (modificato da 3500 a 5000)
             setTimeout(() => {
-                // Le lettere del messaggio segreto ri-esplodono e spariscono
                 Array.from(msgContainer.children).forEach(span => {
                     const sx = (Math.random() - 0.5) * 2000;
                     const sy = (Math.random() - 0.5) * 2000;
@@ -499,26 +528,32 @@
                     span.style.opacity = '0';
                 });
 
-                // Gli elementi della pagina tornano al loro posto
-                scatterEls.forEach(el => {
-                    el.style.transform = 'translate(0, 0) rotate(0deg)';
-                    el.style.opacity = '1';
+                flyingSpans.forEach(span => {
+                    span.style.transform = 'translate(0, 0) rotate(0deg)';
+                    span.style.opacity = '1';
+                });
+                otherBlocks.forEach(block => {
+                    block.style.transform = 'translate(0, 0) rotate(0deg)';
+                    block.style.opacity = '1';
                 });
 
-                // Ripulisci il codice per poterlo rifare
                 setTimeout(() => {
                     msgContainer.style.display = 'none';
-                    scatterEls.forEach(el => {
-                        el.style.transition = '';
-                        el.style.transform = '';
+                    textEls.forEach(el => {
+                        el.innerHTML = originalHTML.get(el); 
                     });
+                    otherBlocks.forEach(block => {
+                        block.style.transition = '';
+                        block.style.transform = '';
+                    });
+                    document.body.classList.remove('chaos-lock'); 
                     isChaosActive = false;
                 }, 1500);
 
-            }, 3500);
+            }, 5000); // 5 SECONDI TOTALI DI SPETTACOLO
         }
 
-        // 4. LOGICA ROBOTTINO (IL FIX DELLA PARALISI)
+        // 4. LOGICA ROBOTTINO
         const bot = document.getElementById('runaway-bot');
         const bubble = document.getElementById('bot-bubble');
         const botFace = document.getElementById('bot-face');
@@ -527,7 +562,7 @@
         let runTimeout;
         let footprintInterval;
         let isCaught = false;
-        let isMoving = false; // La variabile che impedisce la paralisi da mouse
+        let isMoving = false; 
         let touchAttempts = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -542,19 +577,18 @@
             bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
         }
 
-        // TRIGGER MOUSE (PC)
+        // PC: Hover
         function triggerRunHover() {
             if (isCaught || isMoving) return; 
+            isMoving = true; 
 
             botFace.innerText = '😱';
             setBubbleText("Mancato!", "Missed!");
             bot.classList.add('running');
             startFootprints();
 
-            // Hai esattamente 150 millisecondi per cliccarlo prima che scappi via!
-            clearTimeout(runTimeout);
-            runTimeout = setTimeout(() => { 
-                isMoving = true; // Inizia il movimento, ora ignorerà il mouse finché non atterra
+            setTimeout(() => { 
+                if (isCaught) return;
                 runAway();
                 
                 setTimeout(() => {
@@ -562,27 +596,26 @@
                         bot.classList.remove('running');
                         botFace.innerText = '🤖'; 
                         stopFootprints();
-                        isMoving = false; // È atterrato, ora puoi riprovare a prenderlo
+                        isMoving = false; 
                     }
-                }, 400); // Il tempo di volo
-            }, 100); // Il tempo di reazione
+                }, 400); 
+            }, 150); 
         }
 
-        // TRIGGER TOUCH (MOBILE)
-        function handleTouch(e) {
-            if (isCaught) return;
+        // MOBILE: Tocco diretto
+        bot.addEventListener('touchstart', function(e) {
+            if (isCaught || isMoving) return;
             e.preventDefault(); 
-            if (isMoving) return; 
-
-            touchAttempts++;
+            e.stopPropagation(); 
             
+            touchAttempts++;
             if (touchAttempts < 5) { 
+                isMoving = true;
                 botFace.innerText = '😱';
                 let itTexts = ["Mancato!", "Troppo lento!", "Ritenta!", "Ci sei quasi..."];
                 let enTexts = ["Missed!", "Too slow!", "Try again!", "Almost there..."];
                 setBubbleText(itTexts[touchAttempts - 1], enTexts[touchAttempts - 1]);
                 
-                isMoving = true;
                 bot.classList.add('running');
                 startFootprints();
                 runAway();
@@ -595,13 +628,11 @@
                         isMoving = false;
                     }
                 }, 400);
-
             } else { 
                 executeCatch();
             }
-        }
+        });
 
-        // LA CATTURA EFFETTIVA (CLICK DA PC, O 5° TAP DA MOBILE)
         function handleMouseClick(e) {
             if (isCaught) return;
             executeCatch();
@@ -611,7 +642,6 @@
             const rect = bot.getBoundingClientRect();
             const currentX = rect.left;
             const currentY = rect.top;
-
             const maxX = window.innerWidth - 120;
             const maxY = window.innerHeight - 150;
             
@@ -619,11 +649,9 @@
             let distance = 0;
             let attempts = 0;
             
-            // Forza il salto lontano (almeno 400px)
             do {
                 randomX = Math.max(20, Math.floor(Math.random() * maxX));
                 randomY = Math.max(80, Math.floor(Math.random() * maxY));
-                
                 let dx = randomX - currentX;
                 let dy = randomY - currentY;
                 distance = Math.sqrt(dx*dx + dy*dy);
@@ -653,7 +681,6 @@
 
         function executeCatch() {
             isCaught = true;
-            clearTimeout(runTimeout);
             stopFootprints();
             bot.classList.remove('running');
             
