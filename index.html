@@ -42,28 +42,6 @@
             position: relative; z-index: 1;
         }
 
-        /* --- EFFETTO HACKER / CAOS ESTREMO --- */
-        @keyframes extremeChaos {
-            0% { transform: translate(2px, 1px) rotate(0deg) scale(1); filter: hue-rotate(0deg); }
-            10% { transform: translate(-2px, -2px) rotate(-3deg) scale(1.05); }
-            20% { transform: translate(-3px, 0px) rotate(3deg) scale(0.95); filter: hue-rotate(90deg); }
-            30% { transform: translate(0px, 3px) rotate(0deg) scale(1.1); }
-            40% { transform: translate(2px, -1px) rotate(3deg) scale(0.9); filter: invert(0.8); }
-            50% { transform: translate(-1px, 2px) rotate(-3deg) scale(1.05); filter: invert(0); }
-            60% { transform: translate(-3px, 1px) rotate(0deg) scale(0.95); }
-            70% { transform: translate(2px, 1px) rotate(-3deg) scale(1.1); filter: hue-rotate(180deg); }
-            80% { transform: translate(-1px, -2px) rotate(3deg) scale(0.9); }
-            90% { transform: translate(2px, 2px) rotate(0deg) scale(1.05); filter: blur(1px); }
-            100% { transform: translate(1px, -2px) rotate(-3deg) scale(1); filter: hue-rotate(360deg); }
-        }
-        .chaos-element {
-            animation: extremeChaos 0.2s infinite; 
-            color: var(--accent) !important;
-            font-family: 'Courier New', Courier, monospace !important;
-            font-weight: bold !important;
-            text-transform: uppercase;
-        }
-
         /* --- SFONDO ANIMATO --- */
         #bg-effects {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -134,7 +112,6 @@
             .image-container.toggled-click:hover img.real { opacity: 0; }
         }
 
-        /* Hint Text */
         .image-hint {
             font-size: 0.9em; font-weight: 500; color: var(--text-color); 
             opacity: 0.5; margin-bottom: 20px; user-select: none;
@@ -174,28 +151,6 @@
         }
         .card button:hover { background-color: var(--accent-hover); }
 
-        /* --- MODAL (POPUP ROBOTTINO) --- */
-        .modal-overlay {
-            position: fixed !important; top: 0 !important; left: 0 !important; 
-            width: 100vw !important; height: 100vh !important;
-            background: rgba(0,0,0,0.7); z-index: 999999 !important; display: none; 
-            justify-content: center; align-items: center; opacity: 0; 
-            transition: opacity 0.3s; backdrop-filter: blur(5px);
-        }
-        .modal-content {
-            background: var(--bg-color); color: var(--text-color); padding: 40px; 
-            border-radius: 20px; text-align: center; max-width: 400px; width: 80%;
-            border: var(--card-border); box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
-            transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-overlay.active .modal-content { transform: scale(1); }
-        .modal-content h2 { margin-top: 0; font-size: 2.2em; }
-        .modal-content button {
-            background: var(--accent); color: white; border: none; padding: 12px 30px; 
-            border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em;
-        }
-
         /* --- SEZIONE CONTATTI --- */
         .contact-section {
             width: 90%; max-width: 600px; background-color: var(--card-bg);
@@ -217,15 +172,15 @@
             width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s;
         }
 
-        /* --- ROBOTTINO --- */
+        /* --- ROBOTTINO E POPUP --- */
         #runaway-bot {
             position: fixed !important; bottom: 30px !important; right: 30px !important; 
             cursor: pointer; z-index: 99999 !important;
-            transition: top 0.3s ease-out, left 0.3s ease-out, transform 0.4s, opacity 0.4s; 
+            transition: top 0.3s ease-out, left 0.3s ease-out; 
             user-select: none; display: flex; flex-direction: column;
             align-items: center; padding: 25px; -webkit-tap-highlight-color: transparent; 
         }
-        .bot-vanish { opacity: 0; transform: scale(0) rotate(180deg); pointer-events: none; }
+        .bot-vanish { opacity: 0; transform: scale(0) rotate(180deg); pointer-events: none; transition: all 0.5s; }
         .bubble {
             position: absolute; top: -10px; background: white; color: black;
             padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;
@@ -259,6 +214,37 @@
         }
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
+
+        .modal-overlay {
+            position: fixed !important; top: 0 !important; left: 0 !important; 
+            width: 100vw !important; height: 100vh !important;
+            background: rgba(0,0,0,0.7); z-index: 999999 !important; display: none; 
+            justify-content: center; align-items: center; opacity: 0; 
+            transition: opacity 0.3s; backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: var(--bg-color); color: var(--text-color); padding: 40px; 
+            border-radius: 20px; text-align: center; max-width: 400px; width: 80%;
+            border: var(--card-border); box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
+            transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-content h2 { margin-top: 0; font-size: 2.2em; }
+        .modal-content button {
+            background: var(--accent); color: white; border: none; padding: 12px 30px; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em;
+        }
+
+        /* --- STILE PER LE LETTERE DEL MESSAGGIO SEGRETO --- */
+        #secret-msg-container {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 100vw; text-align: center; z-index: 9999999;
+            pointer-events: none; display: none;
+            font-size: 4em; font-weight: 900; color: var(--accent);
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+        }
+        @media (max-width: 700px) { #secret-msg-container { font-size: 2em; } }
 
         footer { margin-top: auto; padding: 40px; font-size: 1em; color: #888; text-align: center; width: 100%; }
     </style>
@@ -308,7 +294,9 @@
         </footer>
     </div>
 
-    <div id="runaway-bot" onmouseenter="triggerRunHover()" ontouchstart="handleTouchBot(event)" onmousedown="handleMouseClick(event)">
+    <div id="secret-msg-container"></div>
+
+    <div id="runaway-bot" onmouseenter="triggerRunHover()" ontouchstart="handleTouch(event)" onmousedown="handleMouseClick(event)">
         <div class="bubble" id="bot-bubble" data-it="Prendimi!" data-en="Catch me!">Prendimi!</div>
         <div class="bot-head" id="bot-face">🤖</div>
         <div class="bot-body-part"></div>
@@ -388,7 +376,7 @@
         
         let currentLang = 'it';
         function toggleLanguage() {
-            if(isChaosActive) return; // Disabilita durante l'hack
+            if(isChaosActive) return; 
             currentLang = currentLang === 'it' ? 'en' : 'it';
             document.getElementById('lang-btn').innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
             const elements = document.querySelectorAll('[data-it]');
@@ -423,11 +411,12 @@
             imageSwapContainer.classList.toggle('toggled-click');
         });
 
-        // 3. NUOVO EASTER EGG (CAOS E SCRITTE IMPAZZITE)
+        // 3. NUOVO EASTER EGG (IL TORNADO DI LETTERE E OGGETTI)
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
         let isChaosActive = false;
         
+        // Attivazione PC
         document.addEventListener('keydown', (e) => {
             if (e.key === konamiCode[konamiIndex]) {
                 konamiIndex++;
@@ -435,12 +424,13 @@
             } else konamiIndex = 0;
         });
 
-        // 5 Tocchi Ovunque sullo schermo
+        // Attivazione Mobile (5 tocchi OVUNQUE sullo schermo)
         let tapCount = 0;
         let tapTimer;
-        
-        // Listener su tutto il documento per l'easter egg mobile
         document.addEventListener('touchstart', (e) => {
+            // Ignoriamo i click sul robot per non interferire con il suo gioco
+            if(e.target.closest('#runaway-bot')) return;
+            
             tapCount++;
             clearTimeout(tapTimer);
             if (tapCount === 5) { 
@@ -456,41 +446,79 @@
             if (isChaosActive) return;
             isChaosActive = true;
             
-            const textEls = document.querySelectorAll('h1, h2, h3, p, button, .action-btn, .bubble');
-            const originalContents = new Map();
-
-            textEls.forEach((el, i) => {
-                originalContents.set(i, el.innerHTML);
-                el.classList.add('chaos-element');
+            // Prendi TUTTI i blocchi della pagina
+            const scatterEls = document.querySelectorAll('.card, .hero h1, .hero p, .image-container, .contact-section, header .action-btn');
+            
+            // Fagli fare un volo pauroso in direzioni casuali
+            scatterEls.forEach(el => {
+                const rx = (Math.random() - 0.5) * 150; // Valori enormi per buttarli fuori dallo schermo
+                const ry = (Math.random() - 0.5) * 150; 
+                const rot = (Math.random() - 0.5) * 720;
+                el.style.transition = 'transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 0.5s';
+                el.style.transform = `translate(${rx}vw, ${ry}vh) rotate(${rot}deg)`;
+                el.style.opacity = '0.3';
             });
 
-            const targetMsg = "HAI TROVATO L'EASTER EGG!";
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*!?<>{}[]";
+            // Prepara il messaggio magico che appare al centro
+            const msgContainer = document.getElementById('secret-msg-container');
+            msgContainer.style.display = 'block';
+            msgContainer.innerHTML = '';
+            
+            const secretText = currentLang === 'it' ? "HAI TROVATO L'EASTER EGG!" : "YOU FOUND THE EASTER EGG!";
+            
+            // Frammenta le lettere e falle arrivare da fuori schermo
+            secretText.split('').forEach(char => {
+                const span = document.createElement('span');
+                span.innerText = char === ' ' ? '\u00A0' : char; // Mantiene gli spazi
+                span.style.display = 'inline-block';
+                span.style.transition = 'transform 1.5s cubic-bezier(0.25, 0.8, 0.25, 1), opacity 1s';
+                
+                // Posizione di partenza pazzesca (tipo esplosione)
+                const sx = (Math.random() - 0.5) * 2000;
+                const sy = (Math.random() - 0.5) * 2000;
+                const srot = (Math.random() - 0.5) * 720;
+                
+                span.style.transform = `translate(${sx}px, ${sy}px) rotate(${srot}deg) scale(3)`;
+                span.style.opacity = '0';
+                msgContainer.appendChild(span);
+                
+                // Dopo un millisecondo, ordina alle lettere di convergere al centro perfette
+                setTimeout(() => {
+                    span.style.transform = 'translate(0, 0) rotate(0deg) scale(1)';
+                    span.style.opacity = '1';
+                }, 50);
+            });
 
-            const scrambleInterval = setInterval(() => {
-                textEls.forEach(el => {
-                    if (Math.random() < 0.30) {
-                        el.innerText = targetMsg;
-                    } else {
-                        let gibberish = targetMsg.split('').map(char => 
-                            Math.random() > 0.5 ? chars[Math.floor(Math.random() * chars.length)] : char
-                        ).join('');
-                        el.innerText = gibberish;
-                    }
-                });
-            }, 100);
-
+            // Dopo 3 secondi e mezzo, finisce il gioco e torna la normalità
             setTimeout(() => {
-                clearInterval(scrambleInterval);
-                textEls.forEach((el, i) => {
-                    el.classList.remove('chaos-element');
-                    el.innerHTML = originalContents.get(i); 
+                // Le lettere del messaggio segreto ri-esplodono e spariscono
+                Array.from(msgContainer.children).forEach(span => {
+                    const sx = (Math.random() - 0.5) * 2000;
+                    const sy = (Math.random() - 0.5) * 2000;
+                    span.style.transform = `translate(${sx}px, ${sy}px) rotate(360deg) scale(0)`;
+                    span.style.opacity = '0';
                 });
-                isChaosActive = false;
-            }, 3000);
+
+                // Gli elementi della pagina tornano al loro posto
+                scatterEls.forEach(el => {
+                    el.style.transform = 'translate(0, 0) rotate(0deg)';
+                    el.style.opacity = '1';
+                });
+
+                // Ripulisci il codice per poterlo rifare
+                setTimeout(() => {
+                    msgContainer.style.display = 'none';
+                    scatterEls.forEach(el => {
+                        el.style.transition = '';
+                        el.style.transform = '';
+                    });
+                    isChaosActive = false;
+                }, 1500);
+
+            }, 3500);
         }
 
-        // 4. LOGICA ROBOTTINO
+        // 4. LOGICA ROBOTTINO (IL FIX DELLA PARALISI)
         const bot = document.getElementById('runaway-bot');
         const bubble = document.getElementById('bot-bubble');
         const botFace = document.getElementById('bot-face');
@@ -499,8 +527,8 @@
         let runTimeout;
         let footprintInterval;
         let isCaught = false;
-        let botTouchAttempts = 0;
-        let isEscaping = false;
+        let isMoving = false; // La variabile che impedisce la paralisi da mouse
+        let touchAttempts = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
             bot.style.bottom = '30px'; 
@@ -514,42 +542,47 @@
             bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
         }
 
+        // TRIGGER MOUSE (PC)
         function triggerRunHover() {
-            if (isCaught || isEscaping) return; 
-            isEscaping = true;
-            bot.style.pointerEvents = 'none'; 
+            if (isCaught || isMoving) return; 
 
             botFace.innerText = '😱';
             setBubbleText("Mancato!", "Missed!");
             bot.classList.add('running');
             startFootprints();
 
-            runAway();
-            
-            setTimeout(() => {
-                if (!isCaught) {
-                    bot.classList.remove('running');
-                    botFace.innerText = '🤖'; 
-                    stopFootprints();
-                    isEscaping = false;
-                    bot.style.pointerEvents = 'auto'; 
-                }
-            }, 400); 
+            // Hai esattamente 150 millisecondi per cliccarlo prima che scappi via!
+            clearTimeout(runTimeout);
+            runTimeout = setTimeout(() => { 
+                isMoving = true; // Inizia il movimento, ora ignorerà il mouse finché non atterra
+                runAway();
+                
+                setTimeout(() => {
+                    if (!isCaught) {
+                        bot.classList.remove('running');
+                        botFace.innerText = '🤖'; 
+                        stopFootprints();
+                        isMoving = false; // È atterrato, ora puoi riprovare a prenderlo
+                    }
+                }, 400); // Il tempo di volo
+            }, 100); // Il tempo di reazione
         }
 
-        function handleTouchBot(e) {
-            if (isCaught || isEscaping) return;
-            e.preventDefault(); // blocca tap globali su questo elemento
-            botTouchAttempts++;
+        // TRIGGER TOUCH (MOBILE)
+        function handleTouch(e) {
+            if (isCaught) return;
+            e.preventDefault(); 
+            if (isMoving) return; 
+
+            touchAttempts++;
             
-            if (botTouchAttempts < 5) { 
+            if (touchAttempts < 5) { 
                 botFace.innerText = '😱';
                 let itTexts = ["Mancato!", "Troppo lento!", "Ritenta!", "Ci sei quasi..."];
                 let enTexts = ["Missed!", "Too slow!", "Try again!", "Almost there..."];
-                setBubbleText(itTexts[botTouchAttempts - 1], enTexts[botTouchAttempts - 1]);
+                setBubbleText(itTexts[touchAttempts - 1], enTexts[touchAttempts - 1]);
                 
-                isEscaping = true;
-                bot.style.pointerEvents = 'none';
+                isMoving = true;
                 bot.classList.add('running');
                 startFootprints();
                 runAway();
@@ -559,8 +592,7 @@
                         bot.classList.remove('running');
                         botFace.innerText = '🤖'; 
                         stopFootprints();
-                        isEscaping = false;
-                        bot.style.pointerEvents = 'auto';
+                        isMoving = false;
                     }
                 }, 400);
 
@@ -569,6 +601,7 @@
             }
         }
 
+        // LA CATTURA EFFETTIVA (CLICK DA PC, O 5° TAP DA MOBILE)
         function handleMouseClick(e) {
             if (isCaught) return;
             executeCatch();
@@ -578,6 +611,7 @@
             const rect = bot.getBoundingClientRect();
             const currentX = rect.left;
             const currentY = rect.top;
+
             const maxX = window.innerWidth - 120;
             const maxY = window.innerHeight - 150;
             
@@ -585,9 +619,11 @@
             let distance = 0;
             let attempts = 0;
             
+            // Forza il salto lontano (almeno 400px)
             do {
                 randomX = Math.max(20, Math.floor(Math.random() * maxX));
                 randomY = Math.max(80, Math.floor(Math.random() * maxY));
+                
                 let dx = randomX - currentX;
                 let dy = randomY - currentY;
                 distance = Math.sqrt(dx*dx + dy*dy);
@@ -617,6 +653,7 @@
 
         function executeCatch() {
             isCaught = true;
+            clearTimeout(runTimeout);
             stopFootprints();
             bot.classList.remove('running');
             
