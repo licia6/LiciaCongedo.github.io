@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Home</title>
     <style>
-        /* --- VARIABILI E STILI BASE (Migliorata la gestione Dark Mode) --- */
+        /* --- VARIABILI E STILI BASE --- */
         :root {
             --bg-color: #ffffff;
             --text-color: #333333;
@@ -13,20 +13,21 @@
             --shadow: 0 4px 15px rgba(0,0,0,0.05);
             --accent: #007bff;
             --accent-hover: #0056b3;
-            --header-bg: rgba(255,255,255,0.8);
+            --header-bg: rgba(255,255,255,0.2); /* Molto meno bianco, più trasparente */
             --card-border: 1px solid rgba(0,0,0,0.05);
-            --card-glow: none; /* In modalità chiara nessuna luce extra */
+            --card-glow: none;
+            --code-opacity: 0.04; /* Opacità leggerissima per lo sfondo */
         }
 
-        /* Modalità Scura con Luce di Contorno (Glow) */
         [data-theme='dark'] {
             --bg-color: #121212;
             --text-color: #f1f1f1;
             --card-bg: #1e1e1e;
             --shadow: 0 10px 30px rgba(0,0,0,0.6);
-            --header-bg: rgba(18,18,18,0.8);
-            --card-border: 1px solid rgba(0, 123, 255, 0.4); /* Bordo azzurro */
-            --card-glow: 0 0 15px rgba(0, 123, 255, 0.15); /* Luce sfumata azzurra */
+            --header-bg: rgba(18,18,18,0.3);
+            --card-border: 1px solid rgba(0, 123, 255, 0.4); 
+            --card-glow: 0 0 15px rgba(0, 123, 255, 0.15); 
+            --code-opacity: 0.08; /* Poco più visibile sul nero */
         }
 
         body {
@@ -43,50 +44,47 @@
             transition: background-color 0.4s ease, color 0.4s ease;
         }
 
-        /* --- HEADER E PULSANTI --- */
+        /* --- SFONDO ANIMATO CON CODICI --- */
+        #bg-effects {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .floating-code {
+            position: absolute; font-family: 'Courier New', Courier, monospace;
+            color: var(--text-color); font-weight: bold; white-space: nowrap;
+            opacity: var(--code-opacity);
+            transition: opacity 0.4s;
+            animation: floatUp linear infinite;
+        }
+        @keyframes floatUp {
+            from { transform: translateY(110vh) rotate(-5deg); }
+            to { transform: translateY(-10vh) rotate(5deg); }
+        }
+
+        /* --- HEADER --- */
         header {
-            width: 100%;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: flex-end;
-            position: fixed;
-            top: 0;
+            width: 100%; padding: 15px 30px; display: flex; justify-content: flex-end;
+            position: fixed; top: 0; 
             background: var(--header-bg);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            box-sizing: border-box;
-            gap: 15px;
+            backdrop-filter: blur(15px); /* Effetto vetro più marcato */
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(128,128,128,0.1); /* Linea divisoria finissima */
+            z-index: 1000; box-sizing: border-box; gap: 15px;
             transition: background 0.4s ease;
         }
 
         .action-btn {
-            cursor: pointer;
-            padding: 8px 15px;
-            border: 1px solid #ccc;
-            border-radius: 20px;
-            background: var(--card-bg);
-            color: var(--text-color);
-            font-weight: bold;
-            transition: all 0.2s;
-            user-select: none;
+            cursor: pointer; padding: 8px 15px; border: 1px solid rgba(128,128,128,0.3);
+            border-radius: 20px; background: var(--card-bg); color: var(--text-color);
+            font-weight: bold; transition: all 0.2s; user-select: none;
         }
-        .action-btn:hover { filter: brightness(0.9); }
+        .action-btn:hover { filter: brightness(0.9); transform: scale(1.05); }
 
         /* --- SEZIONE HERO --- */
-        .hero {
-            margin-top: 120px;
-            text-align: center;
-            padding: 20px;
-            max-width: 800px;
-        }
+        .hero { margin-top: 120px; text-align: center; padding: 20px; max-width: 800px; }
         .hero img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid var(--accent);
-            box-shadow: var(--shadow);
-            margin-bottom: 15px;
+            width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
+            border: 4px solid var(--accent); box-shadow: var(--shadow); margin-bottom: 15px;
         }
         .hero h1 { font-size: 2.8em; margin: 0; }
         .hero p.tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; }
@@ -94,114 +92,78 @@
 
         /* --- GRIGLIA CARDS --- */
         .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 25px;
-            width: 90%;
-            max-width: 1100px;
-            padding: 40px 0;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px; width: 90%; max-width: 1100px; padding: 40px 0;
         }
 
         .card {
-            background-color: var(--card-bg);
-            padding: 30px 20px;
-            border-radius: 15px;
-            border: var(--card-border);
-            /* Qui applichiamo la luce di contorno in Dark Mode */
-            box-shadow: var(--shadow), var(--card-glow);
-            text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s, background-color 0.4s, border 0.4s;
-            display: flex;
-            flex-direction: column;
+            background-color: var(--card-bg); padding: 30px 20px; border-radius: 15px;
+            border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
+            text-align: center; transition: transform 0.3s, box-shadow 0.3s, background-color 0.4s, border 0.4s;
+            display: flex; flex-direction: column;
         }
-        .card:hover { 
-            transform: translateY(-8px); 
-            /* Se è in dark mode, la luce aumenta al passaggio del mouse! */
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2), var(--card-glow); 
-        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.2), var(--card-glow); }
         .card-icon { font-size: 3em; margin-bottom: 10px; }
         .card h3 { margin: 10px 0; font-size: 1.2em; }
         .card p { flex-grow: 1; font-size: 0.9em; }
         
         .card button {
-            background-color: var(--accent);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 20px;
-            transition: background 0.2s;
+            background-color: var(--accent); color: white; border: none;
+            padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold;
+            margin-top: 20px; transition: background 0.2s;
         }
         .card button:hover { background-color: var(--accent-hover); }
 
-        /* --- MODAL (POPUP PERSONALIZZATO) --- */
+        /* --- MODAL E NEWSLETTER --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.6); z-index: 20000;
-            display: none; justify-content: center; align-items: center;
-            opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);
+            background: rgba(0,0,0,0.6); z-index: 20000; display: none; 
+            justify-content: center; align-items: center; opacity: 0; 
+            transition: opacity 0.3s; backdrop-filter: blur(5px);
         }
         .modal-content {
-            background: var(--bg-color); color: var(--text-color);
-            padding: 40px; border-radius: 20px; text-align: center;
-            max-width: 400px; width: 80%;
-            border: var(--card-border);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
+            background: var(--bg-color); color: var(--text-color); padding: 40px; 
+            border-radius: 20px; text-align: center; max-width: 400px; width: 80%;
+            border: var(--card-border); box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
             transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-content h2 { margin-top: 0; font-size: 2em; }
         .modal-content button {
-            background: var(--accent); color: white; border: none;
-            padding: 10px 25px; border-radius: 8px; font-weight: bold;
-            cursor: pointer; margin-top: 20px; font-size: 1.1em;
+            background: var(--accent); color: white; border: none; padding: 10px 25px; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 1.1em;
         }
 
-        /* --- SEZIONE NEWSLETTER / CONTATTI --- */
         .contact-section {
             width: 90%; max-width: 600px; background-color: var(--card-bg);
-            padding: 40px; border-radius: 15px; text-align: center;
-            margin: 40px 0; 
-            border: var(--card-border);
-            box-shadow: var(--shadow), var(--card-glow);
+            padding: 40px; border-radius: 15px; text-align: center; margin: 40px 0; 
+            border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
             transition: background-color 0.4s, border 0.4s;
         }
         .contact-section input, .contact-section textarea {
-            width: 100%; padding: 12px; margin: 10px 0;
-            border: 1px solid #ccc; border-radius: 8px;
-            box-sizing: border-box; font-family: inherit;
+            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; 
+            border-radius: 8px; box-sizing: border-box; font-family: inherit;
         }
         [data-theme='dark'] .contact-section input, [data-theme='dark'] .contact-section textarea {
             background: #2a2a2a; color: white; border-color: #444;
         }
         .contact-section button {
-            background-color: var(--text-color); color: var(--bg-color);
-            border: none; padding: 12px 30px; border-radius: 8px;
-            cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em;
-            transition: background-color 0.4s, color 0.4s;
+            background-color: var(--text-color); color: var(--bg-color); border: none; 
+            padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; 
+            width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s;
         }
 
         /* --- ROBOTTINO --- */
         #runaway-bot {
             position: fixed; bottom: 30px; right: 30px; cursor: pointer; z-index: 9999;
-            transition: top 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                        left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                        transform 0.5s, opacity 0.5s; 
+            transition: top 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        left 0.5s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        transform 0.4s, opacity 0.4s; 
             user-select: none; display: flex; flex-direction: column;
-            align-items: center; padding: 25px; /* Padding più grande per facilitare il touch */
-            /* Evita l'highlight azzurro sui telefoni quando lo tocchi */
-            -webkit-tap-highlight-color: transparent; 
+            align-items: center; padding: 25px; -webkit-tap-highlight-color: transparent; 
         }
-
-        .bot-vanish {
-            opacity: 0;
-            transform: scale(0) rotate(180deg);
-            pointer-events: none;
-        }
-
+        .bot-vanish { opacity: 0; transform: scale(0) rotate(180deg); pointer-events: none; }
         .bubble {
             position: absolute; top: -10px; background: white; color: black;
             padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;
@@ -211,32 +173,26 @@
             content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
             border-width: 5px 5px 0; border-style: solid; border-color: white transparent transparent transparent;
         }
-
         .bot-head { font-size: 38px; line-height: 1; z-index: 3; position: relative; transition: transform 0.2s; }
         .bot-body-part { width: 22px; height: 14px; background: #888; border-radius: 4px; margin-top: -4px; z-index: 2; position: relative; }
-        
         .bot-limbs-container { position: relative; display: flex; justify-content: center; width: 100%; }
         .bot-arms { position: absolute; top: -12px; display: flex; gap: 26px; z-index: 1; }
         .bot-legs { display: flex; gap: 8px; margin-top: -2px; z-index: 1; position: relative; }
-        
         .limb { width: 6px; background: #555; border-radius: 3px; transform-origin: top; }
         .arm { height: 12px; background: #666; }
         .leg { height: 14px; }
-
-        .running .left-leg { animation: runForwards 0.15s infinite alternate; }
-        .running .right-leg { animation: runBackwards 0.15s infinite alternate; }
-        .running .left-arm { animation: runBackwards 0.15s infinite alternate; }
-        .running .right-arm { animation: runForwards 0.15s infinite alternate; }
+        .running .left-leg { animation: runForwards 0.12s infinite alternate; }
+        .running .right-leg { animation: runBackwards 0.12s infinite alternate; }
+        .running .left-arm { animation: runBackwards 0.12s infinite alternate; }
+        .running .right-arm { animation: runForwards 0.12s infinite alternate; }
         .running .bot-head { transform: translateY(-2px) rotate(5deg); }
 
         @keyframes runForwards { from { transform: rotate(-45deg); } to { transform: rotate(45deg); } }
         @keyframes runBackwards { from { transform: rotate(45deg); } to { transform: rotate(-45deg); } }
 
         .footprint {
-            position: absolute; width: 12px; height: 6px;
-            background: rgba(0,0,0,0.15); border-radius: 50%;
-            pointer-events: none; z-index: 1;
-            animation: fadeOutFoot 1s forwards;
+            position: absolute; width: 12px; height: 6px; background: rgba(0,0,0,0.15); 
+            border-radius: 50%; pointer-events: none; z-index: 1; animation: fadeOutFoot 1s forwards;
         }
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
@@ -245,6 +201,8 @@
     </style>
 </head>
 <body>
+
+    <div id="bg-effects"></div>
 
     <header>
         <div class="action-btn" onclick="toggleTheme()" id="theme-btn">🌙 Dark Mode</div>
@@ -259,30 +217,10 @@
     </section>
 
     <section class="grid-container">
-        <div class="card">
-            <div class="card-icon">📂</div>
-            <h3 data-it="PROGETTI" data-en="PROJECTS">PROGETTI</h3>
-            <p data-it="I miei lavori più recenti." data-en="My most recent works.">I miei lavori più recenti.</p>
-            <button data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button>
-        </div>
-        <div class="card">
-            <div class="card-icon">🧭</div>
-            <h3 data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3>
-            <p data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p>
-            <button data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button>
-        </div>
-        <div class="card">
-            <div class="card-icon">✉️</div>
-            <h3 data-it="CONTATTI" data-en="CONTACT">CONTATTI</h3>
-            <p data-it="Troviamo un modo per collaborare." data-en="Let's find a way to collaborate.">Troviamo un modo per collaborare.</p>
-            <button data-it="Scrivimi" data-en="Write me">Scrivimi</button>
-        </div>
-        <div class="card">
-            <div class="card-icon">📖</div>
-            <h3 data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3>
-            <p data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p>
-            <button data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button>
-        </div>
+        <div class="card"><div class="card-icon">📂</div><h3 data-it="PROGETTI" data-en="PROJECTS">PROGETTI</h3><p data-it="I miei lavori più recenti." data-en="My most recent works.">I miei lavori più recenti.</p><button data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button></div>
+        <div class="card"><div class="card-icon">🧭</div><h3 data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3><p data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p><button data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button></div>
+        <div class="card"><div class="card-icon">✉️</div><h3 data-it="CONTATTI" data-en="CONTACT">CONTATTI</h3><p data-it="Troviamo un modo per collaborare." data-en="Let's find a way to collaborate.">Troviamo un modo per collaborare.</p><button data-it="Scrivimi" data-en="Write me">Scrivimi</button></div>
+        <div class="card"><div class="card-icon">📖</div><h3 data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3><p data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p><button data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button></div>
     </section>
 
     <section class="contact-section">
@@ -324,7 +262,21 @@
     </footer>
 
     <script>
-        // Inizializza posizione bot
+        // 0. GENERATORE DI SFONDO (Codici fluttuanti)
+        const codeSnippets = ['<div class="hero">', 'function() {}', '01101001', '=>', 'npm run build', 'console.log()', '{ padding: 0; }', '</>', 'git push', 'Hello World'];
+        const bgContainer = document.getElementById('bg-effects');
+        for(let i=0; i<15; i++) {
+            let el = document.createElement('div');
+            el.className = 'floating-code';
+            el.innerText = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+            el.style.left = (Math.random() * 90) + 'vw';
+            el.style.fontSize = (Math.random() * 15 + 10) + 'px';
+            el.style.animationDuration = (Math.random() * 25 + 15) + 's';
+            el.style.animationDelay = (Math.random() * 10) + 's';
+            bgContainer.appendChild(el);
+        }
+
+        // 1. INIZIALIZZAZIONE POSIZIONE ROBOT
         window.addEventListener('DOMContentLoaded', () => {
             const botInit = document.getElementById('runaway-bot');
             const rect = botInit.getBoundingClientRect();
@@ -334,11 +286,10 @@
             botInit.style.right = 'auto';
         });
 
-        // Toggle Dark/Light mode sfruttando le Variabili CSS aggiornate
+        // 2. DARK MODE E TRADUZIONE
         function toggleTheme() {
             const body = document.body;
             const themeBtn = document.getElementById('theme-btn');
-            
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 themeBtn.innerHTML = '🌙 Dark Mode';
@@ -348,51 +299,45 @@
             }
         }
 
-        // Traduzione
         let currentLang = 'it';
         function toggleLanguage() {
             currentLang = currentLang === 'it' ? 'en' : 'it';
             const langBtn = document.getElementById('lang-btn');
             langBtn.innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
-            
             const elements = document.querySelectorAll('[data-it]');
             elements.forEach(el => { el.innerText = el.getAttribute('data-' + currentLang); });
-            
             if(!isCaught) {
                 const bubble = document.getElementById('bot-bubble');
                 bubble.innerText = bubble.getAttribute('data-' + currentLang);
             }
         }
 
-        // --- GESTIONE AVANZATA DEL ROBOTTINO (PC vs Mobile) ---
+        // 3. LOGICA ROBOTTINO
         const bot = document.getElementById('runaway-bot');
         const bubble = document.getElementById('bot-bubble');
         const botFace = document.getElementById('bot-face');
         const modal = document.getElementById('custom-modal');
         let runTimeout;
         let footprintInterval;
-        
         let isCaught = false;
-        let touchAttempts = 0; // Contatore dei tap da mobile
+        let touchAttempts = 0;
 
-        // Funzione per cambiare il testo della nuvoletta
         function setBubbleText(testoIT, testoEN) {
             bubble.setAttribute('data-it', testoIT);
             bubble.setAttribute('data-en', testoEN);
             bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
         }
 
-        // 1. Azione quando il MOUSE si avvicina (Solo PC)
         function triggerRunHover() {
             if (isCaught) return; 
-
             botFace.innerText = '😱';
             setBubbleText("Ci sei quasi!", "Almost there!");
             bot.classList.add('running');
             startFootprints();
 
             clearTimeout(runTimeout);
-            runTimeout = setTimeout(() => {
+            // Reazione fulminea! Abbassato a 50ms!
+            runTimeout = setTimeout(() => { 
                 runAway();
                 setTimeout(() => {
                     if (!isCaught) {
@@ -400,11 +345,10 @@
                         botFace.innerText = '🤖'; 
                         stopFootprints();
                     }
-                }, 600);
-            }, 300); 
+                }, 500);
+            }, 50); 
         }
 
-        // Esecuzione immediata della fuga (usata su mobile)
         function forceRunAway() {
             bot.classList.add('running');
             startFootprints();
@@ -415,48 +359,54 @@
                     botFace.innerText = '🤖'; 
                     stopFootprints();
                 }
-            }, 600);
+            }, 500);
         }
 
-        // 2. Azione quando lo TOCCHI con il dito (Solo Mobile)
         function handleTouch(e) {
             if (isCaught) return;
-            // IMPORTANTISSIMO: blocca l'evento click standard del browser,
-            // così dividiamo perfettamente logica Mobile e logica PC.
             e.preventDefault(); 
-
-            touchAttempts++; // Conta il tentativo
-
+            touchAttempts++;
             if (touchAttempts === 1) {
-                // Primo Tocco: Fuga immediata
                 botFace.innerText = '😱';
                 setBubbleText("Ci sei quasi!", "Almost there!");
                 forceRunAway();
-            } 
-            else if (touchAttempts === 2) {
-                // Secondo Tocco: Altra fuga immediata
+            } else if (touchAttempts === 2) {
                 botFace.innerText = '😱';
                 setBubbleText("Ancora uno!", "One more!");
                 forceRunAway();
-            } 
-            else {
-                // Terzo tocco: Finalmente catturato!
+            } else {
                 executeCatch();
             }
         }
 
-        // 3. Azione quando lo CLICCHI con il mouse (Solo PC)
         function handleMouseClick(e) {
             if (isCaught) return;
-            // Se sei riuscito a cliccarlo col mouse, lo prendi subito
             executeCatch();
         }
 
         function runAway() {
+            const rect = bot.getBoundingClientRect();
+            const currentX = rect.left;
+            const currentY = rect.top;
+
             const maxX = window.innerWidth - 120;
             const maxY = window.innerHeight - 150;
-            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(100, Math.floor(Math.random() * maxY)); 
+            
+            let randomX, randomY;
+            let distance = 0;
+            let attempts = 0;
+            
+            // Loop intelligente: cerca un punto che sia lontano ALMENO 300px dal punto attuale.
+            // Se lo schermo è piccolo o dopo 15 tentativi non lo trova, si accontenta.
+            do {
+                randomX = Math.max(20, Math.floor(Math.random() * maxX));
+                randomY = Math.max(100, Math.floor(Math.random() * maxY));
+                
+                let dx = randomX - currentX;
+                let dy = randomY - currentY;
+                distance = Math.sqrt(dx*dx + dy*dy);
+                attempts++;
+            } while (distance < 300 && attempts < 15);
             
             bot.style.left = randomX + 'px';
             bot.style.top = randomY + 'px';
@@ -468,7 +418,7 @@
                 const rect = bot.getBoundingClientRect();
                 const print = document.createElement('div');
                 print.className = 'footprint';
-                print.style.left = (rect.left + 45) + 'px'; // Allineato al centro con il nuovo padding
+                print.style.left = (rect.left + 45) + 'px';
                 print.style.top = (rect.top + 80) + 'px';
                 document.body.appendChild(print);
                 setTimeout(() => print.remove(), 1000);
@@ -477,7 +427,6 @@
 
         function stopFootprints() { clearInterval(footprintInterval); }
 
-        // La fase di cattura vera e propria
         function executeCatch() {
             isCaught = true;
             clearTimeout(runTimeout);
@@ -491,9 +440,7 @@
             setTimeout(() => { modal.classList.add('active'); }, 900);
         }
 
-        function closeModal() {
-            modal.classList.remove('active');
-        }
+        function closeModal() { modal.classList.remove('active'); }
     </script>
 
 </body>
