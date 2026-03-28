@@ -33,10 +33,8 @@
             background-color: var(--bg-color); color: var(--text-color);
             line-height: 1.6; overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
-            perspective: 1000px;
         }
 
-        /* Il wrapper serve per fare la capriola senza rompere il robot e lo sfondo fisso */
         #content-wrapper {
             display: flex; flex-direction: column; align-items: center; width: 100%;
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -44,7 +42,7 @@
         .konami-active #content-wrapper { animation: flip360 1s ease-in-out; }
         @keyframes flip360 { to { transform: rotate(360deg); } }
 
-        /* --- SFONDO ANIMATO --- */
+        /* --- SFONDO ANIMATO CON PROFONDITÀ --- */
         #bg-effects {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1; overflow: hidden; pointer-events: none;
@@ -55,8 +53,8 @@
         }
         @keyframes floatUp {
             0% { transform: translateY(10vh); opacity: 0; }
-            10% { opacity: 1; } /* Opacità gestita dai colori in JS ora */
-            90% { opacity: 1; }
+            10% { opacity: var(--current-opacity); } 
+            90% { opacity: var(--current-opacity); }
             100% { transform: translateY(-40vh); opacity: 0; }
         }
 
@@ -81,7 +79,7 @@
         .hero { margin-top: 120px; text-align: center; padding: 20px; max-width: 800px; z-index: 10; }
         
         .glitch-image-container {
-            position: relative; width: 160px; height: 160px; margin: 0 auto 15px;
+            position: relative; width: 180px; height: 180px; margin: 0 auto 15px;
             border-radius: 50%; border: 4px solid var(--accent);
             box-shadow: var(--shadow); overflow: hidden;
             transition: transform 0.1s ease-out; cursor: pointer; background: var(--card-bg);
@@ -94,15 +92,14 @@
 
         .hero .cartoon-container { position: relative; width: 100%; height: 100%; }
         .hero .cartoon-container::before, .hero .cartoon-container::after {
-            content: ''; position: absolute; top: 22%; 
-            width: 22px; height: 18px; background: #E0C7B4; 
+            content: ''; position: absolute; top: 31%; 
+            width: 20px; height: 16px; background: #E0C7B4; 
             border-radius: 50%; z-index: 2; opacity: 0; 
             transform: scaleY(0); transform-origin: top;
             animation: blink 4s infinite; 
         }
-        /* Occhi centrati per l'immagine cartoon */
-        .hero .cartoon-container::before { left: 33%; } 
-        .hero .cartoon-container::after { right: 32%; } 
+        .hero .cartoon-container::before { left: 42%; } 
+        .hero .cartoon-container::after { right: 38%; } 
 
         @keyframes blink {
             90% { transform: scaleY(0); opacity: 0; }
@@ -160,7 +157,7 @@
         }
         .card button:hover { background-color: var(--accent-hover); }
 
-        /* --- MODAL E NEWSLETTER --- */
+        /* --- MODAL (POPUP ROBOTTINO) --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.6); z-index: 20000; display: none; 
@@ -202,7 +199,7 @@
 
         /* --- ROBOTTINO (FISSO SULLO SCHERMO) --- */
         #runaway-bot {
-            position: fixed; bottom: 30px; right: 30px; cursor: pointer; z-index: 9999;
+            position: fixed; bottom: 30px; right: 30px; cursor: pointer; z-index: 19000;
             transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         left 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
                         transform 0.4s, opacity 0.4s; 
@@ -237,9 +234,9 @@
         @keyframes runBackwards { from { transform: rotate(45deg); } to { transform: rotate(-45deg); } }
 
         .footprint {
-            position: fixed; /* Le impronte ora sono fisse allo schermo */
+            position: fixed; 
             width: 12px; height: 6px; background: rgba(0,0,0,0.15); 
-            border-radius: 50%; pointer-events: none; z-index: 1; animation: fadeOutFoot 1s forwards;
+            border-radius: 50%; pointer-events: none; z-index: 18000; animation: fadeOutFoot 1s forwards;
         }
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
@@ -290,7 +287,9 @@
         <footer>
             <p data-it="© 2024 Portfolio. Creato con fantasia." data-en="© 2024 Portfolio. Created with imagination.">© 2024 Portfolio. Creato con fantasia.</p>
         </footer>
-    </div> <div id="runaway-bot" onmouseenter="triggerRunHover()" ontouchstart="handleTouch(event)" onmousedown="handleMouseClick(event)">
+    </div>
+
+    <div id="runaway-bot" onmouseenter="triggerRunHover()" ontouchstart="handleTouch(event)" onmousedown="handleMouseClick(event)">
         <div class="bubble" id="bot-bubble" data-it="Prendimi!" data-en="Catch me!">Prendimi!</div>
         <div class="bot-head" id="bot-face">🤖</div>
         <div class="bot-body-part"></div>
@@ -315,60 +314,59 @@
     </div>
 
     <script>
-        // 0. GENERATORE DI SFONDO
+        // 0. GENERATORE DI SFONDO (Profondità intelligente)
         window.addEventListener('DOMContentLoaded', () => {
             const snippets = ['<div/>', '()=>{}', '0x4F', '0110', 'git push', 'npm start', 'console', '#FF00FF', 'const', '=>', '404', 'while(1)', '#00FFFF', 'binary'];
-            // Colori più scuri per la Light Mode così si vedono sul bianco
-            const colorsLight = ['rgba(0,0,0,0.1)', 'rgba(0,123,255,0.15)', 'rgba(0,200,100,0.1)', 'rgba(100,100,255,0.1)'];
-            const colorsDark = ['#FF9999', '#99FF99', '#9999FF', '#99FFFF', '#FF99FF'];
+            const colorsLight = ['#000000', '#007bff', '#28a745', '#6f42c1'];
+            const colorsDark = ['#4A90E2', '#50E3C2', '#B8E986', '#BD10E0'];
+            
             const bgContainer = document.getElementById('bg-effects');
             
-            // Aumentati a 80 elementi per riempire tutto lo schermo!
-            for(let i = 0; i < 80; i++) {
+            for(let i = 0; i < 80; i++) { 
                 let el = document.createElement('div');
                 el.className = 'floating-code';
                 el.innerText = snippets[Math.floor(Math.random() * snippets.length)];
+                
                 el.style.left = (Math.random() * 100) + 'vw';
                 el.style.top = (Math.random() * 100) + 'vh'; 
-                el.style.fontSize = (Math.random() * 16 + 10) + 'px';
+                
+                let size = Math.random() * 14 + 10;
+                el.style.fontSize = size + 'px';
                 
                 let isDark = document.body.getAttribute('data-theme') === 'dark';
                 let colorList = isDark ? colorsDark : colorsLight;
                 el.style.color = colorList[Math.floor(Math.random() * colorList.length)];
                 
-                // Trasparenza adattiva
-                el.style.opacity = isDark ? (Math.random() * 0.3 + 0.1) : 1; 
+                let opacity = isDark ? (Math.random() * 0.15 + 0.02) : (Math.random() * 0.15 + 0.05);
+                el.style.setProperty('--current-opacity', opacity);
 
                 let duration = Math.random() * 20 + 15; 
                 el.style.animation = `floatUp ${duration}s linear infinite`;
                 bgContainer.appendChild(el);
             }
-            console.log("%cAh, vedo che sei uno smanettone anche tu! 😉", "color: #007bff; font-size: 20px; font-weight: bold;");
         });
 
         // 1. DARK MODE E TRADUZIONE
         function toggleTheme() {
             const body = document.body;
             const themeBtn = document.getElementById('theme-btn');
-            
-            // Aggiorna anche i colori dei codici fluttuanti
             const floatingCodes = document.querySelectorAll('.floating-code');
-            const colorsLight = ['rgba(0,0,0,0.1)', 'rgba(0,123,255,0.15)', 'rgba(0,200,100,0.1)', 'rgba(100,100,255,0.1)'];
-            const colorsDark = ['#FF9999', '#99FF99', '#9999FF', '#99FFFF', '#FF99FF'];
+            const colorsLight = ['#000000', '#007bff', '#28a745', '#6f42c1'];
+            const colorsDark = ['#4A90E2', '#50E3C2', '#B8E986', '#BD10E0'];
 
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 themeBtn.innerHTML = '🌙 Dark Mode';
                 floatingCodes.forEach(el => {
                     el.style.color = colorsLight[Math.floor(Math.random() * colorsLight.length)];
-                    el.style.opacity = 1;
+                    el.style.setProperty('--current-opacity', Math.random() * 0.15 + 0.05);
                 });
             } else {
                 body.setAttribute('data-theme', 'dark');
                 themeBtn.innerHTML = '☀️ Light Mode';
                 floatingCodes.forEach(el => {
                     el.style.color = colorsDark[Math.floor(Math.random() * colorsDark.length)];
-                    el.style.opacity = Math.random() * 0.3 + 0.1;
+                    el.style.setProperty('--current-opacity', Math.random() * 0.15 + 0.02);
                 });
             }
         }
@@ -382,10 +380,11 @@
             if(!isCaught) document.getElementById('bot-bubble').innerText = document.getElementById('bot-bubble').getAttribute('data-' + currentLang);
         }
 
-        // 2. FOTO GLITCH E MACCHINA DA SCRIVERE
+        // 2. FOTO GLITCH E MACCHINA DA SCRIVERE 
         const glitchImage = document.getElementById('glitch-image');
         const textToType = document.getElementById('typing-text').getAttribute('data-' + currentLang);
         let charIndex = 0;
+        
         function typeWriter() {
             if (charIndex < textToType.length) {
                 document.getElementById('typing-text').innerText += textToType.charAt(charIndex);
@@ -401,10 +400,11 @@
             const y = e.clientY - rect.top - rect.height / 2;
             const rotateX = y / 8;
             const rotateY = -x / 8;
-            glitchImage.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
+            glitchImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
         });
+        
         glitchImage.addEventListener('mouseleave', () => {
-            glitchImage.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+            glitchImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
         });
 
         glitchImage.addEventListener('touchstart', (e) => {
@@ -441,6 +441,13 @@
         let footprintInterval;
         let isCaught = false;
         let touchAttempts = 0;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const rectBot = bot.getBoundingClientRect();
+            bot.style.left = rectBot.left + 'px';
+            bot.style.top = rectBot.top + 'px';
+            bot.style.bottom = 'auto'; bot.style.right = 'auto';
+        });
 
         function setBubbleText(testoIT, testoEN) {
             bubble.setAttribute('data-it', testoIT);
