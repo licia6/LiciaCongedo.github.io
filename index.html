@@ -30,7 +30,7 @@
         * { box-sizing: border-box; }
 
         html {
-            scroll-behavior: smooth; /* Scorrimento morbido quando clicchi il menu */
+            scroll-behavior: smooth; 
         }
 
         html, body {
@@ -149,7 +149,7 @@
         .grid-container {
             display: grid; grid-template-columns: repeat(4, 1fr); 
             gap: 20px; width: 95%; max-width: 1200px; padding: 40px 0; z-index: 10;
-            scroll-margin-top: 100px; /* Compensa lo spazio dell'header fisso quando scorre */
+            scroll-margin-top: 100px;
         }
         @media (max-width: 900px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 500px) { .grid-container { grid-template-columns: 1fr; } }
@@ -195,7 +195,7 @@
             width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s;
         }
 
-        /* --- STILE EASTER EGG MESSAGGIO (Centrato perfettamente) --- */
+        /* --- STILE EASTER EGG MESSAGGIO --- */
         #secret-msg-container {
             position: fixed; top: 50%; left: 0; width: 100%; 
             transform: translateY(-50%) scale(0);
@@ -208,14 +208,14 @@
         #secret-msg-container.show { transform: translateY(-50%) scale(1); opacity: 1; }
         @media (max-width: 700px) { #secret-msg-container { font-size: 2.2em; padding: 0 10px; } }
 
-        /* Footer con il nuovo testo */
+        /* Footer */
         footer { margin-top: auto; padding: 40px 20px; font-size: 1em; color: #888; text-align: center; width: 100%; }
         .footer-easter-hint { font-size: 0.85em; margin-top: 15px; opacity: 0.6; font-style: italic; }
 
-        /* --- ROBOTTINO CATTURABILE --- */
+        /* --- ROBOTTINO --- */
         #runaway-bot {
             position: fixed !important; 
-            /* Rimosso bottom e right da CSS. Le gestisce JS al caricamento! */
+            bottom: 30px; right: 30px; 
             cursor: pointer; z-index: 99999 !important;
             transition: top 0.3s ease-out, left 0.3s ease-out, transform 0.4s, opacity 0.4s; 
             user-select: none; display: flex; flex-direction: column;
@@ -573,11 +573,11 @@
                         isChaosActive = false;
                     }, 1000);
 
-                }, 4000); // 4 Secondi visibile!
-            }, 2000); // 2 Secondi di rimbalzi
+                }, 4000); 
+            }, 2000); 
         }
 
-        // 4. ROBOTTINO (RISOLTO BUG CSS AL CARICAMENTO)
+        // 4. ROBOTTINO CATTURABILE 
         const bot = document.getElementById('runaway-bot');
         const botFace = document.getElementById('bot-face');
         const bubble = document.getElementById('bot-bubble');
@@ -585,14 +585,15 @@
         let runTimeout;
         let footprintInterval;
         let isCaught = false;
-        let isMoving = false;
+        let isMoving = false; 
         let touchAttempts = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Assegnamo al volo le coordinate fisse per non far impazzire la prima animazione CSS
-            const rect = bot.getBoundingClientRect();
-            bot.style.left = rect.left + 'px';
-            bot.style.top = rect.top + 'px';
+            // Calcolo preciso della posizione iniziale in JS invece di affidarsi solo al CSS
+            const botWidth = bot.offsetWidth || 80;
+            const botHeight = bot.offsetHeight || 100;
+            bot.style.left = (window.innerWidth - botWidth - 30) + 'px';
+            bot.style.top = (window.innerHeight - botHeight - 30) + 'px';
             bot.style.bottom = 'auto';
             bot.style.right = 'auto';
         });
