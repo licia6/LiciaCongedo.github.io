@@ -29,9 +29,7 @@
 
         * { box-sizing: border-box; }
 
-        html {
-            scroll-behavior: smooth; 
-        }
+        html { scroll-behavior: smooth; }
 
         html, body {
             margin: 0; padding: 0;
@@ -215,7 +213,6 @@
         /* --- ROBOTTINO --- */
         #runaway-bot {
             position: fixed !important; 
-            bottom: 30px; right: 30px; 
             cursor: pointer; z-index: 99999 !important;
             transition: top 0.3s ease-out, left 0.3s ease-out, transform 0.4s, opacity 0.4s; 
             user-select: none; display: flex; flex-direction: column;
@@ -255,7 +252,7 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* MODAL VITTORIA ROBOTTINO */
+        /* MODAL VITTORIA E SUCCESSO EMAIL */
         .modal-overlay {
             position: fixed !important; top: 0 !important; left: 0 !important; 
             width: 100vw !important; height: 100vh !important;
@@ -319,10 +316,15 @@
 
         <section class="contact-section">
             <h2 class="chaos-text" data-it="Rimaniamo in contatto!" data-en="Let's stay in touch!">Rimaniamo in contatto!</h2>
-            <p class="chaos-text" data-it="Iscriviti per ricevere aggiornamenti o scrivimi." data-en="Subscribe to get updates or write me.">Iscriviti per ricevere aggiornamenti o scrivimi.</p>
-            <form onsubmit="event.preventDefault(); alert('Funzionalità in arrivo!');">
-                <input class="chaos-block" type="email" placeholder="Email" required>
-                <textarea class="chaos-block" rows="3" placeholder="Messaggio / Message"></textarea>
+            <p class="chaos-text" data-it="Scrivimi per qualsiasi informazione o collaborazione." data-en="Write me for any information or collaboration.">Scrivimi per qualsiasi informazione o collaborazione.</p>
+            
+            <form id="contact-form">
+                <input type="hidden" name="access_key" value="f38e8284-1ead-4792-9f78-6f36ca7768fe">
+                
+                <input class="chaos-block" type="email" name="email" placeholder="La tua Email" required>
+                <textarea class="chaos-block" name="message" rows="4" placeholder="Il tuo messaggio..." required></textarea>
+                
+                <input type="checkbox" name="botcheck" style="display: none;">
                 <button class="chaos-block" type="submit" data-it="Invia" data-en="Send">Invia</button>
             </form>
         </section>
@@ -353,8 +355,8 @@
 
     <div class="modal-overlay" id="custom-modal">
         <div class="modal-content">
-            <h2 data-it="Preso! 🎯" data-en="Caught me! 🎯">Preso! 🎯</h2>
-            <p data-it="Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" data-en="Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!">Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!</p>
+            <h2 id="modal-title" data-it="Preso! 🎯" data-en="Caught me! 🎯">Preso! 🎯</h2>
+            <p id="modal-desc" data-it="Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" data-en="Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!">Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!</p>
             <button onclick="closeModal()" data-it="Chiudi" data-en="Close">Chiudi</button>
         </div>
     </div>
@@ -421,7 +423,7 @@
             
             const elements = document.querySelectorAll('[data-it]');
             elements.forEach(el => {
-                if(el.querySelector('span')) return; // ignora se smontato dall'easter egg
+                if(el.querySelector('span')) return;
                 el.innerText = el.getAttribute('data-' + currentLang);
             });
         }
@@ -453,14 +455,56 @@
             imageSwapContainer.classList.toggle('toggled-click');
         });
 
-        // 3. EASTER EGG (2 SEC RIMBALZI, 4 SEC MESSAGGIO)
+        // 3. LOGICA FORMULARIO CONTATTI (WEB3FORMS)
+        const contactForm = document.getElementById('contact-form');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(contactForm);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+
+            const submitBtn = contactForm.querySelector('button');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = "Invio in corso...";
+
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: json
+            })
+            .then(async (response) => {
+                if (response.status == 200) {
+                    showCustomModal(
+                        currentLang === 'it' ? "Inviato! 🚀" : "Sent! 🚀", 
+                        currentLang === 'it' ? "Il tuo messaggio è stato inviato con successo. Ti risponderò al più presto!" : "Your message was sent successfully. I'll get back to you soon!"
+                    );
+                    contactForm.reset();
+                } else {
+                    showCustomModal("Ops!", "Qualcosa è andato storto nell'invio del modulo.");
+                }
+            })
+            .catch(error => {
+                showCustomModal("Errore di rete", "Non è stato possibile inviare il messaggio.");
+            })
+            .finally(() => {
+                submitBtn.innerText = originalBtnText;
+            });
+        });
+
+        function showCustomModal(title, desc) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('custom-modal').classList.add('active');
+        }
+
+        // 4. EASTER EGG (2 SEC RIMBALZI, 4 SEC MESSAGGIO)
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
         let isChaosActive = false;
         let physicsLoop;
         let activeParticles = [];
         
-        // PC (Tastiera)
         document.addEventListener('keydown', (e) => {
             if (e.key === konamiCode[konamiIndex]) {
                 konamiIndex++;
@@ -468,7 +512,6 @@
             } else konamiIndex = 0;
         });
 
-        // Mobile (5 Tap)
         let tapCount = 0;
         let tapTimer;
         document.addEventListener('touchstart', (e) => {
@@ -507,12 +550,9 @@
             function setupParticle(el) {
                 const rect = el.getBoundingClientRect();
                 activeParticles.push({
-                    el: el,
-                    x: 0, y: 0,
-                    startLeft: rect.left, startTop: rect.top,
+                    el: el, x: 0, y: 0, startLeft: rect.left, startTop: rect.top,
                     width: rect.width, height: rect.height,
-                    vx: (Math.random() - 0.5) * 35, 
-                    vy: (Math.random() - 0.5) * 35, 
+                    vx: (Math.random() - 0.5) * 35, vy: (Math.random() - 0.5) * 35, 
                     rot: 0, vrot: (Math.random() - 0.5) * 20
                 });
             }
@@ -524,9 +564,7 @@
                 lastTime = time;
 
                 activeParticles.forEach(p => {
-                    p.x += p.vx * dt;
-                    p.y += p.vy * dt;
-                    p.rot += p.vrot * dt;
+                    p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vrot * dt;
 
                     const currentLeft = p.startLeft + p.x;
                     const currentTop = p.startTop + p.y;
@@ -543,20 +581,17 @@
             }
             physicsLoop = requestAnimationFrame(updatePhysics);
 
-            // Dopo 2 secondi, ferma i rimbalzi e mostra il testo fisso
             setTimeout(() => {
                 cancelAnimationFrame(physicsLoop);
                 
                 activeParticles.forEach(p => {
-                    p.el.style.transition = 'opacity 0.3s ease';
-                    p.el.style.opacity = '0';
+                    p.el.style.transition = 'opacity 0.3s ease'; p.el.style.opacity = '0';
                 });
 
                 const msgContainer = document.getElementById('secret-msg-container');
                 msgContainer.innerText = msgContainer.getAttribute('data-' + currentLang);
                 msgContainer.classList.add('show');
 
-                // LASCIA IL TESTO LEGGIBILE PER BEN 4 SECONDI
                 setTimeout(() => {
                     msgContainer.classList.remove('show');
                     
@@ -577,7 +612,7 @@
             }, 2000); 
         }
 
-        // 4. ROBOTTINO CATTURABILE 
+        // 5. ROBOTTINO CATTURABILE 
         const bot = document.getElementById('runaway-bot');
         const botFace = document.getElementById('bot-face');
         const bubble = document.getElementById('bot-bubble');
@@ -589,7 +624,6 @@
         let touchAttempts = 0;
 
         window.addEventListener('DOMContentLoaded', () => {
-            // Calcolo preciso della posizione iniziale in JS invece di affidarsi solo al CSS
             const botWidth = bot.offsetWidth || 80;
             const botHeight = bot.offsetHeight || 100;
             bot.style.left = (window.innerWidth - botWidth - 30) + 'px';
@@ -604,12 +638,10 @@
             bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
         }
 
-        // TRIGGER PC (Hover con finestra per cliccare - bug fixato)
         function triggerRunHover() {
             if (isCaught || isMoving) return; 
             isMoving = true; 
 
-            // Hai 100 millisecondi di tempo per cliccarlo prima che scappi via!
             setTimeout(() => { 
                 if (isCaught) return;
                 
@@ -631,11 +663,9 @@
             }, 100); 
         }
 
-        // TRIGGER MOBILE (5 tocchi per catturarlo)
         function handleTouchBot(e) {
             if (isCaught || isMoving) return;
-            e.preventDefault(); 
-            e.stopPropagation(); 
+            e.preventDefault(); e.stopPropagation(); 
             
             touchAttempts++;
             if (touchAttempts < 5) { 
@@ -658,14 +688,11 @@
                     }
                 }, 400);
             } else { 
-                executeCatch(); // AL 5° tocco l'hai preso!
+                executeCatch();
             }
         }
 
-        function handleMouseClick(e) {
-            if (isCaught) return;
-            executeCatch();
-        }
+        function handleMouseClick(e) { if (isCaught) return; executeCatch(); }
 
         function runAway() {
             const rect = bot.getBoundingClientRect();
@@ -674,23 +701,17 @@
             const maxX = window.innerWidth - 120;
             const maxY = window.innerHeight - 150;
             
-            let randomX, randomY;
-            let distance = 0;
-            let attempts = 0;
+            let randomX, randomY, distance = 0, attempts = 0;
             
             do {
                 randomX = Math.max(20, Math.floor(Math.random() * maxX));
                 randomY = Math.max(80, Math.floor(Math.random() * maxY));
-                let dx = randomX - currentX;
-                let dy = randomY - currentY;
-                distance = Math.sqrt(dx*dx + dy*dy);
+                distance = Math.sqrt(Math.pow(randomX - currentX, 2) + Math.pow(randomY - currentY, 2));
                 attempts++;
             } while (distance < 400 && attempts < 30); 
             
-            bot.style.bottom = 'auto';
-            bot.style.right = 'auto';
-            bot.style.left = randomX + 'px';
-            bot.style.top = randomY + 'px';
+            bot.style.bottom = 'auto'; bot.style.right = 'auto';
+            bot.style.left = randomX + 'px'; bot.style.top = randomY + 'px';
         }
 
         function startFootprints() {
@@ -699,8 +720,7 @@
                 const rect = bot.getBoundingClientRect();
                 const print = document.createElement('div');
                 print.className = 'footprint';
-                print.style.left = (rect.left + 50) + 'px'; 
-                print.style.top = (rect.top + 90) + 'px';
+                print.style.left = (rect.left + 50) + 'px'; print.style.top = (rect.top + 90) + 'px';
                 document.body.appendChild(print);
                 setTimeout(() => print.remove(), 1000);
             }, 100);
@@ -718,7 +738,12 @@
             setBubbleText("Preso!", "Got me!");
             
             setTimeout(() => { bot.classList.add('bot-vanish'); }, 500);
-            setTimeout(() => { document.getElementById('custom-modal').classList.add('active'); }, 900);
+            setTimeout(() => { 
+                showCustomModal(
+                    currentLang === 'it' ? "Preso! 🎯" : "Caught me! 🎯", 
+                    currentLang === 'it' ? "Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" : "Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!"
+                );
+            }, 900);
         }
 
         function closeModal() { document.getElementById('custom-modal').classList.remove('active'); }
