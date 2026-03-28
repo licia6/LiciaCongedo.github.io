@@ -252,7 +252,7 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* MODAL VITTORIA E SUCCESSO EMAIL */
+        /* MODAL GENERICO (ROBOT E EMAIL) */
         .modal-overlay {
             position: fixed !important; top: 0 !important; left: 0 !important; 
             width: 100vw !important; height: 100vh !important;
@@ -265,14 +265,59 @@
             border-radius: 20px; text-align: center; max-width: 400px; width: 80%;
             border: var(--card-border); box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
             transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 90vh; overflow-y: auto;
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-content h2 { margin-top: 0; font-size: 2.2em; }
-        .modal-content button {
+        .modal-content button.close-btn {
             background: var(--accent); color: white; border: none; padding: 12px 30px; 
             border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em;
         }
+
+        /* --- STILI MODAL DEI PROGETTI (GALLERIA) --- */
+        #projects-modal .modal-content {
+            max-width: 1000px; width: 95%; background: var(--bg-color);
+            padding: 30px;
+        }
+        #projects-modal .modal-header {
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 20px;
+        }
+        #projects-modal .modal-header h2 { margin: 0; font-size: 2em; }
+        #projects-modal .close-icon {
+            font-size: 1.5em; cursor: pointer; background: none; border: none; color: var(--text-color);
+        }
+        .projects-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;
+            text-align: left;
+        }
+        .project-card {
+            background: var(--card-bg); padding: 20px; border-radius: 12px;
+            border: var(--card-border); transition: transform 0.2s, box-shadow 0.2s;
+            display: flex; flex-direction: column;
+        }
+        .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+        .project-card h4 { margin: 0 0 10px 0; font-size: 1.3em; color: var(--accent); }
+        .project-card p.short-desc { font-size: 0.95em; margin: 0 0 15px 0; flex-grow: 1; }
+        .project-card .long-desc {
+            max-height: 0; overflow: hidden; opacity: 0; transition: all 0.4s ease;
+            font-size: 0.9em; color: #777; margin: 0;
+        }
+        .project-card.expanded .long-desc {
+            max-height: 500px; opacity: 1; margin-top: 15px; margin-bottom: 15px; padding-top: 15px;
+            border-top: 1px dashed rgba(128,128,128,0.2);
+        }
+        .project-card button.toggle-btn {
+            background: transparent; color: var(--text-color); border: 1px solid var(--text-color);
+            padding: 8px 15px; border-radius: 6px; cursor: pointer; font-weight: bold;
+            margin-top: auto; transition: all 0.2s; width: 100%;
+        }
+        .project-card button.toggle-btn:hover {
+            background: var(--text-color); color: var(--bg-color);
+        }
+        [data-theme='dark'] .project-card .long-desc { color: #aaa; }
+
     </style>
 </head>
 <body id="home">
@@ -308,7 +353,12 @@
         </section>
 
         <section class="grid-container">
-            <div class="card" id="progetti"><div class="card-icon chaos-block">📂</div><h3 class="chaos-text" data-it="PROGETTI" data-en="PROJECTS">PROGETTI</h3><p class="chaos-text" data-it="I miei lavori più recenti." data-en="My most recent works.">I miei lavori più recenti.</p><button class="chaos-block" data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button></div>
+            <div class="card" id="progetti">
+                <div class="card-icon chaos-block">📂</div>
+                <h3 class="chaos-text" data-it="PROGETTI" data-en="PROJECTS">PROGETTI</h3>
+                <p class="chaos-text" data-it="I miei lavori più recenti." data-en="My most recent works.">I miei lavori più recenti.</p>
+                <button class="chaos-block" onclick="openProjectsModal()" data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button>
+            </div>
             <div class="card" id="esperienza"><div class="card-icon chaos-block">🧭</div><h3 class="chaos-text" data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3><p class="chaos-text" data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p><button class="chaos-block" data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button></div>
             <div class="card" id="contatti"><div class="card-icon chaos-block">✉️</div><h3 class="chaos-text" data-it="CONTATTI" data-en="CONTACT">CONTATTI</h3><p class="chaos-text" data-it="Troviamo un modo per collaborare." data-en="Let's find a way to collaborate.">Troviamo un modo per collaborare.</p><button class="chaos-block" data-it="Scrivimi" data-en="Write me">Scrivimi</button></div>
             <div class="card" id="blog"><div class="card-icon chaos-block">📖</div><h3 class="chaos-text" data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3><p class="chaos-text" data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p><button class="chaos-block" data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button></div>
@@ -320,10 +370,8 @@
             
             <form id="contact-form">
                 <input type="hidden" name="access_key" value="f38e8284-1ead-4792-9f78-6f36ca7768fe">
-                
                 <input class="chaos-block" type="email" name="email" placeholder="La tua Email" required>
                 <textarea class="chaos-block" name="message" rows="4" placeholder="Il tuo messaggio..." required></textarea>
-                
                 <input type="checkbox" name="botcheck" style="display: none;">
                 <button class="chaos-block" type="submit" data-it="Invia" data-en="Send">Invia</button>
             </form>
@@ -355,14 +403,43 @@
 
     <div class="modal-overlay" id="custom-modal">
         <div class="modal-content">
-            <h2 id="modal-title" data-it="Preso! 🎯" data-en="Caught me! 🎯">Preso! 🎯</h2>
-            <p id="modal-desc" data-it="Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" data-en="Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!">Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!</p>
-            <button onclick="closeModal()" data-it="Chiudi" data-en="Close">Chiudi</button>
+            <h2 id="modal-title"></h2>
+            <p id="modal-desc"></p>
+            <button class="close-btn" onclick="closeModal()" data-it="Chiudi" data-en="Close">Chiudi</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="projects-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-it="I Miei Progetti" data-en="My Projects">I Miei Progetti</h2>
+                <button class="close-icon" onclick="closeProjectsModal()">✖</button>
+            </div>
+            <div class="projects-grid" id="projects-grid-container">
+                </div>
         </div>
     </div>
 
     <script>
-        // 0. GENERATORE DI SFONDO
+        // =====================================================================
+        // 🔴🔴🔴 I TUOI 13 PROGETTI DA MODIFICARE! 🔴🔴🔴
+        // Licia, per modificare i progetti ti basta cambiare i testi qui sotto.
+        // Puoi usare <br> se vuoi andare a capo nella descrizione lunga.
+        // =====================================================================
+        const mieiProgetti = [];
+        for(let i=1; i<=13; i++) {
+            mieiProgetti.push({
+                titoloIT: `Progetto Speciale ${i}`,
+                titoloEN: `Special Project ${i}`,
+                breveIT: `Breve descrizione del progetto ${i}... clicca per saperne di più.`,
+                breveEN: `Short description of project ${i}... click to learn more.`,
+                lungaIT: `Qui puoi inserire tutti i dettagli del Progetto ${i}.<br><br>Quali tecnologie hai usato? Qual era il tuo ruolo? Metti pure dei link o spiega come hai superato le sfide!`,
+                lungaEN: `Here you can insert all the details of Project ${i}.<br><br>What technologies did you use? What was your role? Feel free to add links or explain how you overcame challenges!`
+            });
+        }
+        // =====================================================================
+
+        // 0. GENERATORE DI SFONDO E PROGETTI INIZIALI
         window.addEventListener('DOMContentLoaded', () => {
             const snippets = ['<div/>', '()=>{}', '0x4F', '0110', 'git push', 'npm start', 'console', '#FF00FF', 'const', '=>', '404', 'while(1)', '#00FFFF', 'binary'];
             const colorsLight = ['#000000', '#007bff', '#28a745', '#6f42c1'];
@@ -388,7 +465,46 @@
                 el.style.animation = `floatUp ${duration}s linear infinite`;
                 bgContainer.appendChild(el);
             }
+
+            // Inietta i 13 progetti nel Modal
+            const gridContainer = document.getElementById('projects-grid-container');
+            mieiProgetti.forEach((prog, index) => {
+                const cardHTML = `
+                    <div class="project-card">
+                        <h4 data-it="${prog.titoloIT}" data-en="${prog.titoloEN}">${currentLang === 'it' ? prog.titoloIT : prog.titoloEN}</h4>
+                        <p class="short-desc" data-it="${prog.breveIT}" data-en="${prog.breveEN}">${currentLang === 'it' ? prog.breveIT : prog.breveEN}</p>
+                        <p class="long-desc" data-it="${prog.lungaIT}" data-en="${prog.lungaEN}">${currentLang === 'it' ? prog.lungaIT : prog.lungaEN}</p>
+                        <button class="toggle-btn" onclick="toggleProjectDetails(this)" data-it="Più dettagli" data-en="More details">${currentLang === 'it' ? 'Più dettagli' : 'More details'}</button>
+                    </div>
+                `;
+                gridContainer.innerHTML += cardHTML;
+            });
         });
+
+        // LOGICA MODAL PROGETTI
+        function openProjectsModal() {
+            document.body.classList.add('chaos-lock'); // Blocca lo scroll del sito dietro
+            document.getElementById('projects-modal').classList.add('active');
+        }
+
+        function closeProjectsModal() {
+            document.body.classList.remove('chaos-lock');
+            document.getElementById('projects-modal').classList.remove('active');
+        }
+
+        function toggleProjectDetails(btn) {
+            const card = btn.parentElement;
+            card.classList.toggle('expanded');
+            if (card.classList.contains('expanded')) {
+                btn.innerText = currentLang === 'it' ? "Meno dettagli" : "Less details";
+                btn.setAttribute('data-it', "Meno dettagli");
+                btn.setAttribute('data-en', "Less details");
+            } else {
+                btn.innerText = currentLang === 'it' ? "Più dettagli" : "More details";
+                btn.setAttribute('data-it', "Più dettagli");
+                btn.setAttribute('data-en', "More details");
+            }
+        }
 
         // 1. DARK MODE E TRADUZIONE
         function toggleTheme() {
@@ -423,8 +539,13 @@
             
             const elements = document.querySelectorAll('[data-it]');
             elements.forEach(el => {
-                if(el.querySelector('span')) return;
-                el.innerText = el.getAttribute('data-' + currentLang);
+                if(el.querySelector('span') && el.classList.contains('chaos-text')) return;
+                // Gestione dei testi con HTML interno (es. i <br> nei progetti)
+                if (el.classList.contains('long-desc')) {
+                    el.innerHTML = el.getAttribute('data-' + currentLang);
+                } else {
+                    el.innerText = el.getAttribute('data-' + currentLang);
+                }
             });
         }
 
@@ -515,7 +636,8 @@
         let tapCount = 0;
         let tapTimer;
         document.addEventListener('touchstart', (e) => {
-            if(e.target.closest('#runaway-bot') || e.target.closest('header')) return; 
+            // Ignora i bottoni veri, il menu e i modali per non fare caos sbagliato
+            if(e.target.closest('#runaway-bot') || e.target.closest('header') || e.target.closest('.modal-overlay')) return; 
             tapCount++;
             clearTimeout(tapTimer);
             if (tapCount === 5) { triggerBouncingChaos(); tapCount = 0; } 
@@ -660,7 +782,7 @@
                         isMoving = false; 
                     }
                 }, 400); 
-            }, 100); 
+            }, 150); 
         }
 
         function handleTouchBot(e) {
@@ -746,7 +868,11 @@
             }, 900);
         }
 
-        function closeModal() { document.getElementById('custom-modal').classList.remove('active'); }
+        function closeModal() { 
+            document.getElementById('custom-modal').classList.remove('active'); 
+            document.getElementById('projects-modal').classList.remove('active'); 
+            document.body.classList.remove('chaos-lock');
+        }
     </script>
 </body>
 </html>
