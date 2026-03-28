@@ -32,17 +32,15 @@
             margin: 0; padding: 0;
             background-color: var(--bg-color); color: var(--text-color);
             line-height: 1.6; overflow-x: hidden;
-            transition: background-color 0.4s ease, color 0.4s ease;
+            transition: background-color 0.4s ease, color 0.4s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            perspective: 1000px; /* Perspective per l'effetto 3D */
         }
 
-        #content-wrapper {
-            display: flex; flex-direction: column; align-items: center; width: 100%;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .konami-active #content-wrapper { animation: flip360 1s ease-in-out; }
+        /* Konami Code animation class */
+        .konami-active { animation: flip360 1s ease-in-out; }
         @keyframes flip360 { to { transform: rotate(360deg); } }
 
-        /* --- SFONDO ANIMATO CON PROFONDITÀ --- */
+        /* --- SFONDO ANIMATO STILE TECH CON PROFONDITÀ --- */
         #bg-effects {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1; overflow: hidden; pointer-events: none;
@@ -52,16 +50,16 @@
             font-weight: bold; white-space: nowrap; opacity: 0; 
         }
         @keyframes floatUp {
-            0% { transform: translateY(10vh); opacity: 0; }
+            0% { transform: translateY(0); opacity: 0; }
             10% { opacity: var(--current-opacity); } 
             90% { opacity: var(--current-opacity); }
-            100% { transform: translateY(-40vh); opacity: 0; }
+            100% { transform: translateY(-30vh); opacity: 0; }
         }
 
         /* --- HEADER --- */
         header {
             width: 100%; padding: 15px 30px; display: flex; justify-content: flex-end;
-            position: fixed; top: 0; left: 0;
+            position: fixed; top: 0; 
             background: var(--header-bg); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(128,128,128,0.1); 
             z-index: 1000; box-sizing: border-box; gap: 15px;
@@ -75,28 +73,27 @@
         }
         .action-btn:hover { filter: brightness(0.9); transform: scale(1.05); }
 
-        /* --- SEZIONE HERO E FOTO GLITCH (MOLTO PIÙ GRANDE E SENZA CERCHIO) --- */
+        /* --- SEZIONE HERO E FOTO SWAP (NITIDA E GIGANTE) --- */
         .hero { margin-top: 100px; text-align: center; padding: 20px; max-width: 900px; z-index: 10; }
         
-        .glitch-image-container {
+        .image-container {
             position: relative; 
-            /* DIMENSIONI RADDOPPIATE */
+            /* DIMENSIONI GIGANTI */
             width: 350px; height: 350px; 
             margin: 0 auto 20px;
             /* MOSSO IL CERCHIO E IL BORDO */
             border-radius: 0; border: none;
-            box-shadow: none; overflow: visible; /* Overflow visible per l'effetto 3D */
-            transition: transform 0.1s ease-out; cursor: pointer; 
-            background: transparent; /* Sfondo trasparente per i veri PNG */
+            box-shadow: none; overflow: hidden;
+            transition: transform 0.1s ease-out; cursor: pointer; background: var(--card-bg);
             -webkit-tap-highlight-color: transparent; 
         }
         
         .hero img.cartoon {
             width: 100%; height: 100%; object-fit: contain; /* Contain per non deformare */
-            position: relative; z-index: 1; transition: opacity 0.3s;
+            position: relative; z-index: 1; transition: opacity 0.3s ease-out;
         }
 
-        /* --- SBATTITO OCCHI REGOLATO PER LE NUOVE DIMENSIONI --- */
+        /* Pseudo-elementi per lo sbattito d'occhi (palpebre) */
         .hero .cartoon-container { position: relative; width: 100%; height: 100%; }
         .hero .cartoon-container::before, .hero .cartoon-container::after {
             content: ''; position: absolute; 
@@ -119,24 +116,19 @@
         .hero img.real {
             width: 100%; height: 100%; object-fit: contain;
             position: absolute; top: 0; left: 0; z-index: 0;
-            opacity: 0; 
+            opacity: 0; transition: opacity 0.3s ease-in-out;
             /* RIMOSSO BLUR E CONTRASTO - ORA È NITIDA */
             filter: none; 
         }
 
-        .glitch-image-container:hover img.real,
-        .glitch-image-container.glitch-touch img.real {
-            animation: glitchEffect 0.5s step-end infinite; z-index: 3; opacity: 1;
+        /* Effetto SWAP su HOVER/TOUCH (Scompare cartoon, appare real) */
+        .image-container:hover img.real,
+        .image-container.show-real-touch img.real {
+            z-index: 3; opacity: 1;
         }
-
-        /* Glitch animazione mantenuta ma resa più pulita */
-        @keyframes glitchEffect {
-            0% { clip-path: inset(5% 0 85% 0); transform: translate(-5px, 0); }
-            5% { clip-path: inset(10% 0 10% 0); transform: translate(5px, 0); }
-            10% { clip-path: inset(45% 0 35% 0); transform: translate(-5px, 0); }
-            15% { clip-path: inset(80% 0 5% 0); transform: translate(5px, 0); }
-            20% { clip-path: inset(10% 0 10% 0); transform: translate(-5px, 0); }
-            100% { clip-path: inset(0% 0 0% 0); transform: translate(0, 0); }
+        .image-container:hover img.cartoon,
+        .image-container.show-real-touch img.cartoon {
+            opacity: 0;
         }
 
         .hero h1 { font-size: 3.2em; margin: 0; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent;}
@@ -268,7 +260,7 @@
 
     <div id="content-wrapper">
         <section class="hero">
-            <div class="glitch-image-container" id="glitch-image">
+            <div class="image-container" id="image-swap-container">
                 <div class="cartoon-container">
                     <img class="cartoon" src="foto-cartoon.png" alt="Profile Cartoon" onerror="this.src='https://via.placeholder.com/350?text=Cartoon+PNG';">
                 </div>
@@ -394,8 +386,8 @@
             if(!isCaught) document.getElementById('bot-bubble').innerText = document.getElementById('bot-bubble').getAttribute('data-' + currentLang);
         }
 
-        // 2. FOTO GLITCH E MACCHINA DA SCRIVERE
-        const glitchImage = document.getElementById('glitch-image');
+        // 2. FOTO SWAP E MACCHINA DA SCRIVERE (3D SENZA GLITCH)
+        const imageSwapContainer = document.getElementById('image-swap-container');
         const textToType = document.getElementById('typing-text').getAttribute('data-' + currentLang);
         let charIndex = 0;
         
@@ -408,26 +400,26 @@
         }
         typeWriter();
 
-        glitchImage.addEventListener('mousemove', (e) => {
-            const rect = glitchImage.getBoundingClientRect();
+        imageSwapContainer.addEventListener('mousemove', (e) => {
+            const rect = imageSwapContainer.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            const rotateX = y / 10; // Ridotta sensibilità per foto grande
-            const rotateY = -x / 10;
-            // Aggiunta perspective direttamente qui per non rompere il robot fisso
-            glitchImage.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            const rotateX = y / 12; // Ridotta sensibilità per foto grande
+            const rotateY = -x / 12;
+            // perspective applicata al container, mantenuto effetto 3D ma rimosso glitch
+            imageSwapContainer.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
         });
         
-        glitchImage.addEventListener('mouseleave', () => {
-            glitchImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        imageSwapContainer.addEventListener('mouseleave', () => {
+            imageSwapContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
         });
 
-        // GLITCH SU MOBILE: Tieni premuto per vedere l'effetto
-        glitchImage.addEventListener('touchstart', (e) => {
-            glitchImage.classList.add('glitch-touch');
+        // SWAP SU MOBILE: Tieni premuto per vedere l'effetto reale NITIDO
+        imageSwapContainer.addEventListener('touchstart', (e) => {
+            imageSwapContainer.classList.add('show-real-touch');
         });
-        glitchImage.addEventListener('touchend', () => {
-            glitchImage.classList.remove('glitch-touch');
+        imageSwapContainer.addEventListener('touchend', () => {
+            imageSwapContainer.classList.remove('show-real-touch');
         });
 
         // 3. KONAMI CODE (Tastiera) E MOBILE EASTER EGG (Tap sul nome)
@@ -445,7 +437,7 @@
             } else konamiIndex = 0;
         });
 
-        // Da Mobile (5 tap veloci sul nome):
+        // Da Mobile (5 tap veloci sul nome Licia Congedo):
         let tapCount = 0;
         let tapTimer;
         const secretName = document.getElementById('secret-name');
