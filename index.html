@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Home</title>
     <style>
-        /* --- VARIABILI E STILI BASE --- */
+        /* --- VARIABILI E STILI BASE (Migliorata la gestione Dark Mode) --- */
         :root {
             --bg-color: #ffffff;
             --text-color: #333333;
@@ -13,6 +13,20 @@
             --shadow: 0 4px 15px rgba(0,0,0,0.05);
             --accent: #007bff;
             --accent-hover: #0056b3;
+            --header-bg: rgba(255,255,255,0.8);
+            --card-border: 1px solid rgba(0,0,0,0.05);
+            --card-glow: none; /* In modalità chiara nessuna luce extra */
+        }
+
+        /* Modalità Scura con Luce di Contorno (Glow) */
+        [data-theme='dark'] {
+            --bg-color: #121212;
+            --text-color: #f1f1f1;
+            --card-bg: #1e1e1e;
+            --shadow: 0 10px 30px rgba(0,0,0,0.6);
+            --header-bg: rgba(18,18,18,0.8);
+            --card-border: 1px solid rgba(0, 123, 255, 0.4); /* Bordo azzurro */
+            --card-glow: 0 0 15px rgba(0, 123, 255, 0.15); /* Luce sfumata azzurra */
         }
 
         body {
@@ -26,7 +40,7 @@
             flex-direction: column;
             align-items: center;
             overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* --- HEADER E PULSANTI --- */
@@ -37,11 +51,12 @@
             justify-content: flex-end;
             position: fixed;
             top: 0;
-            background: rgba(255,255,255,0.8);
+            background: var(--header-bg);
             backdrop-filter: blur(10px);
             z-index: 1000;
             box-sizing: border-box;
             gap: 15px;
+            transition: background 0.4s ease;
         }
 
         .action-btn {
@@ -55,7 +70,7 @@
             transition: all 0.2s;
             user-select: none;
         }
-        .action-btn:hover { background: #eee; }
+        .action-btn:hover { filter: brightness(0.9); }
 
         /* --- SEZIONE HERO --- */
         .hero {
@@ -75,9 +90,9 @@
         }
         .hero h1 { font-size: 2.8em; margin: 0; }
         .hero p.tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; }
-        .hero p.bio { font-size: 1.1em; color: #666; }
+        .hero p.bio { font-size: 1.1em; color: #888; }
 
-        /* --- GRIGLIA CARDS (Ripristinate a 4) --- */
+        /* --- GRIGLIA CARDS --- */
         .grid-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -91,14 +106,19 @@
             background-color: var(--card-bg);
             padding: 30px 20px;
             border-radius: 15px;
-            box-shadow: var(--shadow);
+            border: var(--card-border);
+            /* Qui applichiamo la luce di contorno in Dark Mode */
+            box-shadow: var(--shadow), var(--card-glow);
             text-align: center;
-            transition: transform 0.3s, box-shadow 0.3s;
-            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.4s, border 0.4s;
             display: flex;
             flex-direction: column;
         }
-        .card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .card:hover { 
+            transform: translateY(-8px); 
+            /* Se è in dark mode, la luce aumenta al passaggio del mouse! */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2), var(--card-glow); 
+        }
         .card-icon { font-size: 3em; margin-bottom: 10px; }
         .card h3 { margin: 10px 0; font-size: 1.2em; }
         .card p { flex-grow: 1; font-size: 0.9em; }
@@ -127,9 +147,9 @@
             background: var(--bg-color); color: var(--text-color);
             padding: 40px; border-radius: 20px; text-align: center;
             max-width: 400px; width: 80%;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            border: var(--card-border);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
             transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid var(--accent);
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-overlay.active .modal-content { transform: scale(1); }
@@ -144,30 +164,46 @@
         .contact-section {
             width: 90%; max-width: 600px; background-color: var(--card-bg);
             padding: 40px; border-radius: 15px; text-align: center;
-            margin: 40px 0; box-shadow: var(--shadow);
+            margin: 40px 0; 
+            border: var(--card-border);
+            box-shadow: var(--shadow), var(--card-glow);
+            transition: background-color 0.4s, border 0.4s;
         }
         .contact-section input, .contact-section textarea {
             width: 100%; padding: 12px; margin: 10px 0;
             border: 1px solid #ccc; border-radius: 8px;
             box-sizing: border-box; font-family: inherit;
         }
+        [data-theme='dark'] .contact-section input, [data-theme='dark'] .contact-section textarea {
+            background: #2a2a2a; color: white; border-color: #444;
+        }
         .contact-section button {
             background-color: var(--text-color); color: var(--bg-color);
             border: none; padding: 12px 30px; border-radius: 8px;
             cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em;
+            transition: background-color 0.4s, color 0.4s;
         }
 
-        /* --- ROBOTTINO ESPRESSIVO --- */
+        /* --- ROBOTTINO --- */
         #runaway-bot {
             position: fixed; bottom: 30px; right: 30px; cursor: pointer; z-index: 9999;
-            /* Transizione più lunga e fluida per sembrare uno spostamento naturale */
-            transition: top 0.7s ease-in-out, left 0.7s ease-in-out; 
+            transition: top 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                        transform 0.5s, opacity 0.5s; 
             user-select: none; display: flex; flex-direction: column;
-            align-items: center; padding: 15px;
+            align-items: center; padding: 25px; /* Padding più grande per facilitare il touch */
+            /* Evita l'highlight azzurro sui telefoni quando lo tocchi */
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        .bot-vanish {
+            opacity: 0;
+            transform: scale(0) rotate(180deg);
+            pointer-events: none;
         }
 
         .bubble {
-            position: absolute; top: -20px; background: white; color: black;
+            position: absolute; top: -10px; background: white; color: black;
             padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2); white-space: nowrap; border: 1px solid #ddd; z-index: 4;
         }
@@ -179,7 +215,6 @@
         .bot-head { font-size: 38px; line-height: 1; z-index: 3; position: relative; transition: transform 0.2s; }
         .bot-body-part { width: 22px; height: 14px; background: #888; border-radius: 4px; margin-top: -4px; z-index: 2; position: relative; }
         
-        /* Braccia e Gambe */
         .bot-limbs-container { position: relative; display: flex; justify-content: center; width: 100%; }
         .bot-arms { position: absolute; top: -12px; display: flex; gap: 26px; z-index: 1; }
         .bot-legs { display: flex; gap: 8px; margin-top: -2px; z-index: 1; position: relative; }
@@ -188,17 +223,15 @@
         .arm { height: 12px; background: #666; }
         .leg { height: 14px; }
 
-        /* Animazioni di Corsa */
         .running .left-leg { animation: runForwards 0.15s infinite alternate; }
         .running .right-leg { animation: runBackwards 0.15s infinite alternate; }
-        .running .left-arm { animation: runBackwards 0.15s infinite alternate; } /* Braccio opposto alla gamba */
+        .running .left-arm { animation: runBackwards 0.15s infinite alternate; }
         .running .right-arm { animation: runForwards 0.15s infinite alternate; }
         .running .bot-head { transform: translateY(-2px) rotate(5deg); }
 
         @keyframes runForwards { from { transform: rotate(-45deg); } to { transform: rotate(45deg); } }
         @keyframes runBackwards { from { transform: rotate(45deg); } to { transform: rotate(-45deg); } }
 
-        /* Impronte dei passi */
         .footprint {
             position: absolute; width: 12px; height: 6px;
             background: rgba(0,0,0,0.15); border-radius: 50%;
@@ -208,7 +241,6 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* --- FOOTER --- */
         footer { margin-top: auto; padding: 30px; font-size: 0.9em; color: #888; text-align: center; }
     </style>
 </head>
@@ -263,7 +295,7 @@
         </form>
     </section>
 
-    <div id="runaway-bot" onmouseenter="triggerRun()" ontouchstart="triggerRun()" onclick="catchBot()">
+    <div id="runaway-bot" onmouseenter="triggerRunHover()" ontouchstart="handleTouch(event)" onmousedown="handleMouseClick(event)">
         <div class="bubble" id="bot-bubble" data-it="Prendimi!" data-en="Catch me!">Prendimi!</div>
         <div class="bot-head" id="bot-face">🤖</div>
         <div class="bot-body-part"></div>
@@ -292,7 +324,17 @@
     </footer>
 
     <script>
-        // 1. GESTIONE DARK MODE
+        // Inizializza posizione bot
+        window.addEventListener('DOMContentLoaded', () => {
+            const botInit = document.getElementById('runaway-bot');
+            const rect = botInit.getBoundingClientRect();
+            botInit.style.left = rect.left + 'px';
+            botInit.style.top = rect.top + 'px';
+            botInit.style.bottom = 'auto';
+            botInit.style.right = 'auto';
+        });
+
+        // Toggle Dark/Light mode sfruttando le Variabili CSS aggiornate
         function toggleTheme() {
             const body = document.body;
             const themeBtn = document.getElementById('theme-btn');
@@ -300,21 +342,13 @@
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 themeBtn.innerHTML = '🌙 Dark Mode';
-                document.documentElement.style.setProperty('--bg-color', '#ffffff');
-                document.documentElement.style.setProperty('--text-color', '#333333');
-                document.documentElement.style.setProperty('--card-bg', '#f9f9f9');
-                document.querySelector('header').style.background = 'rgba(255,255,255,0.8)';
             } else {
                 body.setAttribute('data-theme', 'dark');
                 themeBtn.innerHTML = '☀️ Light Mode';
-                document.documentElement.style.setProperty('--bg-color', '#121212');
-                document.documentElement.style.setProperty('--text-color', '#f1f1f1');
-                document.documentElement.style.setProperty('--card-bg', '#1e1e1e');
-                document.querySelector('header').style.background = 'rgba(18,18,18,0.8)';
             }
         }
 
-        // 2. GESTIONE TRADUZIONE
+        // Traduzione
         let currentLang = 'it';
         function toggleLanguage() {
             currentLang = currentLang === 'it' ? 'en' : 'it';
@@ -330,68 +364,112 @@
             }
         }
 
-        // 3. GESTIONE ROBOTTINO E MODAL
+        // --- GESTIONE AVANZATA DEL ROBOTTINO (PC vs Mobile) ---
         const bot = document.getElementById('runaway-bot');
         const bubble = document.getElementById('bot-bubble');
         const botFace = document.getElementById('bot-face');
         const modal = document.getElementById('custom-modal');
         let runTimeout;
         let footprintInterval;
-        let isCaught = false;
         
-        function triggerRun() {
+        let isCaught = false;
+        let touchAttempts = 0; // Contatore dei tap da mobile
+
+        // Funzione per cambiare il testo della nuvoletta
+        function setBubbleText(testoIT, testoEN) {
+            bubble.setAttribute('data-it', testoIT);
+            bubble.setAttribute('data-en', testoEN);
+            bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
+        }
+
+        // 1. Azione quando il MOUSE si avvicina (Solo PC)
+        function triggerRunHover() {
             if (isCaught) return; 
 
-            // Faccia spaventata e nuovo testo
             botFace.innerText = '😱';
-            if (currentLang === 'it') {
-                bubble.innerText = "Ci sei quasi!";
-                bubble.setAttribute('data-it', 'Ci sei quasi!');
-            } else {
-                bubble.innerText = "Almost there!";
-                bubble.setAttribute('data-en', 'Almost there!');
-            }
-
+            setBubbleText("Ci sei quasi!", "Almost there!");
             bot.classList.add('running');
             startFootprints();
 
-            // Aumentato il ritardo a 300ms per renderlo più facile da prendere
             clearTimeout(runTimeout);
             runTimeout = setTimeout(() => {
                 runAway();
                 setTimeout(() => {
                     if (!isCaught) {
                         bot.classList.remove('running');
-                        botFace.innerText = '🤖'; // Torna normale quando si ferma
+                        botFace.innerText = '🤖'; 
                         stopFootprints();
                     }
-                }, 700); // Sincronizzato con il tempo di transizione CSS
+                }, 600);
             }, 300); 
+        }
+
+        // Esecuzione immediata della fuga (usata su mobile)
+        function forceRunAway() {
+            bot.classList.add('running');
+            startFootprints();
+            runAway();
+            setTimeout(() => {
+                if (!isCaught) {
+                    bot.classList.remove('running');
+                    botFace.innerText = '🤖'; 
+                    stopFootprints();
+                }
+            }, 600);
+        }
+
+        // 2. Azione quando lo TOCCHI con il dito (Solo Mobile)
+        function handleTouch(e) {
+            if (isCaught) return;
+            // IMPORTANTISSIMO: blocca l'evento click standard del browser,
+            // così dividiamo perfettamente logica Mobile e logica PC.
+            e.preventDefault(); 
+
+            touchAttempts++; // Conta il tentativo
+
+            if (touchAttempts === 1) {
+                // Primo Tocco: Fuga immediata
+                botFace.innerText = '😱';
+                setBubbleText("Ci sei quasi!", "Almost there!");
+                forceRunAway();
+            } 
+            else if (touchAttempts === 2) {
+                // Secondo Tocco: Altra fuga immediata
+                botFace.innerText = '😱';
+                setBubbleText("Ancora uno!", "One more!");
+                forceRunAway();
+            } 
+            else {
+                // Terzo tocco: Finalmente catturato!
+                executeCatch();
+            }
+        }
+
+        // 3. Azione quando lo CLICCHI con il mouse (Solo PC)
+        function handleMouseClick(e) {
+            if (isCaught) return;
+            // Se sei riuscito a cliccarlo col mouse, lo prendi subito
+            executeCatch();
         }
 
         function runAway() {
             const maxX = window.innerWidth - 120;
             const maxY = window.innerHeight - 150;
-            
-            const randomX = Math.max(0, Math.floor(Math.random() * maxX));
-            const randomY = Math.max(0, Math.floor(Math.random() * maxY));
+            const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(100, Math.floor(Math.random() * maxY)); 
             
             bot.style.left = randomX + 'px';
             bot.style.top = randomY + 'px';
-            bot.style.bottom = 'auto';
-            bot.style.right = 'auto';
         }
 
-        // Funzione per lasciare le orme
         function startFootprints() {
             clearInterval(footprintInterval);
             footprintInterval = setInterval(() => {
                 const rect = bot.getBoundingClientRect();
                 const print = document.createElement('div');
                 print.className = 'footprint';
-                // Posiziona l'orma al centro sotto il robot
-                print.style.left = (rect.left + 35) + 'px';
-                print.style.top = (rect.top + 70) + 'px';
+                print.style.left = (rect.left + 45) + 'px'; // Allineato al centro con il nuovo padding
+                print.style.top = (rect.top + 80) + 'px';
                 document.body.appendChild(print);
                 setTimeout(() => print.remove(), 1000);
             }, 100);
@@ -399,19 +477,18 @@
 
         function stopFootprints() { clearInterval(footprintInterval); }
 
-        function catchBot() {
+        // La fase di cattura vera e propria
+        function executeCatch() {
             isCaught = true;
             clearTimeout(runTimeout);
             stopFootprints();
             bot.classList.remove('running');
             
-            botFace.innerText = '😵'; // Faccia stordita
-            bubble.innerText = currentLang === 'it' ? "Preso!" : "Got me!";
+            botFace.innerText = '😵';
+            setBubbleText("Preso!", "Got me!");
             
-            // Apre la Modal al posto del fastidioso Alert
-            setTimeout(() => {
-                modal.classList.add('active');
-            }, 300);
+            setTimeout(() => { bot.classList.add('bot-vanish'); }, 500);
+            setTimeout(() => { modal.classList.add('active'); }, 900);
         }
 
         function closeModal() {
