@@ -55,7 +55,6 @@
             transition: all 0.2s;
             user-select: none;
         }
-
         .action-btn:hover { background: #eee; }
 
         /* --- SEZIONE HERO --- */
@@ -65,7 +64,6 @@
             padding: 20px;
             max-width: 800px;
         }
-
         .hero img {
             width: 150px;
             height: 150px;
@@ -75,18 +73,17 @@
             box-shadow: var(--shadow);
             margin-bottom: 15px;
         }
-
         .hero h1 { font-size: 2.8em; margin: 0; }
         .hero p.tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; }
         .hero p.bio { font-size: 1.1em; color: #666; }
 
-        /* --- GRIGLIA CARDS --- */
+        /* --- GRIGLIA CARDS (Ripristinate a 4) --- */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 25px;
             width: 90%;
-            max-width: 1000px;
+            max-width: 1100px;
             padding: 40px 0;
         }
 
@@ -98,21 +95,19 @@
             text-align: center;
             transition: transform 0.3s, box-shadow 0.3s;
             border: 1px solid rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
         }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .card-icon { font-size: 3.5em; margin-bottom: 10px; }
-        .card h3 { margin: 10px 0; font-size: 1.4em; }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        .card-icon { font-size: 3em; margin-bottom: 10px; }
+        .card h3 { margin: 10px 0; font-size: 1.2em; }
+        .card p { flex-grow: 1; font-size: 0.9em; }
         
         .card button {
             background-color: var(--accent);
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
@@ -121,103 +116,100 @@
         }
         .card button:hover { background-color: var(--accent-hover); }
 
+        /* --- MODAL (POPUP PERSONALIZZATO) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 20000;
+            display: none; justify-content: center; align-items: center;
+            opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: var(--bg-color); color: var(--text-color);
+            padding: 40px; border-radius: 20px; text-align: center;
+            max-width: 400px; width: 80%;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid var(--accent);
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-content h2 { margin-top: 0; font-size: 2em; }
+        .modal-content button {
+            background: var(--accent); color: white; border: none;
+            padding: 10px 25px; border-radius: 8px; font-weight: bold;
+            cursor: pointer; margin-top: 20px; font-size: 1.1em;
+        }
+
         /* --- SEZIONE NEWSLETTER / CONTATTI --- */
         .contact-section {
-            width: 90%;
-            max-width: 600px;
-            background-color: var(--card-bg);
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            margin: 40px 0;
-            box-shadow: var(--shadow);
+            width: 90%; max-width: 600px; background-color: var(--card-bg);
+            padding: 40px; border-radius: 15px; text-align: center;
+            margin: 40px 0; box-shadow: var(--shadow);
         }
-
-        .contact-section input[type="email"], .contact-section textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-family: inherit;
+        .contact-section input, .contact-section textarea {
+            width: 100%; padding: 12px; margin: 10px 0;
+            border: 1px solid #ccc; border-radius: 8px;
+            box-sizing: border-box; font-family: inherit;
         }
-
         .contact-section button {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-            font-size: 1.1em;
+            background-color: var(--text-color); color: var(--bg-color);
+            border: none; padding: 12px 30px; border-radius: 8px;
+            cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em;
         }
 
-        /* --- ROBOTTINO CON GAMBETTE --- */
+        /* --- ROBOTTINO ESPRESSIVO --- */
         #runaway-bot {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            cursor: pointer;
-            z-index: 9999;
-            /* Rallentata leggermente la transizione per renderlo prendibile */
-            transition: top 0.4s ease-out, left 0.4s ease-out; 
-            user-select: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px; /* Area cliccabile più grande */
+            position: fixed; bottom: 30px; right: 30px; cursor: pointer; z-index: 9999;
+            /* Transizione più lunga e fluida per sembrare uno spostamento naturale */
+            transition: top 0.7s ease-in-out, left 0.7s ease-in-out; 
+            user-select: none; display: flex; flex-direction: column;
+            align-items: center; padding: 15px;
         }
 
         .bubble {
-            position: absolute;
-            top: -25px;
-            background: white;
-            color: black;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 14px;
-            font-weight: bold;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-            white-space: nowrap;
-            border: 1px solid #ddd;
-            z-index: 4;
+            position: absolute; top: -20px; background: white; color: black;
+            padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2); white-space: nowrap; border: 1px solid #ddd; z-index: 4;
         }
-
         .bubble::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-width: 5px 5px 0;
-            border-style: solid;
-            border-color: white transparent transparent transparent;
+            content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%);
+            border-width: 5px 5px 0; border-style: solid; border-color: white transparent transparent transparent;
         }
 
-        .bot-head { font-size: 35px; line-height: 1; z-index: 3; position: relative; }
-        .bot-body-part { width: 20px; height: 12px; background: #888; border-radius: 3px; margin-top: -3px; z-index: 2; position: relative; }
+        .bot-head { font-size: 38px; line-height: 1; z-index: 3; position: relative; transition: transform 0.2s; }
+        .bot-body-part { width: 22px; height: 14px; background: #888; border-radius: 4px; margin-top: -4px; z-index: 2; position: relative; }
+        
+        /* Braccia e Gambe */
+        .bot-limbs-container { position: relative; display: flex; justify-content: center; width: 100%; }
+        .bot-arms { position: absolute; top: -12px; display: flex; gap: 26px; z-index: 1; }
         .bot-legs { display: flex; gap: 8px; margin-top: -2px; z-index: 1; position: relative; }
-        .leg { width: 6px; height: 14px; background: #555; border-radius: 3px; transform-origin: top; }
+        
+        .limb { width: 6px; background: #555; border-radius: 3px; transform-origin: top; }
+        .arm { height: 12px; background: #666; }
+        .leg { height: 14px; }
 
-        /* Animazione della corsa */
-        .running .left-leg { animation: runLeft 0.15s infinite alternate; }
-        .running .right-leg { animation: runRight 0.15s infinite alternate; }
+        /* Animazioni di Corsa */
+        .running .left-leg { animation: runForwards 0.15s infinite alternate; }
+        .running .right-leg { animation: runBackwards 0.15s infinite alternate; }
+        .running .left-arm { animation: runBackwards 0.15s infinite alternate; } /* Braccio opposto alla gamba */
+        .running .right-arm { animation: runForwards 0.15s infinite alternate; }
+        .running .bot-head { transform: translateY(-2px) rotate(5deg); }
 
-        @keyframes runLeft {
-            from { transform: rotate(-40deg); }
-            to { transform: rotate(40deg); }
+        @keyframes runForwards { from { transform: rotate(-45deg); } to { transform: rotate(45deg); } }
+        @keyframes runBackwards { from { transform: rotate(45deg); } to { transform: rotate(-45deg); } }
+
+        /* Impronte dei passi */
+        .footprint {
+            position: absolute; width: 12px; height: 6px;
+            background: rgba(0,0,0,0.15); border-radius: 50%;
+            pointer-events: none; z-index: 1;
+            animation: fadeOutFoot 1s forwards;
         }
-        @keyframes runRight {
-            from { transform: rotate(40deg); }
-            to { transform: rotate(-40deg); }
-        }
+        [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
+        @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
         /* --- FOOTER --- */
         footer { margin-top: auto; padding: 30px; font-size: 0.9em; color: #888; text-align: center; }
-
     </style>
 </head>
 <body>
@@ -231,37 +223,43 @@
         <img src="https://via.placeholder.com/150" alt="Profile Picture">
         <h1 data-it="Nome Cognome" data-en="Firstname Lastname">Nome Cognome</h1>
         <p class="tagline" data-it="Qualifica o Ruolo Creativo" data-en="Creative Role or Title">Qualifica o Ruolo Creativo</p>
-        <p class="bio" data-it="Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro. Sii creativo e diretto!" data-en="This is a sample short bio. Here you can write who you are, what you are passionate about, and your mission in the professional world. Be creative and direct!">Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro. Sii creativo e diretto!</p>
+        <p class="bio" data-it="Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro." data-en="This is a sample short bio. Here you can write who you are, what you are passionate about, and your mission.">Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro.</p>
     </section>
 
     <section class="grid-container">
         <div class="card">
-            <div class="card-icon">🚀</div>
+            <div class="card-icon">📂</div>
             <h3 data-it="PROGETTI" data-en="PROJECTS">PROGETTI</h3>
-            <p data-it="Descrizione di esempio dei tuoi progetti migliori e dei lavori passati." data-en="Sample description of your best projects and past works.">Descrizione di esempio dei tuoi progetti migliori e dei lavori passati.</p>
+            <p data-it="I miei lavori più recenti." data-en="My most recent works.">I miei lavori più recenti.</p>
             <button data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button>
         </div>
         <div class="card">
-            <div class="card-icon">💼</div>
+            <div class="card-icon">🧭</div>
             <h3 data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3>
-            <p data-it="Riassunto di esempio del tuo background, studi e competenze." data-en="Sample summary of your background, studies, and skills.">Riassunto di esempio del tuo background, studi e competenze.</p>
+            <p data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p>
             <button data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button>
         </div>
         <div class="card">
-            <div class="card-icon">✍️</div>
+            <div class="card-icon">✉️</div>
+            <h3 data-it="CONTATTI" data-en="CONTACT">CONTATTI</h3>
+            <p data-it="Troviamo un modo per collaborare." data-en="Let's find a way to collaborate.">Troviamo un modo per collaborare.</p>
+            <button data-it="Scrivimi" data-en="Write me">Scrivimi</button>
+        </div>
+        <div class="card">
+            <div class="card-icon">📖</div>
             <h3 data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3>
-            <p data-it="Articoli di esempio, pensieri, tutorial o notizie sul tuo settore." data-en="Sample articles, thoughts, tutorials or news about your field.">Articoli di esempio, pensieri, tutorial o notizie sul tuo settore.</p>
+            <p data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p>
             <button data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button>
         </div>
     </section>
 
     <section class="contact-section">
         <h2 data-it="Rimaniamo in contatto!" data-en="Let's stay in touch!">Rimaniamo in contatto!</h2>
-        <p data-it="Iscriviti per ricevere aggiornamenti sui miei progetti o scrivimi un messaggio." data-en="Subscribe to get updates on my projects or drop me a message.">Iscriviti per ricevere aggiornamenti sui miei progetti o scrivimi un messaggio.</p>
+        <p data-it="Iscriviti per ricevere aggiornamenti o scrivimi." data-en="Subscribe to get updates or write me.">Iscriviti per ricevere aggiornamenti o scrivimi.</p>
         <form onsubmit="event.preventDefault(); alert('Funzionalità in arrivo!');">
-            <input type="email" placeholder="La tua email (Your email)" required>
-            <textarea rows="3" placeholder="Scrivi un messaggio (opzionale) / Write a message (optional)"></textarea>
-            <button type="submit" data-it="Invia / Iscriviti" data-en="Send / Subscribe">Invia / Iscriviti</button>
+            <input type="email" placeholder="Email" required>
+            <textarea rows="3" placeholder="Messaggio / Message"></textarea>
+            <button type="submit" data-it="Invia" data-en="Send">Invia</button>
         </form>
     </section>
 
@@ -269,9 +267,23 @@
         <div class="bubble" id="bot-bubble" data-it="Prendimi!" data-en="Catch me!">Prendimi!</div>
         <div class="bot-head" id="bot-face">🤖</div>
         <div class="bot-body-part"></div>
-        <div class="bot-legs">
-            <div class="leg left-leg"></div>
-            <div class="leg right-leg"></div>
+        <div class="bot-limbs-container">
+            <div class="bot-arms">
+                <div class="limb arm left-arm"></div>
+                <div class="limb arm right-arm"></div>
+            </div>
+            <div class="bot-legs">
+                <div class="limb leg left-leg"></div>
+                <div class="limb leg right-leg"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="custom-modal">
+        <div class="modal-content">
+            <h2 data-it="Preso! 🎯" data-en="Caught me! 🎯">Preso! 🎯</h2>
+            <p data-it="Grazie per aver visitato il sito, buon proseguimento!" data-en="Thanks for visiting the site, enjoy your stay!">Grazie per aver visitato il sito, buon proseguimento!</p>
+            <button onclick="closeModal()" data-it="Chiudi" data-en="Close">Chiudi</button>
         </div>
     </div>
 
@@ -310,28 +322,28 @@
             langBtn.innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
             
             const elements = document.querySelectorAll('[data-it]');
-            elements.forEach(el => {
-                el.innerText = el.getAttribute('data-' + currentLang);
-            });
+            elements.forEach(el => { el.innerText = el.getAttribute('data-' + currentLang); });
             
-            // Aggiorna anche la lingua del robottino se non è stato catturato
             if(!isCaught) {
                 const bubble = document.getElementById('bot-bubble');
                 bubble.innerText = bubble.getAttribute('data-' + currentLang);
             }
         }
 
-        // 3. GESTIONE ROBOTTINO (Migliorato)
+        // 3. GESTIONE ROBOTTINO E MODAL
         const bot = document.getElementById('runaway-bot');
         const bubble = document.getElementById('bot-bubble');
         const botFace = document.getElementById('bot-face');
+        const modal = document.getElementById('custom-modal');
         let runTimeout;
+        let footprintInterval;
         let isCaught = false;
         
         function triggerRun() {
-            if (isCaught) return; // Se lo hai già preso, non scappa più
+            if (isCaught) return; 
 
-            // Cambia il testo in "Ci sei quasi!"
+            // Faccia spaventata e nuovo testo
+            botFace.innerText = '😱';
             if (currentLang === 'it') {
                 bubble.innerText = "Ci sei quasi!";
                 bubble.setAttribute('data-it', 'Ci sei quasi!');
@@ -340,22 +352,25 @@
                 bubble.setAttribute('data-en', 'Almost there!');
             }
 
-            // Fai partire l'animazione delle gambe
             bot.classList.add('running');
+            startFootprints();
 
-            // Piccola pausa (150ms) prima di muoversi per darti la possibilità di cliccare
+            // Aumentato il ritardo a 300ms per renderlo più facile da prendere
             clearTimeout(runTimeout);
             runTimeout = setTimeout(() => {
                 runAway();
-                // Ferma le gambe dopo che ha finito il salto (400ms)
                 setTimeout(() => {
-                    if (!isCaught) bot.classList.remove('running');
-                }, 400);
-            }, 150); 
+                    if (!isCaught) {
+                        bot.classList.remove('running');
+                        botFace.innerText = '🤖'; // Torna normale quando si ferma
+                        stopFootprints();
+                    }
+                }, 700); // Sincronizzato con il tempo di transizione CSS
+            }, 300); 
         }
 
         function runAway() {
-            const maxX = window.innerWidth - 100;
+            const maxX = window.innerWidth - 120;
             const maxY = window.innerHeight - 150;
             
             const randomX = Math.max(0, Math.floor(Math.random() * maxX));
@@ -367,22 +382,40 @@
             bot.style.right = 'auto';
         }
 
+        // Funzione per lasciare le orme
+        function startFootprints() {
+            clearInterval(footprintInterval);
+            footprintInterval = setInterval(() => {
+                const rect = bot.getBoundingClientRect();
+                const print = document.createElement('div');
+                print.className = 'footprint';
+                // Posiziona l'orma al centro sotto il robot
+                print.style.left = (rect.left + 35) + 'px';
+                print.style.top = (rect.top + 70) + 'px';
+                document.body.appendChild(print);
+                setTimeout(() => print.remove(), 1000);
+            }, 100);
+        }
+
+        function stopFootprints() { clearInterval(footprintInterval); }
+
         function catchBot() {
             isCaught = true;
-            clearTimeout(runTimeout); // Blocca la fuga se stavi per cliccarlo
-            bot.classList.remove('running'); // Ferma le gambe
+            clearTimeout(runTimeout);
+            stopFootprints();
+            bot.classList.remove('running');
             
-            // Cambia faccia e testo
-            botFace.innerText = '😵';
+            botFace.innerText = '😵'; // Faccia stordita
             bubble.innerText = currentLang === 'it' ? "Preso!" : "Got me!";
             
-            // Mostra il popup di ringraziamento
+            // Apre la Modal al posto del fastidioso Alert
             setTimeout(() => {
-                const msg = currentLang === 'it' 
-                    ? "Preso! 🎯 Grazie per aver visitato il sito, buon proseguimento!" 
-                    : "Caught me! 🎯 Thanks for visiting the site, enjoy your stay!";
-                alert(msg);
-            }, 50);
+                modal.classList.add('active');
+            }, 300);
+        }
+
+        function closeModal() {
+            modal.classList.remove('active');
         }
     </script>
 
