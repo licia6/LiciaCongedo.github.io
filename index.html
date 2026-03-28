@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio - Diavolerie Creative</title>
+    <title>Licia Congedo - Portfolio</title>
     <style>
         /* --- VARIABILI E STILI BASE --- */
         :root {
@@ -83,6 +83,8 @@
             border-radius: 50%; border: 4px solid var(--accent);
             box-shadow: var(--shadow); overflow: hidden;
             transition: transform 0.1s ease-out; cursor: pointer; background: var(--card-bg);
+            /* Evita l'evidenziazione azzurra del tocco su mobile */
+            -webkit-tap-highlight-color: transparent; 
         }
         
         .hero img.cartoon {
@@ -127,7 +129,7 @@
             100% { clip-path: inset(0% 0 0% 0); transform: translate(0, 0); filter: contrast(100%) blur(0);}
         }
 
-        .hero h1 { font-size: 2.8em; margin: 0; }
+        .hero h1 { font-size: 2.8em; margin: 0; user-select: none; cursor: pointer; -webkit-tap-highlight-color: transparent;}
         .typewriter-tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; min-height: 1.6em; }
         .typewriter-tagline::after { content: '_'; animation: blinkType 0.7s infinite; }
         @keyframes blinkType { 50% { opacity: 0; } }
@@ -257,12 +259,12 @@
         <section class="hero">
             <div class="glitch-image-container" id="glitch-image">
                 <div class="cartoon-container">
-                    <img class="cartoon" src="foto-cartoon.jpg" alt="Profile Cartoon" onerror="this.src='https://via.placeholder.com/150?text=Foto+Cartoon';">
+                    <img class="cartoon" src="foto-cartoon.png" alt="Profile Cartoon" onerror="this.src='https://via.placeholder.com/150?text=Cartoon';">
                 </div>
-                <img class="real" src="foto-reale.jpg" alt="Profile Real" onerror="this.src='https://via.placeholder.com/150?text=Foto+Reale';">
+                <img class="real" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/150?text=Reale';">
             </div>
 
-            <h1 data-it="Nome Cognome" data-en="Firstname Lastname">Nome Cognome</h1>
+            <h1 id="secret-name" data-it="Licia Congedo" data-en="Licia Congedo">Licia Congedo</h1>
             <p class="typewriter-tagline" id="typing-text" data-it="Digital Architect & Creative Code Alchemist" data-en="Digital Architect & Creative Code Alchemist"></p>
             <p class="bio" data-it="Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro." data-en="This is a sample short bio. Here you can write who you are, what you are passionate about, and your mission.">Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro.</p>
         </section>
@@ -285,7 +287,7 @@
         </section>
 
         <footer>
-            <p data-it="© 2024 Portfolio. Creato con fantasia." data-en="© 2024 Portfolio. Created with imagination.">© 2024 Portfolio. Creato con fantasia.</p>
+            <p data-it="© 2024 Licia Congedo Portfolio. Creato con fantasia." data-en="© 2024 Licia Congedo Portfolio. Created with imagination.">© 2024 Licia Congedo Portfolio. Creato con fantasia.</p>
         </footer>
     </div>
 
@@ -314,7 +316,7 @@
     </div>
 
     <script>
-        // 0. GENERATORE DI SFONDO (Profondità intelligente)
+        // 0. GENERATORE DI SFONDO
         window.addEventListener('DOMContentLoaded', () => {
             const snippets = ['<div/>', '()=>{}', '0x4F', '0110', 'git push', 'npm start', 'console', '#FF00FF', 'const', '=>', '404', 'while(1)', '#00FFFF', 'binary'];
             const colorsLight = ['#000000', '#007bff', '#28a745', '#6f42c1'];
@@ -344,6 +346,7 @@
                 el.style.animation = `floatUp ${duration}s linear infinite`;
                 bgContainer.appendChild(el);
             }
+            console.log("%cAh, vedo che sei uno smanettone anche tu! 😉", "color: #007bff; font-size: 20px; font-weight: bold;");
         });
 
         // 1. DARK MODE E TRADUZIONE
@@ -380,7 +383,7 @@
             if(!isCaught) document.getElementById('bot-bubble').innerText = document.getElementById('bot-bubble').getAttribute('data-' + currentLang);
         }
 
-        // 2. FOTO GLITCH E MACCHINA DA SCRIVERE 
+        // 2. FOTO GLITCH E MACCHINA DA SCRIVERE
         const glitchImage = document.getElementById('glitch-image');
         const textToType = document.getElementById('typing-text').getAttribute('data-' + currentLang);
         let charIndex = 0;
@@ -407,6 +410,7 @@
             glitchImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
         });
 
+        // GLITCH SU MOBILE: Tieni premuto per vedere l'effetto
         glitchImage.addEventListener('touchstart', (e) => {
             glitchImage.classList.add('glitch-touch');
         });
@@ -414,9 +418,11 @@
             glitchImage.classList.remove('glitch-touch');
         });
 
-        // 3. KONAMI CODE
+        // 3. KONAMI CODE (Tastiera) E MOBILE EASTER EGG (Tap sul nome)
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
+        
+        // Da PC:
         document.addEventListener('keydown', (e) => {
             if (e.key === konamiCode[konamiIndex]) {
                 konamiIndex++;
@@ -426,6 +432,24 @@
                 }
             } else konamiIndex = 0;
         });
+
+        // Da Mobile (5 tap veloci sul nome):
+        let tapCount = 0;
+        let tapTimer;
+        const secretName = document.getElementById('secret-name');
+        
+        secretName.addEventListener('touchstart', (e) => {
+            tapCount++;
+            clearTimeout(tapTimer);
+            if (tapCount === 5) {
+                executeKonamiEffect();
+                tapCount = 0;
+            } else {
+                // Se non fai il tap successivo entro 400ms, il contatore si azzera
+                tapTimer = setTimeout(() => { tapCount = 0; }, 400); 
+            }
+        });
+
         function executeKonamiEffect() {
             document.body.classList.add('konami-active');
             setTimeout(() => document.body.classList.remove('konami-active'), 1000);
