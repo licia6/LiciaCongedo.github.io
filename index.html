@@ -155,22 +155,25 @@
             font-size: 1.1em;
         }
 
-        /* --- ROBOTTINO DISPETTOSO --- */
+        /* --- ROBOTTINO CON GAMBETTE --- */
         #runaway-bot {
             position: fixed;
             bottom: 30px;
             right: 30px;
-            font-size: 45px;
             cursor: pointer;
             z-index: 9999;
-            transition: top 0.2s ease-out, left 0.2s ease-out; /* Movimento fluido ma veloce */
+            /* Rallentata leggermente la transizione per renderlo prendibile */
+            transition: top 0.4s ease-out, left 0.4s ease-out; 
             user-select: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px; /* Area cliccabile più grande */
         }
 
         .bubble {
             position: absolute;
-            top: -35px;
-            left: -20px;
+            top: -25px;
             background: white;
             color: black;
             padding: 5px 12px;
@@ -180,17 +183,36 @@
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
             white-space: nowrap;
             border: 1px solid #ddd;
+            z-index: 4;
         }
 
-        /* Triangolino della nuvoletta */
         .bubble::after {
             content: '';
             position: absolute;
             bottom: -5px;
             left: 50%;
+            transform: translateX(-50%);
             border-width: 5px 5px 0;
             border-style: solid;
             border-color: white transparent transparent transparent;
+        }
+
+        .bot-head { font-size: 35px; line-height: 1; z-index: 3; position: relative; }
+        .bot-body-part { width: 20px; height: 12px; background: #888; border-radius: 3px; margin-top: -3px; z-index: 2; position: relative; }
+        .bot-legs { display: flex; gap: 8px; margin-top: -2px; z-index: 1; position: relative; }
+        .leg { width: 6px; height: 14px; background: #555; border-radius: 3px; transform-origin: top; }
+
+        /* Animazione della corsa */
+        .running .left-leg { animation: runLeft 0.15s infinite alternate; }
+        .running .right-leg { animation: runRight 0.15s infinite alternate; }
+
+        @keyframes runLeft {
+            from { transform: rotate(-40deg); }
+            to { transform: rotate(40deg); }
+        }
+        @keyframes runRight {
+            from { transform: rotate(40deg); }
+            to { transform: rotate(-40deg); }
         }
 
         /* --- FOOTER --- */
@@ -213,28 +235,24 @@
     </section>
 
     <section class="grid-container">
-        
         <div class="card">
             <div class="card-icon">🚀</div>
             <h3 data-it="PROGETTI" data-en="PROJECTS">PROGETTI</h3>
             <p data-it="Descrizione di esempio dei tuoi progetti migliori e dei lavori passati." data-en="Sample description of your best projects and past works.">Descrizione di esempio dei tuoi progetti migliori e dei lavori passati.</p>
             <button data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button>
         </div>
-
         <div class="card">
             <div class="card-icon">💼</div>
             <h3 data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3>
             <p data-it="Riassunto di esempio del tuo background, studi e competenze." data-en="Sample summary of your background, studies, and skills.">Riassunto di esempio del tuo background, studi e competenze.</p>
             <button data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button>
         </div>
-
         <div class="card">
             <div class="card-icon">✍️</div>
             <h3 data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3>
             <p data-it="Articoli di esempio, pensieri, tutorial o notizie sul tuo settore." data-en="Sample articles, thoughts, tutorials or news about your field.">Articoli di esempio, pensieri, tutorial o notizie sul tuo settore.</p>
             <button data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button>
         </div>
-
     </section>
 
     <section class="contact-section">
@@ -247,9 +265,14 @@
         </form>
     </section>
 
-    <div id="runaway-bot" onmouseover="runAway()" ontouchstart="runAway()" onclick="catchBot()">
+    <div id="runaway-bot" onmouseenter="triggerRun()" ontouchstart="triggerRun()" onclick="catchBot()">
         <div class="bubble" id="bot-bubble" data-it="Prendimi!" data-en="Catch me!">Prendimi!</div>
-        🤖
+        <div class="bot-head" id="bot-face">🤖</div>
+        <div class="bot-body-part"></div>
+        <div class="bot-legs">
+            <div class="leg left-leg"></div>
+            <div class="leg right-leg"></div>
+        </div>
     </div>
 
     <footer>
@@ -268,7 +291,6 @@
                 document.documentElement.style.setProperty('--bg-color', '#ffffff');
                 document.documentElement.style.setProperty('--text-color', '#333333');
                 document.documentElement.style.setProperty('--card-bg', '#f9f9f9');
-                // Colore per l'header in chiaro
                 document.querySelector('header').style.background = 'rgba(255,255,255,0.8)';
             } else {
                 body.setAttribute('data-theme', 'dark');
@@ -276,7 +298,6 @@
                 document.documentElement.style.setProperty('--bg-color', '#121212');
                 document.documentElement.style.setProperty('--text-color', '#f1f1f1');
                 document.documentElement.style.setProperty('--card-bg', '#1e1e1e');
-                // Colore per l'header in scuro
                 document.querySelector('header').style.background = 'rgba(18,18,18,0.8)';
             }
         }
@@ -288,39 +309,80 @@
             const langBtn = document.getElementById('lang-btn');
             langBtn.innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
             
-            // Trova tutti gli elementi con l'attributo data-it
             const elements = document.querySelectorAll('[data-it]');
             elements.forEach(el => {
-                // Imposta il testo in base alla lingua scelta
                 el.innerText = el.getAttribute('data-' + currentLang);
             });
+            
+            // Aggiorna anche la lingua del robottino se non è stato catturato
+            if(!isCaught) {
+                const bubble = document.getElementById('bot-bubble');
+                bubble.innerText = bubble.getAttribute('data-' + currentLang);
+            }
         }
 
-        // 3. GESTIONE ROBOTTINO
+        // 3. GESTIONE ROBOTTINO (Migliorato)
         const bot = document.getElementById('runaway-bot');
+        const bubble = document.getElementById('bot-bubble');
+        const botFace = document.getElementById('bot-face');
+        let runTimeout;
+        let isCaught = false;
         
+        function triggerRun() {
+            if (isCaught) return; // Se lo hai già preso, non scappa più
+
+            // Cambia il testo in "Ci sei quasi!"
+            if (currentLang === 'it') {
+                bubble.innerText = "Ci sei quasi!";
+                bubble.setAttribute('data-it', 'Ci sei quasi!');
+            } else {
+                bubble.innerText = "Almost there!";
+                bubble.setAttribute('data-en', 'Almost there!');
+            }
+
+            // Fai partire l'animazione delle gambe
+            bot.classList.add('running');
+
+            // Piccola pausa (150ms) prima di muoversi per darti la possibilità di cliccare
+            clearTimeout(runTimeout);
+            runTimeout = setTimeout(() => {
+                runAway();
+                // Ferma le gambe dopo che ha finito il salto (400ms)
+                setTimeout(() => {
+                    if (!isCaught) bot.classList.remove('running');
+                }, 400);
+            }, 150); 
+        }
+
         function runAway() {
-            // Calcola le dimensioni sicure dello schermo (sottraendo la grandezza del bot)
-            const maxX = window.innerWidth - 80;
-            const maxY = window.innerHeight - 80;
+            const maxX = window.innerWidth - 100;
+            const maxY = window.innerHeight - 150;
             
-            // Genera coordinate casuali
-            const randomX = Math.floor(Math.random() * maxX);
-            const randomY = Math.floor(Math.random() * maxY);
+            const randomX = Math.max(0, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(0, Math.floor(Math.random() * maxY));
             
-            // Applica la nuova posizione
             bot.style.left = randomX + 'px';
             bot.style.top = randomY + 'px';
-            bot.style.bottom = 'auto'; // Rimuove il "bottom" iniziale per usare solo top/left
+            bot.style.bottom = 'auto';
             bot.style.right = 'auto';
         }
 
         function catchBot() {
-            // Messaggio che cambia in base alla lingua
-            const msg = currentLang === 'it' 
-                ? "Preso! 🎯 Grazie per aver visitato il sito, buon proseguimento!" 
-                : "Caught me! 🎯 Thanks for visiting the site, enjoy your stay!";
-            alert(msg);
+            isCaught = true;
+            clearTimeout(runTimeout); // Blocca la fuga se stavi per cliccarlo
+            bot.classList.remove('running'); // Ferma le gambe
+            
+            // Cambia faccia e testo
+            botFace.innerText = '😵';
+            bubble.innerText = currentLang === 'it' ? "Preso!" : "Got me!";
+            
+            // Mostra il popup di ringraziamento
+            setTimeout(() => {
+                const msg = currentLang === 'it' 
+                    ? "Preso! 🎯 Grazie per aver visitato il sito, buon proseguimento!" 
+                    : "Caught me! 🎯 Thanks for visiting the site, enjoy your stay!";
+                alert(msg);
+            }, 50);
         }
     </script>
 
