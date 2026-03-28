@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio - Diavolerie Creative</title>
     <style>
-        /* --- VARIABILI E STILI BASE (Migliorata Dark Mode e Sfondo) --- */
+        /* --- VARIABILI E STILI BASE --- */
         :root {
             --bg-color: #ffffff;
             --text-color: #333333;
@@ -15,7 +15,7 @@
             --accent-hover: #0056b3;
             --header-bg: rgba(255,255,255,0.2); 
             --card-border: 1px solid rgba(0,0,0,0.05);
-            --code-opacity: 0.1; /* Visibilità base per lo sfondo in chiaro */
+            --code-opacity: 0.1;
         }
 
         [data-theme='dark'] {
@@ -26,7 +26,7 @@
             --header-bg: rgba(18,18,18,0.3);
             --card-border: 1px solid rgba(0, 123, 255, 0.4); 
             --card-glow: 0 0 15px rgba(0, 123, 255, 0.15); 
-            --code-opacity: 0.2; /* Più visibile in Dark Mode */
+            --code-opacity: 0.2;
         }
 
         body {
@@ -36,14 +36,14 @@
             line-height: 1.6; display: flex; flex-direction: column;
             align-items: center; overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease, transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            perspective: 1000px; /* Per l'effetto 3D della foto */
+            perspective: 1000px;
         }
 
         /* Konami Code animation class */
         .konami-active { animation: flip360 1s ease-in-out; }
         @keyframes flip360 { to { transform: rotate(360deg); } }
 
-        /* --- SFONDO ANIMATO STILE TECH --- */
+        /* --- SFONDO ANIMATO --- */
         #bg-effects {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             z-index: -1; overflow: hidden; pointer-events: none;
@@ -79,21 +79,84 @@
 
         /* --- SEZIONE HERO --- */
         .hero { margin-top: 120px; text-align: center; padding: 20px; max-width: 800px; z-index: 10; }
-        .hero img {
-            width: 150px; height: 150px; border-radius: 50%; object-fit: cover;
-            border: 4px solid var(--accent); box-shadow: var(--shadow); margin-bottom: 15px;
-            transition: transform 0.1s ease-out; /* Per l'effetto 3D */
-            cursor: pointer;
+        
+        /* Contenitore Glitch Immagine */
+        .glitch-image-container {
+            position: relative; width: 150px; height: 150px; margin: 0 auto 15px;
+            border-radius: 50%; border: 4px solid var(--accent);
+            box-shadow: var(--shadow); overflow: hidden;
+            transition: transform 0.1s ease-out; cursor: pointer;
         }
+        
+        /* Immagine Cartoon (Principale) */
+        .hero img.cartoon {
+            width: 100%; height: 100%; object-fit: cover;
+            position: relative; z-index: 1; transition: opacity 0.3s;
+        }
+
+        /* Pseudo-elementi per lo sbattito d'occhi (palpebre) */
+        .hero .cartoon-container { position: relative; width: 100%; height: 100%; }
+        .hero .cartoon-container::before, .hero .cartoon-container::after {
+            content: ''; position: absolute; top: 21%; /* Posizione occhi */
+            width: 20px; height: 18px; background: #E0C7B4; /* Colore pelle */
+            border-radius: 50%; z-index: 2; opacity: 0; /* Invisibili di base */
+            transform: scaleY(0); transform-origin: top;
+            animation: blink 4s infinite; /* Avvia lo sbattito */
+        }
+        .hero .cartoon-container::before { left: 34%; } /* Occhio sinistro */
+        .hero .cartoon-container::after { right: 33%; } /* Occhio destro */
+
+        @keyframes blink {
+            90% { transform: scaleY(0); opacity: 0; }
+            92% { transform: scaleY(1); opacity: 1; } /* Palpebra chiusa */
+            94% { transform: scaleY(0); opacity: 0; }
+        }
+
+        /* Immagine Reale (Sovrapposta e Glitchata) */
+        .hero img.real {
+            width: 100%; height: 100%; object-fit: cover;
+            position: absolute; top: 0; left: 0; z-index: 0;
+            opacity: 0; filter: contrast(150%) blur(1px);
+        }
+
+        /* Effetto Glitch su HOVER/TOUCH */
+        .glitch-image-container:hover img.real,
+        .glitch-image-container.glitch-touch img.real {
+            animation: glitchEffect 0.5s step-end infinite;
+            z-index: 3; opacity: 1;
+        }
+
+        @keyframes glitchEffect {
+            0% { clip-path: inset(5% 0 85% 0); transform: translate(-3px, 0); }
+            5% { clip-path: inset(10% 0 10% 0); transform: translate(3px, 0); }
+            10% { clip-path: inset(45% 0 35% 0); transform: translate(-3px, 0); }
+            15% { clip-path: inset(80% 0 5% 0); transform: translate(3px, 0); }
+            20% { clip-path: inset(10% 0 10% 0); transform: translate(-3px, 0); }
+            100% { clip-path: inset(0% 0 0% 0); transform: translate(0, 0); filter: contrast(100%) blur(0);}
+        }
+
+        /* Effetto Aberrazione Cromatica durante il Glitch */
+        .glitch-image-container:hover img.real::before,
+        .glitch-image-container.glitch-touch img.real::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: inherit; z-index: -1; animation: glitchChromaticR 0.3s ease infinite;
+            filter: contrast(150%) blur(1px) hue-rotate(90deg); opacity: 0.5;
+        }
+        .glitch-image-container:hover img.real::after,
+        .glitch-image-container.glitch-touch img.real::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: inherit; z-index: -1; animation: glitchChromaticB 0.3s ease infinite;
+            filter: contrast(150%) blur(1px) hue-rotate(-90deg); opacity: 0.5;
+        }
+
+        @keyframes glitchChromaticR { 0% { transform: translate(-2px, 0); } 100% { transform: translate(2px, 0); } }
+        @keyframes glitchChromaticB { 0% { transform: translate(2px, 0); } 100% { transform: translate(-2px, 0); } }
+
         .hero h1 { font-size: 2.8em; margin: 0; }
         
-        /* Effetto Macchina da Scrivere */
         .typewriter-tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; min-height: 1.6em; }
-        .typewriter-tagline::after {
-            content: '_';
-            animation: blink 0.7s infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
+        .typewriter-tagline::after { content: '_'; animation: blinkType 0.7s infinite; }
+        @keyframes blinkType { 50% { opacity: 0; } }
 
         .hero p.bio { font-size: 1.1em; color: #888; }
 
@@ -217,7 +280,13 @@
     </header>
 
     <section class="hero">
-        <img id="profile-pic" src="https://via.placeholder.com/150" alt="Profile Picture">
+        <div class="glitch-image-container" id="glitch-image">
+            <div class="cartoon-container">
+                <img class="cartoon" src="image_2.png" alt="Profile Cartoon">
+            </div>
+            <img class="real" src="image_3.png" alt="Profile Real">
+        </div>
+
         <h1 data-it="Nome Cognome" data-en="Firstname Lastname">Nome Cognome</h1>
         
         <p class="typewriter-tagline" id="typing-text" data-it="Digital Architect & Creative Code Alchemist" data-en="Digital Architect & Creative Code Alchemist"></p>
@@ -271,82 +340,91 @@
     </footer>
 
     <script>
-        // 0. GENERATORE DI SFONDO (Codici e Numeri fluttuanti e colorati)
+        // Inizializzazione Sfondo e Robot
         window.addEventListener('DOMContentLoaded', () => {
             const snippets = ['<div/>', '()=>{}', '0x4F', '0110', 'git push', 'npm start', 'console', '#FF00FF', 'const', '=>', '404', 'while(1)', '#00FFFF', 'binary'];
-            
-            // Colori sfumati/neon per lo sfondo
             const colorsLight = ['#FFCCCC', '#CCFFCC', '#CCCCFF', '#CCFFFF', '#FFCCFF'];
             const colorsDark = ['#FF9999', '#99FF99', '#9999FF', '#99FFFF', '#FF99FF'];
-
             const bgContainer = document.getElementById('bg-effects');
             
             for(let i = 0; i < 40; i++) {
                 let el = document.createElement('div');
                 el.className = 'floating-code';
                 el.innerText = snippets[Math.floor(Math.random() * snippets.length)];
-                
-                // Distribuzione
                 el.style.left = (Math.random() * 100) + 'vw';
                 el.style.top = (Math.random() * 100) + 'vh'; 
                 el.style.fontSize = (Math.random() * 16 + 10) + 'px';
-                
-                // Colore casuale basato sulla gradazione (dark vs light)
                 let colorList = document.body.getAttribute('data-theme') === 'dark' ? colorsDark : colorsLight;
                 el.style.color = colorList[Math.floor(Math.random() * colorList.length)];
-
-                // Animazione
                 let duration = Math.random() * 20 + 15; 
                 el.style.animation = `floatUp ${duration}s linear infinite`;
-                
                 bgContainer.appendChild(el);
             }
 
-            // Inizializza posizione robot
             const botInit = document.getElementById('runaway-bot');
-            const rect = botInit.getBoundingClientRect();
-            botInit.style.left = rect.left + 'px';
-            botInit.style.top = rect.top + 'px';
+            const rectBot = botInit.getBoundingClientRect();
+            botInit.style.left = rectBot.left + 'px';
+            botInit.style.top = rectBot.top + 'px';
             botInit.style.bottom = 'auto'; botInit.style.right = 'auto';
 
-            // Easter Egg nella Console
             console.log("%cAh, vedo che sei uno smanettone anche tu! 😉", "color: #007bff; font-size: 20px; font-weight: bold;");
-            console.log("%cAssumimi! // Hire me!", "color: var(--accent); font-size: 14px; font-weight: bold;");
         });
+
+        // Dark Mode e Traduzione
+        function toggleTheme() {
+            const body = document.body;
+            const themeBtn = document.getElementById('theme-btn');
+            if (body.getAttribute('data-theme') === 'dark') body.removeAttribute('data-theme'), themeBtn.innerHTML = '🌙 Dark Mode';
+            else body.setAttribute('data-theme', 'dark'), themeBtn.innerHTML = '☀️ Light Mode';
+        }
+        let currentLang = 'it';
+        function toggleLanguage() {
+            currentLang = currentLang === 'it' ? 'en' : 'it';
+            document.getElementById('lang-btn').innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
+            const elements = document.querySelectorAll('[data-it]');
+            elements.forEach(el => el.innerText = el.getAttribute('data-' + currentLang));
+            if(!isCaught) document.getElementById('bot-bubble').innerText = document.getElementById('bot-bubble').getAttribute('data-' + currentLang);
+        }
+
+        // --- DIAVOLERIE CREATIVE SULLA FOTO ---
+        const glitchImage = document.getElementById('glitch-image');
+        const cartoonImg = glitchImage.querySelector('img.cartoon');
 
         // 1. MACCHINA DA SCRIVERE
-        const textIT = document.getElementById('typing-text').getAttribute('data-it');
-        const textEN = document.getElementById('typing-text').getAttribute('data-en');
-        let currentText = textIT;
+        const textToType = document.getElementById('typing-text').getAttribute('data-' + currentLang);
         let charIndex = 0;
-        let isTyping = true;
-
         function typeWriter() {
-            if (isCaught) return; // Ferma se il bot è catturato
-            
-            if (charIndex < currentText.length) {
-                document.getElementById('typing-text').innerText += currentText.charAt(charIndex);
+            if (charIndex < textToType.length) {
+                document.getElementById('typing-text').innerText += textToType.charAt(charIndex);
                 charIndex++;
-                setTimeout(typeWriter, 100); // Velocità di scrittura
+                setTimeout(typeWriter, 100);
             }
         }
-        typeWriter(); // Avvia al caricamento
+        typeWriter();
 
-        // 2. FOTO 3D SU HOVER
-        const pic = document.getElementById('profile-pic');
-        pic.addEventListener('mousemove', (e) => {
-            const rect = pic.getBoundingClientRect();
+        // 2. FOTO 3D SU HOVER (PC)
+        glitchImage.addEventListener('mousemove', (e) => {
+            const rect = glitchImage.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
             const y = e.clientY - rect.top - rect.height / 2;
-            const rotateX = y / 8; // Sensibilità X
-            const rotateY = -x / 8; // Sensibilità Y
-            pic.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
+            const rotateX = y / 8;
+            const rotateY = -x / 8;
+            glitchImage.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.1)`;
         });
-        pic.addEventListener('mouseleave', () => {
-            pic.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
+        glitchImage.addEventListener('mouseleave', () => {
+            glitchImage.style.transform = 'rotateX(0deg) rotateY(0deg) scale(1)';
         });
 
-        // 3. KONAMI CODE (easter egg invisibile)
+        // 3. GESTIONE TOUCH MOBILE PER GLITCH
+        glitchImage.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Blocca hover standard
+            glitchImage.classList.add('glitch-touch');
+        });
+        glitchImage.addEventListener('touchend', () => {
+            glitchImage.classList.remove('glitch-touch');
+        });
+
+        // 4. KONAMI CODE
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
         document.addEventListener('keydown', (e) => {
@@ -356,19 +434,16 @@
                     executeKonamiEffect();
                     konamiIndex = 0;
                 }
-            } else {
-                konamiIndex = 0;
-            }
+            } else konamiIndex = 0;
         });
         function executeKonamiEffect() {
             document.body.classList.add('konami-active');
-            setTimeout(() => { document.body.classList.remove('konami-active'); }, 1000);
+            setTimeout(() => document.body.classList.remove('konami-active'), 1000);
             console.log("Konami Code Attivato! 🤸‍♂️");
         }
 
-        // 4. LOGICA ROBOTTINO
-        // (codice robot omesso per brevità, è lo stesso di prima)
-        // [RIPRISTINA QUI TUTTA LA FUNZIONE triggerRunHover(), handleTouch(), runAway(), executeCatch()]
+        // --- FUNZIONI ROBOTTINO (OMESSE PER BREVITÀ, SONO LE STESSE DI PRIMA) ---
+        // triggerRunHover(), handleTouch(), executeCatch(), runAway(), closeModal(), ecc.
     </script>
 </body>
 </html>
