@@ -97,7 +97,7 @@
             .nav-menu a { padding: 6px 12px; font-size: 0.9em; }
         }
 
-        /* --- SEZIONE HERO E FOTO (LOGICA IMMAGINI BLINDATA) --- */
+        /* --- SEZIONE HERO E FOTO (LOGICA IMMAGINI INFALLIBILE) --- */
         .hero { 
             margin-top: 130px; text-align: center; padding: 20px; 
             width: 100%; max-width: 900px; z-index: 10; 
@@ -115,45 +115,34 @@
             position: absolute; top: 0; left: 0; transition: opacity 0.3s ease;
         }
 
-        /* Stato base: tutte a opacità 0 */
-        .img-light { opacity: 0; z-index: 1; }
-        .img-dark { opacity: 0; z-index: 1; }
-        .img-real { opacity: 0; z-index: 3; }
+        /* Impostazione livelli Z-Index */
+        .img-light { z-index: 1; }
+        .img-dark { z-index: 1; }
+        .img-real { z-index: 2; opacity: 0; } /* Nasconde la reale sopra tutto */
 
-        /* Gestione visibilità in base al tema */
-        body:not([data-theme='dark']) .img-light { opacity: 1; z-index: 2; }
-        body[data-theme='dark'] .img-dark { opacity: 1; z-index: 2; }
+        /* Modalità Chiara di base */
+        body:not([data-theme='dark']) .img-light { opacity: 1; display: block; }
+        body:not([data-theme='dark']) .img-dark { opacity: 0; display: none; }
 
-        /* Hover e Click: mostra la Reale, nascondi le altre */
+        /* Modalità Scura */
+        body[data-theme='dark'] .img-light { opacity: 0; display: none; }
+        body[data-theme='dark'] .img-dark { opacity: 1; display: block; }
+
+        /* Interazione Hover/Touch */
         @media (hover: hover) {
-            .image-container:not(.toggled-click):hover .img-real { opacity: 1; }
-            .image-container:not(.toggled-click):hover .img-light { opacity: 0; }
-            .image-container:not(.toggled-click):hover .img-dark { opacity: 0; }
+            .image-container:hover .img-real { opacity: 1; }
         }
         .image-container.toggled-click .img-real { opacity: 1; }
-        .image-container.toggled-click .img-light { opacity: 0; }
-        .image-container.toggled-click .img-dark { opacity: 0; }
-
-        /* Mobile revert */
-        @media (hover: hover) {
-            .image-container.toggled-click:hover .img-real { opacity: 0; }
-            body:not([data-theme='dark']) .image-container.toggled-click:hover .img-light { opacity: 1; }
-            body[data-theme='dark'] .image-container.toggled-click:hover .img-dark { opacity: 1; }
-        }
 
         .image-hint {
             font-size: 0.9em; font-weight: 500; color: var(--text-color); 
             opacity: 0.5; margin-bottom: 20px; user-select: none; letter-spacing: 0.5px;
         }
 
-        /* --- TITOLO PRINCIPALE RIPRISTINATO --- */
+        /* TITOLO PRINCIPALE */
         .hero h1 { 
-            font-size: 2.8em; 
-            margin: 0; 
-            user-select: none; 
-            font-weight: 800;
-            color: var(--text-color);
-            transition: color 0.4s ease;
+            font-size: 2.8em; margin: 0; user-select: none; 
+            font-weight: 800; color: var(--text-color); transition: color 0.4s ease;
         }
 
         .typewriter-tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; min-height: 1.6em; margin-top: 5px; }
@@ -162,7 +151,7 @@
         .hero p.bio { font-size: 1.1em; color: #666; max-width: 800px; margin: 15px auto; line-height: 1.8; }
         [data-theme='dark'] .hero p.bio { color: #aaa; }
 
-        /* --- GRIGLIA CARDS (3 COLONNE) --- */
+        /* --- GRIGLIA CARDS --- */
         .grid-container {
             display: grid; grid-template-columns: repeat(3, 1fr); 
             gap: 20px; width: 95%; max-width: 1000px; padding: 40px 0; z-index: 10; scroll-margin-top: 100px;
@@ -301,60 +290,22 @@
         }
         .modal-content button.close-btn:hover { filter: brightness(0.9); }
 
-        /* --- STILI CANTIERE ANIMATO (NOVITÀ) --- */
+        /* --- STILI CANTIERE ANIMATO --- */
         .wip-stage {
             position: relative; width: 100%; height: 200px; margin-bottom: 20px; overflow: hidden;
             background: rgba(0,0,0,0.03); border-radius: 10px;
         }
         [data-theme='dark'] .wip-stage { background: rgba(255,255,255,0.03); }
-
-        /* Terreno */
-        .wip-stage::after {
-            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px;
-            background: #555; border-radius: 2px;
-        }
-
-        /* Il Robot che lavora */
-        .wip-robot {
-            font-size: 3em; position: absolute; bottom: 5px; left: 10%;
-            display: flex; align-items: flex-end;
-            animation: robot-move 10s infinite linear;
-        }
-        .wip-robot .tool {
-            font-size: 0.7em; margin-left: -5px; margin-bottom: 5px;
-            transform-origin: bottom center;
-            animation: hammering 0.6s infinite alternate;
-        }
-
-        /* Edificio che viene costruito */
+        .wip-stage::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: #555; border-radius: 2px; }
+        .wip-robot { font-size: 3em; position: absolute; bottom: 5px; left: 10%; display: flex; align-items: flex-end; animation: robot-move 10s infinite linear; }
+        .wip-robot .tool { font-size: 0.7em; margin-left: -5px; margin-bottom: 5px; transform-origin: bottom center; animation: hammering 0.6s infinite alternate; }
         .wip-pile { font-size: 3.5em; position: absolute; bottom: 5px; right: 10%; animation: building-shake 1s infinite; }
-
-        /* Mattoni che volano verso l'edificio */
-        .flying-brick {
-            font-size: 1.5em; position: absolute; opacity: 0;
-            animation: placement 5s infinite;
-        }
-
-        /* Animazioni CSS */
+        .flying-brick { font-size: 1.5em; position: absolute; opacity: 0; animation: placement 5s infinite; }
+        
         @keyframes hammering { 0% { transform: rotate(-30deg); } 100% { transform: rotate(15deg); } }
-        
-        @keyframes robot-move {
-            0% { left: 10%; transform: scaleX(1); }
-            45% { left: calc(90% - 150px); transform: scaleX(1); }
-            50% { left: calc(90% - 150px); transform: scaleX(-1); }
-            95% { left: 10%; transform: scaleX(-1); }
-            100% { left: 10%; transform: scaleX(1); }
-        }
-        
+        @keyframes robot-move { 0% { left: 10%; transform: scaleX(1); } 45% { left: calc(90% - 150px); transform: scaleX(1); } 50% { left: calc(90% - 150px); transform: scaleX(-1); } 95% { left: 10%; transform: scaleX(-1); } 100% { left: 10%; transform: scaleX(1); } }
         @keyframes building-shake { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
-
-        @keyframes placement {
-            0% { bottom: 150px; right: calc(10% + 50px); opacity: 0; transform: scale(0.5); }
-            10% { opacity: 1; transform: scale(1); }
-            20% { bottom: 50px; right: calc(10% + 50px); opacity: 1; }
-            25% { bottom: 5px; right: calc(10% + 50px); opacity: 0; }
-            100% { opacity: 0; }
-        }
+        @keyframes placement { 0% { bottom: 150px; right: calc(10% + 50px); opacity: 0; transform: scale(0.5); } 10% { opacity: 1; transform: scale(1); } 20% { bottom: 50px; right: calc(10% + 50px); opacity: 1; } 25% { bottom: 5px; right: calc(10% + 50px); opacity: 0; } 100% { opacity: 0; } }
 
         /* --- MODAL PROGETTI --- */
         #projects-modal .modal-content { max-width: 1100px; padding: 30px; }
@@ -384,21 +335,10 @@
 
         /* --- MODAL ESPERIENZA (TIMELINE E TABS) --- */
         #esperienza-modal .modal-content { max-width: 900px; padding: 30px; text-align: left; }
-        
-        .modal-main-title {
-            font-size: 2.8em; color: var(--accent); text-transform: uppercase; letter-spacing: 3px;
-            position: relative; padding-bottom: 15px; margin-top: -10px; margin-bottom: 20px; text-align: center;
-        }
-        .modal-main-title::after {
-            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
-            width: 60px; height: 4px; background-color: var(--accent); border-radius: 2px;
-        }
-
+        .modal-main-title { font-size: 2.8em; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; position: relative; padding-bottom: 15px; margin-top: -10px; margin-bottom: 20px; text-align: center; }
+        .modal-main-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--accent); border-radius: 2px; }
         .exp-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-        .exp-tab-btn {
-            background: transparent; color: var(--text-color); border: 2px solid var(--text-color);
-            padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1.05em; transition: all 0.3s;
-        }
+        .exp-tab-btn { background: transparent; color: var(--text-color); border: 2px solid var(--text-color); padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1.05em; transition: all 0.3s; }
         .exp-tab-btn.active, .exp-tab-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
         .exp-tab-content { display: none; animation: fadeIn 0.4s ease; padding: 10px; }
         .exp-tab-content.active { display: block; }
@@ -406,31 +346,19 @@
         .timeline { border-left: 3px solid var(--accent); margin-left: 15px; padding-left: 25px; }
         .timeline-item { position: relative; margin-bottom: 35px; }
         .timeline-item:last-child { margin-bottom: 0; }
-        .timeline-item::before {
-            content: ''; position: absolute; left: -36px; top: 0; width: 18px; height: 18px;
-            border-radius: 50%; background: var(--accent); border: 4px solid var(--bg-color);
-        }
+        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 0; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); border: 4px solid var(--bg-color); }
         .timeline-date { font-size: 0.9em; color: var(--accent); font-weight: bold; margin-bottom: 5px; display: block; letter-spacing: 0.5px;}
         .timeline-title { font-size: 1.3em; font-weight: bold; margin: 0 0 5px 0; color: var(--text-color); }
         .timeline-subtitle { font-size: 1.05em; font-style: italic; color: #777; margin: 0 0 10px 0; }
         [data-theme='dark'] .timeline-subtitle { color: #aaa; }
         .timeline-desc { font-size: 1em; color: var(--text-color); line-height: 1.6; margin: 0 0 15px 0; }
-        
         .highlight-accent { color: var(--accent); font-weight: bold; }
-
         .skills-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-        .skill-pill {
-            display: inline-block; padding: 4px 12px; border-radius: 15px; font-size: 0.85em; font-weight: 600;
-            background: transparent; color: var(--accent); border: 1px solid var(--accent); transition: 0.2s;
-        }
+        .skill-pill { display: inline-block; padding: 4px 12px; border-radius: 15px; font-size: 0.85em; font-weight: 600; background: transparent; color: var(--accent); border: 1px solid var(--accent); transition: 0.2s; }
         .skill-pill:hover { background: var(--accent); color: white; transform: translateY(-2px); }
 
         .soft-skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 10px; }
-        .soft-skill-card {
-            background: var(--card-bg); border: var(--card-border); padding: 20px; border-radius: 12px;
-            text-align: center; font-weight: bold; color: var(--text-color); transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: var(--shadow), var(--card-glow); position: relative;
-        }
+        .soft-skill-card { background: var(--card-bg); border: var(--card-border); padding: 20px; border-radius: 12px; text-align: center; font-weight: bold; color: var(--text-color); transition: transform 0.2s, box-shadow 0.2s; box-shadow: var(--shadow), var(--card-glow); position: relative; }
         .soft-skill-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2), var(--card-glow); color: var(--accent); border-color: var(--accent); }
         .soft-skill-icon { font-size: 2em; margin-bottom: 10px; display: block; }
 
@@ -446,6 +374,7 @@
             <a href="#progetti" data-it="Progetti" data-en="Projects">Progetti</a>
             <a href="#esperienza" data-it="Esperienza" data-en="Experience">Esperienza</a>
             <a href="#contatti-section" data-it="Contatti" data-en="Contact">Contatti</a>
+            <a href="javascript:void(0)" onclick="openBlogModal()" data-it="Blog" data-en="Blog">Blog</a>
         </div>
         <div class="header-actions">
             <div class="action-btn" onclick="toggleTheme()" id="theme-btn">🌙 Dark Mode</div>
@@ -457,7 +386,7 @@
         <section class="hero">
             <div class="image-container" id="image-swap-container">
                 <img class="img-light" src="foto-cartoon.png" alt="Profile Cartoon Light" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Light';">
-                <img class="img-dark" src="foto-cartoon-dark.jpg" alt="Profile Cartoon Dark" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Dark';">
+                <img class="img-dark" src="foto-cartoon-dark.png" alt="Profile Cartoon Dark" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Dark';">
                 <img class="img-real" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/300?text=Reale+PNG';">
             </div>
             
@@ -561,16 +490,14 @@
     </div>
 
     <div class="modal-overlay" id="blog-modal">
-        <div class="modal-content">
+        <div class="modal-content" style="overflow: hidden;">
             <div class="wip-stage">
                 <div class="wip-robot">🤖<span class="tool">🔧</span></div>
                 <div class="wip-pile">🏢</div>
                 <div class="flying-brick">🧱</div>
-                <div class="flying-brick" style="animation-delay: 1s;">🧱</div>
-                <div class="flying-brick" style="animation-delay: 2s;">🧱</div>
+                <div class="flying-brick" style="animation-delay: 1.5s;">🧱</div>
                 <div class="flying-brick" style="animation-delay: 3s;">🧱</div>
             </div>
-            
             <h2 class="chaos-text" data-it="Lavori in corso!" data-en="Work in progress!">Lavori in corso!</h2>
             <p class="chaos-text" data-it="Il Licia-Bot sta assemblando gli articoli. Arriviamo presto!" data-en="Licia-Bot is assembling articles. Coming soon!">Il Licia-Bot sta assemblando gli articoli. Arriviamo presto!</p>
             <button class="close-btn chaos-block" onclick="closeBlogModal()" data-it="Torna indietro" data-en="Go back">Torna indietro</button>
@@ -598,11 +525,9 @@
 
     <div class="modal-overlay" id="esperienza-modal">
         <div class="modal-content">
-            
             <div style="width: 100%; display: flex; justify-content: flex-end; margin-bottom: -15px;">
                 <button class="close-icon" onclick="closeExpModal()" style="font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color); z-index: 10;">✖</button>
             </div>
-            
             <h2 class="modal-main-title chaos-text" data-it="Il Mio Percorso" data-en="My Journey">Il Mio Percorso</h2>
             
             <div class="exp-tabs">
@@ -618,7 +543,7 @@
                         <span class="timeline-date" data-it="2024 - Luglio 2026" data-en="2024 - July 2026">2024 - Luglio 2026</span>
                         <h4 class="timeline-title" data-it="Laurea Magistrale in Computer Science" data-en="Master's Degree in Computer Science">Laurea Magistrale in Computer Science</h4>
                         <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
-                        <p class="timeline-desc" data-it="Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente, con l'obiettivo di coordinare soluzioni innovative in contesti critici come le Smart Cities e i sistemi sanitari digitali." data-en="Master's Degree in Computer Science, <span class='highlight-accent'>SECURITY ENGINEERING</span> curriculum (degree course taught in English, C1 university level).<br><br>A master's program focused on the design and development of intrinsically secure software systems and the secure management of complex IT projects. The training delves into the integration of Artificial Intelligence techniques to support security, the protection of IoT devices, and the development of serious games to educate on mindful data usage.<br><br>Special emphasis is given to Secure Project Management and the analysis of vulnerabilities in user interactions, aiming to coordinate innovative solutions in critical contexts such as Smart Cities and digital healthcare systems.">Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente, con l'obiettivo di coordinare soluzioni innovative in contesti critici come le Smart Cities e i sistemi sanitari digitali.</p>
+                        <p class="timeline-desc" data-it="Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente." data-en="Master's Degree in Computer Science, <span class='highlight-accent'>SECURITY ENGINEERING</span> curriculum (taught in English, C1 level).<br><br>Focused on the design and development of intrinsically secure software systems and the secure management of complex IT projects. The training delves into AI techniques to support security, IoT protection, and serious games to educate on mindful data usage.">Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente.</p>
                         <div class="skills-container chaos-text">
                             <span class="skill-pill" data-it="AI" data-en="AI">AI</span>
                             <span class="skill-pill" data-it="Project Managment" data-en="Project Management">Project Management</span>
@@ -641,7 +566,7 @@
                         <span class="timeline-date" data-it="2021 - 2024" data-en="2021 - 2024">2021 - 2024</span>
                         <h4 class="timeline-title" data-it="Laurea Triennale in Informatica" data-en="Bachelor's Degree in Computer Science">Laurea Triennale in Informatica</h4>
                         <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
-                        <p class="timeline-desc" data-it="Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e delle architetture client-server, applicazione di metodologie di sviluppo software e gestione del ciclo di vita del software, capacità di raccogliere e analizzare i requisiti degli utenti, UX design, introduzione ai concetti di base dell'IA e dell'apprendimento automatico." data-en="Experience in collaborative teamwork on group projects, developing interpersonal and communication skills.<br><br>Acquired skills in programming, data analysis, problem-solving, design and querying of relational databases with SQL, understanding of network protocols and client-server architectures, application of software development methodologies and software lifecycle management, ability to gather and analyze user requirements, UX design, and introduction to the basic concepts of AI and machine learning.">Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e delle architetture client-server, applicazione di metodologie di sviluppo software e gestione del ciclo di vita del software, capacità di raccogliere e analizzare i requisiti degli utenti, UX design, introduzione ai concetti di base dell'IA e dell'apprendimento automatico.</p>
+                        <p class="timeline-desc" data-it="Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e architetture client-server, applicazione di metodologie di sviluppo software, UX design e concetti base dell'IA." data-en="Experience in collaborative teamwork on group projects, developing interpersonal and communication skills.<br><br>Acquired skills in programming, data analysis, problem-solving, design and querying of relational databases with SQL, understanding of network protocols and client-server architectures, software development methodologies, UX design, and basic AI concepts.">Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e architetture client-server, applicazione di metodologie di sviluppo software, UX design e concetti base dell'IA.</p>
                         <div class="skills-container chaos-text">
                             <span class="skill-pill" data-it="Python" data-en="Python">Python</span>
                             <span class="skill-pill" data-it="C" data-en="C">C</span>
@@ -775,6 +700,10 @@
     </div>
 
     <script>
+        // FORZATURA SCORRIMENTO ALL'INIZIO (Risolve il bug del caricamento a fondo pagina)
+        window.history.scrollRestoration = 'manual';
+        window.scrollTo(0, 0);
+
         const mieiProgetti = [];
         for(let i=1; i<=13; i++) {
             mieiProgetti.push({
@@ -789,6 +718,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            window.scrollTo(0, 0); // Doppio check per safari mobile
             const snippets = ['<div/>', '()=>{}', '0x4F', '0110', 'git push', 'npm start', 'console', '#FF00FF', 'const', '=>', '404', 'while(1)', '#00FFFF', 'binary'];
             const colorsLight = ['#000000', '#007bff', '#28a745', '#6f42c1'];
             const colorsDark = ['#4A90E2', '#50E3C2', '#B8E986', '#BD10E0'];
