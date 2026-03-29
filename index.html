@@ -99,7 +99,7 @@
             .nav-menu a { padding: 6px 12px; font-size: 0.9em; }
         }
 
-        /* --- SEZIONE HERO E FOTO --- */
+        /* --- SEZIONE HERO E FOTO SWAP PERFEZIONATA --- */
         .hero { 
             margin-top: 130px; text-align: center; padding: 20px; 
             width: 100%; max-width: 900px; z-index: 10; 
@@ -115,21 +115,49 @@
         .image-container img {
             width: 100%; height: 100%; object-fit: contain; 
             position: absolute; top: 0; left: 0; transition: opacity 0.3s ease;
+            opacity: 0; /* Base state: nascosto */
+            z-index: 1; /* Base z-index */
         }
 
-        .image-container img.cartoon { opacity: 1; z-index: 2; }
-        .image-container img.real { opacity: 0; z-index: 1; }
+        /* --- Theme-specific default visible state --- */
+        /* LIGHT MODE: Mostra la cartoon originale */
+        body:not([data-theme='dark']) .image-container img.cartoon-light {
+            opacity: 1;
+            z-index: 2;
+        }
 
+        /* DARK MODE: Mostra la nuova cartoon tech */
+        [data-theme='dark'] .image-container img.cartoon-dark {
+            opacity: 1;
+            z-index: 2;
+        }
+
+        /* Ensure the real photo is hidden but prepared at bottom layer */
+        .image-container img.real {
+            opacity: 0;
+            z-index: 1;
+        }
+
+        /* --- Hover/Click Logic Perfezionata --- */
+        /* Al passaggio mouse/click, mostra la foto reale sopra a tutto */
         @media (hover: hover) {
-            .image-container:not(.toggled-click):hover img.cartoon { opacity: 0; }
             .image-container:not(.toggled-click):hover img.real { opacity: 1; z-index: 3; }
         }
-        .image-container.toggled-click img.cartoon { opacity: 0; }
         .image-container.toggled-click img.real { opacity: 1; z-index: 3; }
 
+        /* Nascondi la cartoon visibile al passaggio mouse/click */
         @media (hover: hover) {
-            .image-container.toggled-click:hover img.cartoon { opacity: 1; z-index: 3; }
-            .image-container.toggled-click:hover img.real { opacity: 0; }
+            body:not([data-theme='dark']) .image-container:not(.toggled-click):hover img.cartoon-light { opacity: 0; z-index: 1;}
+            [data-theme='dark'] .image-container:not(.toggled-click):hover img.cartoon-dark { opacity: 0; z-index: 1;}
+        }
+        body:not([data-theme='dark']) .image-container.toggled-click img.cartoon-light { opacity: 0; z-index: 1;}
+        [data-theme='dark'] .image-container.toggled-click img.cartoon-dark { opacity: 0; z-index: 1;}
+
+        /* Click Logic revert - per mobile */
+        @media (hover: hover) {
+            .image-container.toggled-click:hover img.real { opacity: 0; z-index: 1;}
+            body:not([data-theme='dark']) .image-container.toggled-click:hover img.cartoon-light { opacity: 1; z-index: 3;}
+            [data-theme='dark'] .image-container.toggled-click:hover img.cartoon-dark { opacity: 1; z-index: 3;}
         }
 
         .image-hint {
@@ -252,11 +280,11 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* MODAL GENERICO E GALLERIA PROGETTI */
+        /* MODAL VITTORIA E SUCCESSO EMAIL */
         .modal-overlay {
             position: fixed !important; top: 0 !important; left: 0 !important; 
             width: 100vw !important; height: 100vh !important;
-            background: rgba(0,0,0,0.8); z-index: 999999 !important; display: none; 
+            background: rgba(0,0,0,0.7); z-index: 999999 !important; display: none; 
             justify-content: center; align-items: center; opacity: 0; 
             transition: opacity 0.3s; backdrop-filter: blur(5px);
         }
@@ -356,7 +384,8 @@
     <div id="content-wrapper">
         <section class="hero">
             <div class="image-container" id="image-swap-container">
-                <img class="cartoon" src="foto-cartoon.png" alt="Profile Cartoon" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+PNG';">
+                <img class="cartoon-light" src="foto-cartoon.png" alt="Profile Cartoon Light" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+PNG';">
+                <img class="cartoon-dark" src="foto-cartoon-dark.png" alt="Profile Cartoon Dark">
                 <img class="real" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/300?text=Reale+PNG';">
             </div>
             
@@ -452,7 +481,6 @@
     <script>
         // =====================================================================
         // 🔴🔴🔴 I TUOI 13 PROGETTI DA MODIFICARE! 🔴🔴🔴
-        // Aggiungi i testi completi qui e incolla i link reali di GitHub
         // =====================================================================
         const mieiProgetti = [];
         for(let i=1; i<=13; i++) {
@@ -461,15 +489,14 @@
                 titoloEN: `Special Project ${i}`,
                 breveIT: `Descrizione sintetica del progetto ${i} per attirare l'attenzione.`,
                 breveEN: `Short synthetic description of project ${i} to grab attention.`,
-                // Qui puoi scrivere paragrafi infiniti, usare <b> per il grassetto e <br> per andare a capo
-                lungaIT: `Questa è la pagina dedicata interamente al <b>Progetto ${i}</b>.<br><br>Qui lo spazio non ti manca affatto! Puoi raccontare la storia di come è nato il progetto, le sfide tecniche che hai affrontato e superato, le tecnologie esatte che hai utilizzato (es. HTML, CSS, JavaScript, React) e il tuo ruolo all'interno della realizzazione.<br><br>Essendo una pagina a tutto schermo, il testo risulterà sempre pulito e comodissimo da leggere, sia da computer che da cellulare.`,
+                lungaIT: `Questa è la pagina dedicata interamente al <b>Progetto ${i}</b>.<br><br>Qui lo spazio non ti manca affatto! Puoi raccontare la storia di come è nato il progetto, le sfide tecniche che hai affrontato e superato, le tecnologie esatte che hai utilizzato (es. HTML, CSS, JavaScript, React) e il tuo ruolo.<br><br>Essendo una pagina a tutto schermo, il testo risulterà sempre pulito e comodissimo da leggere, sia da computer che da cellulare.`,
                 lungaEN: `This is the dedicated page entirely for <b>Project ${i}</b>.<br><br>You have plenty of space here! You can tell the story of how the project was born, the technical challenges you faced and overcame, the exact technologies used, and your role.<br><br>Since this is a full-screen view, the text will always look clean and easy to read.`,
                 linkGithub: "https://github.com/LiciaCongedo" // INCOLLA QUI IL LINK AL REPO GITHUB!
             });
         }
         // =====================================================================
 
-        // 0. GENERATORE DI SFONDO E INIEZIONE PROGETTI
+        // 0. SFONDO E PROGETTI
         window.addEventListener('DOMContentLoaded', () => {
             const snippets = ['<div/>', '()=>{}', '0x4F', '0110', 'git push', 'npm start', 'console', '#FF00FF', 'const', '=>', '404', 'while(1)', '#00FFFF', 'binary'];
             const colorsLight = ['#000000', '#007bff', '#28a745', '#6f42c1'];
@@ -496,7 +523,6 @@
                 bgContainer.appendChild(el);
             }
 
-            // Stampa i 13 progetti nella griglia iniziale
             const gridContainer = document.getElementById('projects-grid-container');
             mieiProgetti.forEach((prog, index) => {
                 const cardHTML = `
@@ -510,11 +536,11 @@
             });
         });
 
-        // --- LOGICA GALLERIA E DETTAGLIO PROGETTI ---
+        // MODAL PROGETTI
         function openProjectsModal() {
             document.body.classList.add('chaos-lock'); 
             document.getElementById('projects-modal').classList.add('active');
-            showProjectsGrid(); // Assicuriamoci che si apra sempre sulla griglia
+            showProjectsGrid(); 
         }
 
         function closeProjectsModal() {
@@ -524,20 +550,12 @@
 
         function openProjectDetail(index) {
             const prog = mieiProgetti[index];
-            
-            // Nascondi griglia, mostra dettaglio
             document.getElementById('projects-grid-container').style.display = 'none';
             document.getElementById('project-detail-container').style.display = 'block';
-
-            // Popola i dati
             document.getElementById('detail-title').innerHTML = currentLang === 'it' ? prog.titoloIT : prog.titoloEN;
             document.getElementById('detail-desc').innerHTML = currentLang === 'it' ? prog.lungaIT : prog.lungaEN;
             document.getElementById('detail-github-btn').href = prog.linkGithub;
-
-            // Salva l'indice attuale per i cambi lingua aperti
             document.getElementById('project-detail-container').setAttribute('data-current-index', index);
-
-            // Riporta lo scroll del modal in alto
             document.querySelector('#projects-modal .modal-content').scrollTop = 0;
         }
 
@@ -546,8 +564,7 @@
             document.getElementById('projects-grid-container').style.display = 'grid';
         }
 
-
-        // 1. DARK MODE E TRADUZIONE
+        // DARK MODE, LINGUA, E FOTO SWAP
         function toggleTheme() {
             const body = document.body;
             const themeBtn = document.getElementById('theme-btn');
@@ -577,14 +594,11 @@
             if(isChaosActive) return; 
             currentLang = currentLang === 'it' ? 'en' : 'it';
             document.getElementById('lang-btn').innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
-            
             const elements = document.querySelectorAll('[data-it]');
             elements.forEach(el => {
                 if(el.querySelector('span') && el.classList.contains('chaos-text')) return;
                 el.innerText = el.getAttribute('data-' + currentLang);
             });
-
-            // Se stiamo guardando un progetto specifico, aggiorna la lingua di quel progetto
             const detailContainer = document.getElementById('project-detail-container');
             if (detailContainer.style.display === 'block') {
                 const index = detailContainer.getAttribute('data-current-index');
@@ -596,11 +610,9 @@
             }
         }
 
-        // 2. MACCHINA DA SCRIVERE E FOTO SWAP
         const imageSwapContainer = document.getElementById('image-swap-container');
         const textToType = document.getElementById('typing-text').getAttribute('data-' + currentLang);
         let charIndex = 0;
-        
         function typeWriter() {
             if (charIndex < textToType.length) {
                 document.getElementById('typing-text').innerText += textToType.charAt(charIndex);
@@ -609,7 +621,6 @@
             }
         }
         typeWriter();
-
         imageSwapContainer.addEventListener('mousemove', (e) => {
             const rect = imageSwapContainer.getBoundingClientRect();
             const x = e.clientX - rect.left - rect.width / 2;
@@ -623,19 +634,16 @@
             imageSwapContainer.classList.toggle('toggled-click');
         });
 
-        // 3. LOGICA FORMULARIO CONTATTI (WEB3FORMS)
+        // FORM E MODAL GENERICO
         const contactForm = document.getElementById('contact-form');
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
             const formData = new FormData(contactForm);
             const object = Object.fromEntries(formData);
             const json = JSON.stringify(object);
-
             const submitBtn = contactForm.querySelector('button');
             const originalBtnText = submitBtn.innerText;
             submitBtn.innerText = "Invio in corso...";
-
             fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -643,10 +651,7 @@
             })
             .then(async (response) => {
                 if (response.status == 200) {
-                    showCustomModal(
-                        currentLang === 'it' ? "Inviato! 🚀" : "Sent! 🚀", 
-                        currentLang === 'it' ? "Il tuo messaggio è stato inviato con successo. Ti risponderò al più presto!" : "Your message was sent successfully. I'll get back to you soon!"
-                    );
+                    showCustomModal(currentLang === 'it' ? "Inviato! 🚀" : "Sent! 🚀", currentLang === 'it' ? "Il tuo messaggio è stato inviato con successo. Ti risponderò al più presto!" : "Your message was sent successfully. I'll get back to you soon!");
                     contactForm.reset();
                 } else {
                     showCustomModal("Ops!", "Qualcosa è andato storto nell'invio del modulo.");
@@ -666,20 +671,18 @@
             document.getElementById('custom-modal').classList.add('active');
         }
 
-        // 4. EASTER EGG
+        // EASTER EGG E ROBOT
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
         let konamiIndex = 0;
         let isChaosActive = false;
         let physicsLoop;
         let activeParticles = [];
-        
         document.addEventListener('keydown', (e) => {
             if (e.key === konamiCode[konamiIndex]) {
                 konamiIndex++;
                 if (konamiIndex === konamiCode.length) { triggerBouncingChaos(); konamiIndex = 0; }
             } else konamiIndex = 0;
         });
-
         let tapCount = 0;
         let tapTimer;
         document.addEventListener('touchstart', (e) => {
@@ -689,17 +692,14 @@
             if (tapCount === 5) { triggerBouncingChaos(); tapCount = 0; } 
             else { tapTimer = setTimeout(() => { tapCount = 0; }, 400); }
         });
-
         function triggerBouncingChaos() {
             if (isChaosActive) return;
             isChaosActive = true;
             document.body.classList.add('chaos-lock');
-
             const textEls = document.querySelectorAll('.chaos-text');
             const otherBlocks = document.querySelectorAll('.chaos-block, .image-container');
             const originalHTML = new Map();
             activeParticles = [];
-
             textEls.forEach(el => {
                 originalHTML.set(el, el.innerHTML); 
                 const text = el.innerText;
@@ -712,9 +712,7 @@
                     setupParticle(span);
                 }
             });
-
             otherBlocks.forEach(block => setupParticle(block));
-
             function setupParticle(el) {
                 const rect = el.getBoundingClientRect();
                 activeParticles.push({
@@ -724,199 +722,94 @@
                     rot: 0, vrot: (Math.random() - 0.5) * 20
                 });
             }
-
             let lastTime = performance.now();
             function updatePhysics(time) {
                 if (!isChaosActive) return;
                 const dt = (time - lastTime) / 16; 
                 lastTime = time;
-
                 activeParticles.forEach(p => {
                     p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vrot * dt;
-
                     const currentLeft = p.startLeft + p.x;
                     const currentTop = p.startTop + p.y;
-
                     if (currentLeft <= 0) { p.x = -p.startLeft; p.vx *= -1.05; }
                     else if (currentLeft + p.width >= window.innerWidth) { p.x = window.innerWidth - p.startLeft - p.width; p.vx *= -1.05; }
-
                     if (currentTop <= 0) { p.y = -p.startTop; p.vy *= -1.05; }
                     else if (currentTop + p.height >= window.innerHeight) { p.y = window.innerHeight - p.startTop - p.height; p.vy *= -1.05; }
-
                     p.el.style.transform = `translate(${p.x}px, ${p.y}px) rotate(${p.rot}deg)`;
                 });
                 physicsLoop = requestAnimationFrame(updatePhysics);
             }
             physicsLoop = requestAnimationFrame(updatePhysics);
-
             setTimeout(() => {
                 cancelAnimationFrame(physicsLoop);
-                
-                activeParticles.forEach(p => {
-                    p.el.style.transition = 'opacity 0.3s ease'; p.el.style.opacity = '0';
-                });
-
+                activeParticles.forEach(p => { p.el.style.transition = 'opacity 0.3s ease'; p.el.style.opacity = '0'; });
                 const msgContainer = document.getElementById('secret-msg-container');
                 msgContainer.innerText = msgContainer.getAttribute('data-' + currentLang);
                 msgContainer.classList.add('show');
-
                 setTimeout(() => {
                     msgContainer.classList.remove('show');
-                    
-                    activeParticles.forEach(p => {
-                        p.el.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s';
-                        p.el.style.transform = 'translate(0, 0) rotate(0deg)';
-                        p.el.style.opacity = '1';
-                    });
-
+                    activeParticles.forEach(p => { p.el.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s'; p.el.style.transform = 'translate(0, 0) rotate(0deg)'; p.el.style.opacity = '1'; });
                     setTimeout(() => {
                         textEls.forEach(el => { el.innerHTML = originalHTML.get(el); });
                         otherBlocks.forEach(block => { block.style.transition = ''; block.style.transform = ''; });
                         document.body.classList.remove('chaos-lock'); 
                         isChaosActive = false;
                     }, 1000);
-
                 }, 4000); 
             }, 2000); 
         }
 
-        // 5. ROBOTTINO CATTURABILE 
         const bot = document.getElementById('runaway-bot');
         const botFace = document.getElementById('bot-face');
         const bubble = document.getElementById('bot-bubble');
-        
-        let runTimeout;
-        let footprintInterval;
-        let isCaught = false;
-        let isMoving = false; 
-        let touchAttempts = 0;
-
+        let runTimeout, footprintInterval, isCaught = false, isMoving = false, touchAttempts = 0;
         window.addEventListener('DOMContentLoaded', () => {
             const botWidth = bot.offsetWidth || 80;
             const botHeight = bot.offsetHeight || 100;
             bot.style.left = (window.innerWidth - botWidth - 30) + 'px';
             bot.style.top = (window.innerHeight - botHeight - 30) + 'px';
-            bot.style.bottom = 'auto';
-            bot.style.right = 'auto';
+            bot.style.bottom = 'auto'; bot.style.right = 'auto';
         });
-
         function setBubbleText(testoIT, testoEN) {
-            bubble.setAttribute('data-it', testoIT);
-            bubble.setAttribute('data-en', testoEN);
-            bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
+            bubble.setAttribute('data-it', testoIT); bubble.setAttribute('data-en', testoEN); bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
         }
-
         function triggerRunHover() {
             if (isCaught || isMoving) return; 
             isMoving = true; 
-
             setTimeout(() => { 
                 if (isCaught) return;
-                
-                botFace.innerText = '😱';
-                setBubbleText("Mancato!", "Missed!");
-                bot.classList.add('running');
-                startFootprints();
-                
-                runAway();
-                
-                setTimeout(() => {
-                    if (!isCaught) {
-                        bot.classList.remove('running');
-                        botFace.innerText = '🤖'; 
-                        stopFootprints();
-                        isMoving = false; 
-                    }
-                }, 400); 
+                botFace.innerText = '😱'; setBubbleText("Mancato!", "Missed!");
+                bot.classList.add('running'); startFootprints(); runAway();
+                setTimeout(() => { if (!isCaught) { bot.classList.remove('running'); botFace.innerText = '🤖'; stopFootprints(); isMoving = false; } }, 400); 
             }, 100); 
         }
-
         function handleTouchBot(e) {
             if (isCaught || isMoving) return;
             e.preventDefault(); e.stopPropagation(); 
-            
             touchAttempts++;
             if (touchAttempts < 5) { 
-                isMoving = true;
-                botFace.innerText = '😱';
+                isMoving = true; botFace.innerText = '😱';
                 let itTexts = ["Mancato!", "Troppo lento!", "Ritenta!", "Ci sei quasi..."];
                 let enTexts = ["Missed!", "Too slow!", "Try again!", "Almost there..."];
                 setBubbleText(itTexts[touchAttempts - 1], enTexts[touchAttempts - 1]);
-                
-                bot.classList.add('running');
-                startFootprints();
-                runAway();
-                
-                setTimeout(() => {
-                    if (!isCaught) {
-                        bot.classList.remove('running');
-                        botFace.innerText = '🤖'; 
-                        stopFootprints();
-                        isMoving = false;
-                    }
-                }, 400);
-            } else { 
-                executeCatch();
-            }
+                bot.classList.add('running'); startFootprints(); runAway();
+                setTimeout(() => { if (!isCaught) { bot.classList.remove('running'); botFace.innerText = '🤖'; stopFootprints(); isMoving = false; } }, 400);
+            } else executeCatch();
         }
-
         function handleMouseClick(e) { if (isCaught) return; executeCatch(); }
-
         function runAway() {
-            const rect = bot.getBoundingClientRect();
-            const currentX = rect.left;
-            const currentY = rect.top;
-            const maxX = window.innerWidth - 120;
-            const maxY = window.innerHeight - 150;
-            
+            const rect = bot.getBoundingClientRect(), currentX = rect.left, currentY = rect.top, maxX = window.innerWidth - 120, maxY = window.innerHeight - 150;
             let randomX, randomY, distance = 0, attempts = 0;
-            
             do {
-                randomX = Math.max(20, Math.floor(Math.random() * maxX));
-                randomY = Math.max(80, Math.floor(Math.random() * maxY));
-                distance = Math.sqrt(Math.pow(randomX - currentX, 2) + Math.pow(randomY - currentY, 2));
-                attempts++;
+                randomX = Math.max(20, Math.floor(Math.random() * maxX)); randomY = Math.max(80, Math.floor(Math.random() * maxY));
+                distance = Math.sqrt(Math.pow(randomX - currentX, 2) + Math.pow(randomY - currentY, 2)); attempts++;
             } while (distance < 400 && attempts < 30); 
-            
-            bot.style.bottom = 'auto'; bot.style.right = 'auto';
-            bot.style.left = randomX + 'px'; bot.style.top = randomY + 'px';
+            bot.style.bottom = 'auto'; bot.style.right = 'auto'; bot.style.left = randomX + 'px'; bot.style.top = randomY + 'px';
         }
-
-        function startFootprints() {
-            clearInterval(footprintInterval);
-            footprintInterval = setInterval(() => {
-                const rect = bot.getBoundingClientRect();
-                const print = document.createElement('div');
-                print.className = 'footprint';
-                print.style.left = (rect.left + 50) + 'px'; print.style.top = (rect.top + 90) + 'px';
-                document.body.appendChild(print);
-                setTimeout(() => print.remove(), 1000);
-            }, 100);
-        }
-
+        function startFootprints() { clearInterval(footprintInterval); footprintInterval = setInterval(() => { const rect = bot.getBoundingClientRect(); const print = document.createElement('div'); print.className = 'footprint'; print.style.left = (rect.left + 50) + 'px'; print.style.top = (rect.top + 90) + 'px'; document.body.appendChild(print); setTimeout(() => print.remove(), 1000); }, 100); }
         function stopFootprints() { clearInterval(footprintInterval); }
-
-        function executeCatch() {
-            isCaught = true;
-            clearTimeout(runTimeout);
-            stopFootprints();
-            bot.classList.remove('running');
-            
-            botFace.innerText = '😵';
-            setBubbleText("Preso!", "Got me!");
-            
-            setTimeout(() => { bot.classList.add('bot-vanish'); }, 500);
-            setTimeout(() => { 
-                showCustomModal(
-                    currentLang === 'it' ? "Preso! 🎯" : "Caught me! 🎯", 
-                    currentLang === 'it' ? "Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" : "Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!"
-                );
-            }, 900);
-        }
-
-        function closeModal() { 
-            document.getElementById('custom-modal').classList.remove('active'); 
-        }
+        function executeCatch() { isCaught = true; clearTimeout(runTimeout); stopFootprints(); bot.classList.remove('running'); botFace.innerText = '😵'; setBubbleText("Preso!", "Got me!"); setTimeout(() => { bot.classList.add('bot-vanish'); }, 500); setTimeout(() => { showCustomModal(currentLang === 'it' ? "Preso! 🎯" : "Caught me! 🎯", currentLang === 'it' ? "Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" : "Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!"); }, 900); }
+        function closeModal() { document.getElementById('custom-modal').classList.remove('active'); }
     </script>
 </body>
 </html>
