@@ -97,7 +97,7 @@
             .nav-menu a { padding: 6px 12px; font-size: 0.9em; }
         }
 
-        /* --- SEZIONE HERO E FOTO (LOGICA INFALLIBILE) --- */
+        /* --- SEZIONE HERO E FOTO (LOGICA 100% BLINDATA) --- */
         .hero { 
             margin-top: 130px; text-align: center; padding: 20px; 
             width: 100%; max-width: 900px; z-index: 10; 
@@ -115,20 +115,31 @@
             position: absolute; top: 0; left: 0; transition: opacity 0.3s ease;
         }
 
-        .back-img { opacity: 0; z-index: 1; }
-        .front-img { opacity: 1; z-index: 2; }
-        
-        /* Accensione e spegnimento brutale per il Dark Mode */
-        .img-dark { display: none; }
-        body[data-theme='dark'] .img-light { display: none; }
-        body[data-theme='dark'] .img-dark { display: block; }
+        /* 1. Stato di base (tutto invisibile tranne la Light) */
+        .img-light { opacity: 1; z-index: 2; }
+        .img-dark { opacity: 0; z-index: 1; }
+        .img-real { opacity: 0; z-index: 1; }
 
+        /* 2. Se Dark Mode è attiva, accendi Dark e spegni Light */
+        [data-theme='dark'] .img-light { opacity: 0; z-index: 1; }
+        [data-theme='dark'] .img-dark { opacity: 1; z-index: 2; }
+
+        /* 3. Se hover o click: accendi Reale e spegni le Cartoon */
         @media (hover: hover) {
-            .image-container:not(.toggled-click):hover .front-img { opacity: 0; }
-            .image-container:not(.toggled-click):hover .back-img { opacity: 1; z-index: 3; }
+            .image-container:not(.toggled-click):hover .img-real { opacity: 1; z-index: 3; }
+            body:not([data-theme='dark']) .image-container:not(.toggled-click):hover .img-light { opacity: 0; }
+            [data-theme='dark'] .image-container:not(.toggled-click):hover .img-dark { opacity: 0; }
         }
-        .image-container.toggled-click .front-img { opacity: 0; }
-        .image-container.toggled-click .back-img { opacity: 1; z-index: 3; }
+        .image-container.toggled-click .img-real { opacity: 1; z-index: 3; }
+        body:not([data-theme='dark']) .image-container.toggled-click .img-light { opacity: 0; }
+        [data-theme='dark'] .image-container.toggled-click .img-dark { opacity: 0; }
+
+        /* 4. Ritorno per Mobile */
+        @media (hover: hover) {
+            .image-container.toggled-click:hover .img-real { opacity: 0; z-index: 1; }
+            body:not([data-theme='dark']) .image-container.toggled-click:hover .img-light { opacity: 1; z-index: 3; }
+            [data-theme='dark'] .image-container.toggled-click:hover .img-dark { opacity: 1; z-index: 3; }
+        }
 
         .image-hint {
             font-size: 0.9em; font-weight: 500; color: var(--text-color); 
@@ -166,20 +177,55 @@
         }
         .card button:hover { background-color: var(--accent-hover); }
 
-        /* --- SEZIONE CONTATTI --- */
+        /* --- SEZIONE CONTATTI (NUOVO DESIGN CON SOCIAL CARDS) --- */
         .contact-section {
-            width: 90%; max-width: 600px; background-color: var(--card-bg); padding: 40px; border-radius: 15px; 
-            text-align: center; margin: 40px 0; border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
-            transition: background-color 0.4s, border 0.4s; z-index: 10; scroll-margin-top: 120px;
+            width: 95%; max-width: 1000px; background-color: transparent; padding: 0; 
+            text-align: center; margin: 40px 0 80px 0; z-index: 10; scroll-margin-top: 120px;
         }
-        .contact-section h2 { font-size: 1.8em; margin-top: 0;}
-        .contact-section input, .contact-section textarea {
-            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 1em;
+        .contact-section h2 { font-size: 2.2em; margin-top: 0; margin-bottom: 10px;}
+        .contact-section > p { margin-bottom: 40px; color: #777; font-size: 1.1em;}
+        [data-theme='dark'] .contact-section > p { color: #aaa; }
+
+        .contact-layout {
+            display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: stretch;
         }
-        [data-theme='dark'] .contact-section input, [data-theme='dark'] .contact-section textarea { background: #2a2a2a; color: white; border-color: #444; }
-        .contact-section button {
-            background-color: var(--text-color); color: var(--bg-color); border: none; padding: 12px 30px; 
-            border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s;
+
+        /* Colonna Social */
+        .social-column {
+            flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 15px;
+        }
+        .social-card {
+            display: flex; align-items: center; gap: 15px; padding: 18px 25px;
+            background: var(--card-bg); border: var(--card-border); border-radius: 15px;
+            text-decoration: none; color: var(--text-color); font-weight: bold; font-size: 1.1em;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s, border-color 0.3s;
+            box-shadow: var(--shadow), var(--card-glow);
+        }
+        .social-card:hover {
+            transform: translateX(10px) translateY(-5px);
+            border-color: var(--accent); color: var(--accent);
+            box-shadow: 0 12px 25px rgba(0, 123, 255, 0.25);
+        }
+        .social-card svg { width: 28px; height: 28px; fill: currentColor; }
+        .social-card span { flex-grow: 1; text-align: left; }
+
+        /* Colonna Form */
+        .form-column {
+            flex: 1.2; min-width: 300px; background: var(--card-bg); padding: 30px; 
+            border-radius: 15px; border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
+            display: flex; flex-direction: column; justify-content: center;
+        }
+        .form-column h3 { margin-top: 0; margin-bottom: 20px; font-size: 1.5em; text-align: left; }
+        .form-column input, .form-column textarea {
+            width: 100%; padding: 14px; margin-bottom: 15px; border: 1px solid #ccc; 
+            border-radius: 10px; box-sizing: border-box; font-family: inherit; font-size: 1em;
+            background: var(--bg-color); color: var(--text-color); transition: border-color 0.3s;
+        }
+        .form-column input:focus, .form-column textarea:focus { outline: none; border-color: var(--accent); }
+        [data-theme='dark'] .form-column input, [data-theme='dark'] .form-column textarea { background: #2a2a2a; border-color: #444; }
+        .form-column button {
+            background-color: var(--text-color); color: var(--bg-color); border: none; padding: 14px 30px; 
+            border-radius: 10px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s;
         }
 
         /* --- STILE EASTER EGG MESSAGGIO --- */
@@ -226,24 +272,19 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* MODAL GENERICO E GALLERIE (SCORRIMENTO PERFETTO FIXATO) */
+        /* MODAL GENERICO E GALLERIE */
         .modal-overlay {
             position: fixed !important; top: 0 !important; left: 0 !important; 
             width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.8); 
-            z-index: 999999 !important; display: none; 
-            align-items: flex-start; /* FIX: non taglia i contenuti in alto */
-            justify-content: center; 
-            overflow-y: auto; /* FIX: fa scorrere tutta la finestra nera */
-            padding: 40px 10px;
-            opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);
+            z-index: 999999 !important; display: none; align-items: flex-start; justify-content: center; 
+            overflow-y: auto; padding: 40px 10px; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);
         }
         .modal-content {
             background: var(--bg-color); color: var(--text-color); padding: 40px; border-radius: 20px; 
             text-align: center; max-width: 400px; width: 95%; border: var(--card-border); 
             box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
             transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin: auto; /* FIX: si centra da solo se c'è spazio, altrimenti parte dall'alto */
-            position: relative;
+            margin: auto; position: relative;
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-overlay.active .modal-content { transform: scale(1); }
@@ -280,7 +321,7 @@
         [data-theme='dark'] .github-link-btn:hover { background: #ffffff; color: #000000;}
         .github-icon { width: 24px; height: 24px; fill: currentColor; }
 
-        /* --- MODAL ESPERIENZA --- */
+        /* --- MODAL ESPERIENZA (TIMELINE E TABS) --- */
         #esperienza-modal .modal-content { max-width: 900px; padding: 30px; text-align: left; }
         
         .modal-main-title {
@@ -357,7 +398,7 @@
             <div class="image-container" id="image-swap-container">
                 <img class="img-light front-img" src="foto-cartoon.png" alt="Profile Cartoon Light" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Light';">
                 <img class="img-dark front-img" src="foto-cartoon-dark.jpg" alt="Profile Cartoon Dark" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Dark';">
-                <img class="real back-img" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/300?text=Reale+PNG';">
+                <img class="img-real back-img" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/300?text=Reale+PNG';">
             </div>
             
             <div class="image-hint" id="hint-text" data-it="Clicca o passa il mouse sull'immagine per scoprirmi" data-en="Click or hover over the image to reveal me">Clicca o passa il mouse sull'immagine per scoprirmi</div>
@@ -384,17 +425,41 @@
             <div class="card" id="blog"><div class="card-icon chaos-block">📖</div><h3 class="chaos-text" data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3><p class="chaos-text" data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p><button class="chaos-block" data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button></div>
         </section>
 
-        <section class="contact-section">
+        <section class="contact-section" id="contatti-section">
             <h2 class="chaos-text" data-it="Rimaniamo in contatto!" data-en="Let's stay in touch!">Rimaniamo in contatto!</h2>
-            <p class="chaos-text" data-it="Scrivimi per qualsiasi informazione o collaborazione." data-en="Write me for any information or collaboration.">Scrivimi per qualsiasi informazione o collaborazione.</p>
+            <p class="chaos-text" data-it="Scegli il tuo canale preferito o mandami un messaggio veloce." data-en="Choose your favorite channel or send a quick message.">Scegli il tuo canale preferito o mandami un messaggio veloce.</p>
             
-            <form id="contact-form">
-                <input type="hidden" name="access_key" value="f38e8284-1ead-4792-9f78-6f36ca7768fe">
-                <input class="chaos-block" type="email" name="email" placeholder="La tua Email" required>
-                <textarea class="chaos-block" name="message" rows="4" placeholder="Il tuo messaggio..." required></textarea>
-                <input type="checkbox" name="botcheck" style="display: none;">
-                <button class="chaos-block" type="submit" data-it="Invia" data-en="Send">Invia</button>
-            </form>
+            <div class="contact-layout">
+                <div class="social-column">
+                    <a href="https://www.linkedin.com/in/licia-congedo/" target="_blank" class="social-card chaos-block">
+                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="https://www.instagram.com/licia.congedo/" target="_blank" class="social-card chaos-block">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+                        <span>Instagram</span>
+                    </a>
+                    <a href="https://github.com/licia6" target="_blank" class="social-card chaos-block">
+                        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        <span>GitHub</span>
+                    </a>
+                    <a href="mailto:liciacongedo@gmail.com" class="social-card chaos-block">
+                        <svg viewBox="0 0 24 24"><path d="M2 4v16h20V4H2zm18 2v1.4l-8 5.33-8-5.33V6h16zm-16 12V9.67l8 5.33 8-5.33V18H4z"/></svg>
+                        <span>liciacongedo@gmail.com</span>
+                    </a>
+                </div>
+
+                <div class="form-column">
+                    <h3 class="chaos-text" data-it="Inviami un messaggio" data-en="Send me a message">Inviami un messaggio</h3>
+                    <form id="contact-form">
+                        <input type="hidden" name="access_key" value="f38e8284-1ead-4792-9f78-6f36ca7768fe">
+                        <input class="chaos-block" type="email" name="email" placeholder="La tua Email" required>
+                        <textarea class="chaos-block" name="message" rows="4" placeholder="Il tuo messaggio..." required></textarea>
+                        <input type="checkbox" name="botcheck" style="display: none;">
+                        <button class="chaos-block" type="submit" data-it="Invia" data-en="Send">Invia</button>
+                    </form>
+                </div>
+            </div>
         </section>
 
         <footer>
@@ -561,6 +626,7 @@
                     <div class="timeline-item chaos-text">
                         <span class="timeline-date" data-it="Valida a vita" data-en="Lifetime validity">Valida a vita</span>
                         <h4 class="timeline-title" data-it="Certificazione Inglese B2 (Cambridge)" data-en="English B2 Certification (Cambridge)">Certificazione Inglese B2 (Cambridge)</h4>
+                        <p class="timeline-subtitle" data-it="Cambridge Assessment" data-en="Cambridge Assessment">Cambridge Assessment</p>
                         <p class="timeline-desc" data-it="Certificazione linguistica internazionale livello B2." data-en="International language certification level B2.">Certificazione linguistica internazionale livello B2.</p>
                     </div>
                     <div class="timeline-item chaos-text">
@@ -609,7 +675,7 @@
                     </div>
                     <div class="soft-skill-card chaos-text">
                         <span class="soft-skill-icon">🧭</span>
-                        <span data-it="Predisposizione all'adattamento" data-en="Adaptability Readiness">Predisposizione all'adattamento</span>
+                        <span data-it="Predisposizione all'adattamento" data-en="Adaptability readiness">Predisposizione all'adattamento</span>
                     </div>
                     <div class="soft-skill-card chaos-text">
                         <span class="soft-skill-icon">🔍</span>
@@ -635,7 +701,7 @@
                 breveEN: `Short synthetic description of project ${i} to grab attention.`,
                 lungaIT: `Questa è la pagina dedicata interamente al <b>Progetto ${i}</b>.<br><br>Qui lo spazio non ti manca affatto! Puoi raccontare la storia di come è nato il progetto, le sfide tecniche che hai affrontato e superato, le tecnologie esatte che hai utilizzato (es. HTML, CSS, JavaScript, React) e il tuo ruolo.<br><br>Essendo una pagina a tutto schermo, il testo risulterà sempre pulito e comodissimo da leggere, sia da computer che da cellulare.`,
                 lungaEN: `This is the dedicated page entirely for <b>Project ${i}</b>.<br><br>You have plenty of space here! You can tell the story of how the project was born, the technical challenges you faced and overcame, the exact technologies used, and your role.<br><br>Since this is a full-screen view, the text will always look clean and easy to read.`,
-                linkGithub: "https://github.com/LiciaCongedo" 
+                linkGithub: "https://github.com/licia6" 
             });
         }
 
@@ -714,7 +780,6 @@
             document.getElementById('detail-github-btn').href = prog.linkGithub;
             document.getElementById('project-detail-container').setAttribute('data-current-index', index);
             
-            // Scroll to top sicurissimo per ogni browser
             document.querySelector('#projects-modal .modal-content').scrollTop = 0;
             document.querySelector('#projects-modal').scrollTop = 0;
         }
@@ -914,7 +979,7 @@
             }, 2000); 
         }
 
-        // ROBOTTINO CATTURABILE
+        // ROBOTTINO CATTURABILE 
         const bot = document.getElementById('runaway-bot');
         const botFace = document.getElementById('bot-face');
         const bubble = document.getElementById('bot-bubble');
