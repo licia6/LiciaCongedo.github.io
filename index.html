@@ -301,6 +301,61 @@
         }
         .modal-content button.close-btn:hover { filter: brightness(0.9); }
 
+        /* --- STILI CANTIERE ANIMATO (NOVITÀ) --- */
+        .wip-stage {
+            position: relative; width: 100%; height: 200px; margin-bottom: 20px; overflow: hidden;
+            background: rgba(0,0,0,0.03); border-radius: 10px;
+        }
+        [data-theme='dark'] .wip-stage { background: rgba(255,255,255,0.03); }
+
+        /* Terreno */
+        .wip-stage::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px;
+            background: #555; border-radius: 2px;
+        }
+
+        /* Il Robot che lavora */
+        .wip-robot {
+            font-size: 3em; position: absolute; bottom: 5px; left: 10%;
+            display: flex; align-items: flex-end;
+            animation: robot-move 10s infinite linear;
+        }
+        .wip-robot .tool {
+            font-size: 0.7em; margin-left: -5px; margin-bottom: 5px;
+            transform-origin: bottom center;
+            animation: hammering 0.6s infinite alternate;
+        }
+
+        /* Edificio che viene costruito */
+        .wip-pile { font-size: 3.5em; position: absolute; bottom: 5px; right: 10%; animation: building-shake 1s infinite; }
+
+        /* Mattoni che volano verso l'edificio */
+        .flying-brick {
+            font-size: 1.5em; position: absolute; opacity: 0;
+            animation: placement 5s infinite;
+        }
+
+        /* Animazioni CSS */
+        @keyframes hammering { 0% { transform: rotate(-30deg); } 100% { transform: rotate(15deg); } }
+        
+        @keyframes robot-move {
+            0% { left: 10%; transform: scaleX(1); }
+            45% { left: calc(90% - 150px); transform: scaleX(1); }
+            50% { left: calc(90% - 150px); transform: scaleX(-1); }
+            95% { left: 10%; transform: scaleX(-1); }
+            100% { left: 10%; transform: scaleX(1); }
+        }
+        
+        @keyframes building-shake { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
+
+        @keyframes placement {
+            0% { bottom: 150px; right: calc(10% + 50px); opacity: 0; transform: scale(0.5); }
+            10% { opacity: 1; transform: scale(1); }
+            20% { bottom: 50px; right: calc(10% + 50px); opacity: 1; }
+            25% { bottom: 5px; right: calc(10% + 50px); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
         /* --- MODAL PROGETTI --- */
         #projects-modal .modal-content { max-width: 1100px; padding: 30px; }
         #projects-modal .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 25px; }
@@ -507,9 +562,17 @@
 
     <div class="modal-overlay" id="blog-modal">
         <div class="modal-content">
-            <div style="font-size: 4em; margin-bottom: 10px;">🚧🤖🏗️</div>
+            <div class="wip-stage">
+                <div class="wip-robot">🤖<span class="tool">🔧</span></div>
+                <div class="wip-pile">🏢</div>
+                <div class="flying-brick">🧱</div>
+                <div class="flying-brick" style="animation-delay: 1s;">🧱</div>
+                <div class="flying-brick" style="animation-delay: 2s;">🧱</div>
+                <div class="flying-brick" style="animation-delay: 3s;">🧱</div>
+            </div>
+            
             <h2 class="chaos-text" data-it="Lavori in corso!" data-en="Work in progress!">Lavori in corso!</h2>
-            <p class="chaos-text" data-it="Stiamo scrivendo, arriviamo presto!" data-en="We are writing, coming soon!">Stiamo scrivendo, arriviamo presto!</p>
+            <p class="chaos-text" data-it="Il Licia-Bot sta assemblando gli articoli. Arriviamo presto!" data-en="Licia-Bot is assembling articles. Coming soon!">Il Licia-Bot sta assemblando gli articoli. Arriviamo presto!</p>
             <button class="close-btn chaos-block" onclick="closeBlogModal()" data-it="Torna indietro" data-en="Go back">Torna indietro</button>
         </div>
     </div>
@@ -764,7 +827,7 @@
             });
         });
 
-        // --- FUNZIONI MODAL BLOG (LAVORI IN CORSO) ---
+        // --- FUNZIONI MODAL BLOG (CANTIERE ANIMATO) ---
         function openBlogModal() {
             document.body.classList.add('chaos-lock'); 
             document.getElementById('blog-modal').classList.add('active');
@@ -1009,7 +1072,7 @@
             }, 2000); 
         }
 
-        // ROBOTTINO CATTURABILE
+        // ROBOTTINO CATTURABILE 
         const bot = document.getElementById('runaway-bot');
         const botFace = document.getElementById('bot-face');
         const bubble = document.getElementById('bot-bubble');
