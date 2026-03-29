@@ -99,7 +99,7 @@
             .nav-menu a { padding: 6px 12px; font-size: 0.9em; }
         }
 
-        /* --- SEZIONE HERO E FOTO SWAP PERFEZIONATA --- */
+        /* --- SEZIONE HERO E FOTO --- */
         .hero { 
             margin-top: 130px; text-align: center; padding: 20px; 
             width: 100%; max-width: 900px; z-index: 10; 
@@ -115,45 +115,22 @@
         .image-container img {
             width: 100%; height: 100%; object-fit: contain; 
             position: absolute; top: 0; left: 0; transition: opacity 0.3s ease;
-            opacity: 0; /* Base state: nascosto */
-            z-index: 1; /* Base z-index */
         }
 
-        /* --- Theme-specific default visible state --- */
-        /* LIGHT MODE: Mostra la cartoon originale */
-        body:not([data-theme='dark']) .image-container img.cartoon-light {
-            opacity: 1;
-            z-index: 2;
-        }
+        body:not([data-theme='dark']) .image-container img.cartoon-light { opacity: 1; z-index: 2; }
+        [data-theme='dark'] .image-container img.cartoon-dark { opacity: 1; z-index: 2; }
+        .image-container img.real { opacity: 0; z-index: 1; }
 
-        /* DARK MODE: Mostra la nuova cartoon tech */
-        [data-theme='dark'] .image-container img.cartoon-dark {
-            opacity: 1;
-            z-index: 2;
-        }
-
-        /* Ensure the real photo is hidden but prepared at bottom layer */
-        .image-container img.real {
-            opacity: 0;
-            z-index: 1;
-        }
-
-        /* --- Hover/Click Logic Perfezionata --- */
-        /* Al passaggio mouse/click, mostra la foto reale sopra a tutto */
         @media (hover: hover) {
             .image-container:not(.toggled-click):hover img.real { opacity: 1; z-index: 3; }
-        }
-        .image-container.toggled-click img.real { opacity: 1; z-index: 3; }
-
-        /* Nascondi la cartoon visibile al passaggio mouse/click */
-        @media (hover: hover) {
             body:not([data-theme='dark']) .image-container:not(.toggled-click):hover img.cartoon-light { opacity: 0; z-index: 1;}
             [data-theme='dark'] .image-container:not(.toggled-click):hover img.cartoon-dark { opacity: 0; z-index: 1;}
         }
+
+        .image-container.toggled-click img.real { opacity: 1; z-index: 3; }
         body:not([data-theme='dark']) .image-container.toggled-click img.cartoon-light { opacity: 0; z-index: 1;}
         [data-theme='dark'] .image-container.toggled-click img.cartoon-dark { opacity: 0; z-index: 1;}
 
-        /* Click Logic revert - per mobile */
         @media (hover: hover) {
             .image-container.toggled-click:hover img.real { opacity: 0; z-index: 1;}
             body:not([data-theme='dark']) .image-container.toggled-click:hover img.cartoon-light { opacity: 1; z-index: 3;}
@@ -280,11 +257,11 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* MODAL VITTORIA E SUCCESSO EMAIL */
+        /* MODAL GENERICO */
         .modal-overlay {
             position: fixed !important; top: 0 !important; left: 0 !important; 
             width: 100vw !important; height: 100vh !important;
-            background: rgba(0,0,0,0.7); z-index: 999999 !important; display: none; 
+            background: rgba(0,0,0,0.8); z-index: 999999 !important; display: none; 
             justify-content: center; align-items: center; opacity: 0; 
             transition: opacity 0.3s; backdrop-filter: blur(5px);
         }
@@ -300,66 +277,59 @@
         .modal-content h2 { margin-top: 0; font-size: 2.2em; }
         .modal-content button.close-btn {
             background: var(--accent); color: white; border: none; padding: 12px 30px; 
-            border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em;
+            border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em; transition: 0.2s;
         }
+        .modal-content button.close-btn:hover { filter: brightness(0.9); }
 
-        /* --- STILI SPECIFICI MODAL PROGETTI --- */
+        /* --- MODAL PROGETTI --- */
         #projects-modal .modal-content { max-width: 1100px; width: 95%; padding: 30px; }
-        #projects-modal .modal-header {
-            display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 25px;
-        }
+        #projects-modal .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 25px; }
         #projects-modal .modal-header h2 { margin: 0; font-size: 2em; }
-        #projects-modal .close-icon {
-            font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color); transition: color 0.2s;
-        }
+        #projects-modal .close-icon { font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color); transition: color 0.2s; }
         #projects-modal .close-icon:hover { color: var(--accent); }
-
-        /* Griglia dei 13 progetti */
-        .projects-grid {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left;
-        }
-        .project-card {
-            background: var(--card-bg); padding: 25px; border-radius: 15px;
-            border: var(--card-border); transition: transform 0.2s, box-shadow 0.2s;
-            display: flex; flex-direction: column;
-        }
+        .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left; }
+        .project-card { background: var(--card-bg); padding: 25px; border-radius: 15px; border: var(--card-border); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
         .project-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
         .project-card h4 { margin: 0 0 10px 0; font-size: 1.4em; color: var(--accent); }
         .project-card p.short-desc { font-size: 0.95em; margin: 0 0 20px 0; flex-grow: 1; color: #666; }
         [data-theme='dark'] .project-card p.short-desc { color: #aaa; }
-        
-        .project-card button.toggle-btn {
-            background: transparent; color: var(--text-color); border: 2px solid var(--text-color);
-            padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold;
-            margin-top: auto; transition: all 0.2s; width: 100%; font-size: 1em;
-        }
+        .project-card button.toggle-btn { background: transparent; color: var(--text-color); border: 2px solid var(--text-color); padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: auto; transition: all 0.2s; width: 100%; font-size: 1em; }
         .project-card button.toggle-btn:hover { background: var(--text-color); color: var(--bg-color); }
-
-        /* Vista Dettaglio Singolo Progetto */
         #project-detail-container { text-align: left; display: none; animation: fadeIn 0.4s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .back-btn {
-            background: transparent; color: var(--text-color); border: none; font-size: 1.1em;
-            cursor: pointer; font-weight: bold; padding: 0; margin-bottom: 20px;
-            display: flex; align-items: center; gap: 8px; transition: color 0.2s;
-        }
+        .back-btn { background: transparent; color: var(--text-color); border: none; font-size: 1.1em; cursor: pointer; font-weight: bold; padding: 0; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
         .back-btn:hover { color: var(--accent); }
-        
         #detail-title { font-size: 2.5em; margin: 0 0 20px 0; color: var(--accent); }
         #detail-desc { font-size: 1.15em; line-height: 1.8; margin-bottom: 40px; }
-        
-        .github-link-btn {
-            display: inline-flex; align-items: center; gap: 10px;
-            background: #24292e; color: white; text-decoration: none;
-            padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 1.1em;
-            transition: transform 0.2s, background 0.2s;
-        }
+        .github-link-btn { display: inline-flex; align-items: center; gap: 10px; background: #24292e; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; font-size: 1.1em; transition: transform 0.2s, background 0.2s; }
         .github-link-btn:hover { background: #000000; transform: scale(1.05); color: white; }
         [data-theme='dark'] .github-link-btn { background: #f0f6fc; color: #24292e; }
         [data-theme='dark'] .github-link-btn:hover { background: #ffffff; color: #000000;}
         .github-icon { width: 24px; height: 24px; fill: currentColor; }
+
+        /* --- MODAL ESPERIENZA (TIMELINE E TABS) --- */
+        #esperienza-modal .modal-content { max-width: 900px; width: 95%; padding: 30px; text-align: left; }
+        .exp-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .exp-tab-btn {
+            background: transparent; color: var(--text-color); border: 2px solid var(--text-color);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1.05em; transition: all 0.3s;
+        }
+        .exp-tab-btn.active, .exp-tab-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
+        .exp-tab-content { display: none; animation: fadeIn 0.4s ease; padding: 10px; }
+        .exp-tab-content.active { display: block; }
+        
+        .timeline { border-left: 3px solid var(--accent); margin-left: 15px; padding-left: 25px; }
+        .timeline-item { position: relative; margin-bottom: 35px; }
+        .timeline-item:last-child { margin-bottom: 0; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -36px; top: 0; width: 18px; height: 18px;
+            border-radius: 50%; background: var(--accent); border: 4px solid var(--bg-color);
+        }
+        .timeline-date { font-size: 0.9em; color: var(--accent); font-weight: bold; margin-bottom: 5px; display: block; letter-spacing: 0.5px;}
+        .timeline-title { font-size: 1.3em; font-weight: bold; margin: 0 0 5px 0; color: var(--text-color); }
+        .timeline-subtitle { font-size: 1.05em; font-style: italic; color: #777; margin: 0 0 10px 0; }
+        [data-theme='dark'] .timeline-subtitle { color: #aaa; }
+        .timeline-desc { font-size: 1em; color: var(--text-color); line-height: 1.6; margin: 0; }
 
     </style>
 </head>
@@ -384,8 +354,8 @@
     <div id="content-wrapper">
         <section class="hero">
             <div class="image-container" id="image-swap-container">
-                <img class="cartoon-light" src="foto-cartoon.png" alt="Profile Cartoon Light" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+PNG';">
-                <img class="cartoon-dark" src="foto-cartoon-dark.png" alt="Profile Cartoon Dark">
+                <img class="cartoon-light" src="foto-cartoon.png" alt="Profile Cartoon" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+PNG';">
+                <img class="cartoon-dark" src="foto-cartoon-dark.jpg" alt="Profile Cartoon Dark" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Dark';">
                 <img class="real" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/300?text=Reale+PNG';">
             </div>
             
@@ -403,7 +373,12 @@
                 <p class="chaos-text" data-it="I miei lavori più recenti." data-en="My most recent works.">I miei lavori più recenti.</p>
                 <button class="chaos-block" onclick="openProjectsModal()" data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button>
             </div>
-            <div class="card" id="esperienza"><div class="card-icon chaos-block">🧭</div><h3 class="chaos-text" data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3><p class="chaos-text" data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p><button class="chaos-block" data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button></div>
+            <div class="card" id="esperienza">
+                <div class="card-icon chaos-block">🧭</div>
+                <h3 class="chaos-text" data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3>
+                <p class="chaos-text" data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p>
+                <button class="chaos-block" onclick="openExpModal()" data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button>
+            </div>
             <div class="card" id="contatti"><div class="card-icon chaos-block">✉️</div><h3 class="chaos-text" data-it="CONTATTI" data-en="CONTACT">CONTATTI</h3><p class="chaos-text" data-it="Troviamo un modo per collaborare." data-en="Let's find a way to collaborate.">Troviamo un modo per collaborare.</p><button class="chaos-block" data-it="Scrivimi" data-en="Write me">Scrivimi</button></div>
             <div class="card" id="blog"><div class="card-icon chaos-block">📖</div><h3 class="chaos-text" data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3><p class="chaos-text" data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p><button class="chaos-block" data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button></div>
         </section>
@@ -447,41 +422,110 @@
 
     <div class="modal-overlay" id="custom-modal">
         <div class="modal-content">
-            <h2 id="modal-title"></h2>
-            <p id="modal-desc"></p>
-            <button class="close-btn" onclick="closeModal()" data-it="Chiudi" data-en="Close">Chiudi</button>
+            <h2 id="modal-title" class="chaos-text"></h2>
+            <p id="modal-desc" class="chaos-text"></p>
+            <button class="close-btn chaos-block" onclick="closeModal()" data-it="Chiudi" data-en="Close">Chiudi</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="projects-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 data-it="I Miei Progetti" data-en="My Projects">I Miei Progetti</h2>
+                <h2 class="chaos-text" data-it="I Miei Progetti" data-en="My Projects">I Miei Progetti</h2>
                 <button class="close-icon" onclick="closeProjectsModal()">✖</button>
             </div>
-            
-            <div class="projects-grid" id="projects-grid-container">
-                </div>
-
+            <div class="projects-grid" id="projects-grid-container"></div>
             <div id="project-detail-container">
-                <button class="back-btn" onclick="showProjectsGrid()">⬅ <span data-it="Torna ai progetti" data-en="Back to projects">Torna ai progetti</span></button>
-                <h3 id="detail-title">Titolo Progetto</h3>
-                <div id="detail-desc">Descrizione lunga...</div>
-                
-                <a href="#" target="_blank" id="detail-github-btn" class="github-link-btn">
-                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/>
-                    </svg>
+                <button class="back-btn chaos-block" onclick="showProjectsGrid()">⬅ <span data-it="Torna ai progetti" data-en="Back to projects">Torna ai progetti</span></button>
+                <h3 id="detail-title" class="chaos-text">Titolo</h3>
+                <div id="detail-desc" class="chaos-text">Desc</div>
+                <a href="#" target="_blank" id="detail-github-btn" class="github-link-btn chaos-block">
+                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                     <span data-it="Vedi su GitHub" data-en="View on GitHub">Vedi su GitHub</span>
                 </a>
             </div>
         </div>
     </div>
 
+    <div class="modal-overlay" id="esperienza-modal">
+        <div class="modal-content">
+            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 25px;">
+                <h2 class="chaos-text" data-it="Il Mio Percorso" data-en="My Journey" style="margin:0; font-size:2em;">Il Mio Percorso</h2>
+                <button class="close-icon" onclick="closeExpModal()" style="font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color);">✖</button>
+            </div>
+            
+            <div class="exp-tabs">
+                <button class="exp-tab-btn chaos-block active" onclick="switchExpTab('istruzione')" data-it="Istruzione" data-en="Education">Istruzione</button>
+                <button class="exp-tab-btn chaos-block" onclick="switchExpTab('lavoro')" data-it="Lavorative" data-en="Work">Lavorative</button>
+                <button class="exp-tab-btn chaos-block" onclick="switchExpTab('certificazioni')" data-it="Certificazioni" data-en="Certifications">Certificazioni</button>
+            </div>
+
+            <div id="tab-istruzione" class="exp-tab-content active">
+                <div class="timeline">
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date" data-it="2024 - Luglio 2026" data-en="2024 - July 2026">2024 - Luglio 2026</span>
+                        <h4 class="timeline-title" data-it="Laurea Magistrale in Computer Science" data-en="Master's Degree in Computer Science">Laurea Magistrale in Computer Science</h4>
+                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
+                        <p class="timeline-desc" data-it="Laurea Magistrale in Computer science curriculum SECURITY ENGINEERING (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente, con l'obiettivo di coordinare soluzioni innovative in contesti critici come le Smart Cities e i sistemi sanitari digitali." data-en="Master's Degree in Computer Science, SECURITY ENGINEERING curriculum (degree course taught in English, C1 university level).<br><br>A master's program focused on the design and development of intrinsically secure software systems and the secure management of complex IT projects. The training delves into the integration of Artificial Intelligence techniques to support security, the protection of IoT devices, and the development of serious games to educate on mindful data usage.<br><br>Special emphasis is given to Secure Project Management and the analysis of vulnerabilities in user interactions, aiming to coordinate innovative solutions in critical contexts such as Smart Cities and digital healthcare systems.">Laurea Magistrale in Computer science curriculum SECURITY ENGINEERING (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente, con l'obiettivo di coordinare soluzioni innovative in contesti critici come le Smart Cities e i sistemi sanitari digitali.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date" data-it="2021 - 2024" data-en="2021 - 2024">2021 - 2024</span>
+                        <h4 class="timeline-title" data-it="Laurea Triennale in Informatica" data-en="Bachelor's Degree in Computer Science">Laurea Triennale in Informatica</h4>
+                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
+                        <p class="timeline-desc" data-it="Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e delle architetture client-server, applicazione di metodologie di sviluppo software e gestione del ciclo di vita del software, capacità di raccogliere e analizzare i requisiti degli utenti, UX design, introduzione ai concetti di base dell'IA e dell'apprendimento automatico." data-en="Experience in collaborative teamwork on group projects, developing interpersonal and communication skills.<br><br>Acquired skills in programming, data analysis, problem-solving, design and querying of relational databases with SQL, understanding of network protocols and client-server architectures, application of software development methodologies and software lifecycle management, ability to gather and analyze user requirements, UX design, and introduction to the basic concepts of AI and machine learning.">Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e delle architetture client-server, applicazione di metodologie di sviluppo software e gestione del ciclo di vita del software, capacità di raccogliere e analizzare i requisiti degli utenti, UX design, introduzione ai concetti di base dell'IA e dell'apprendimento automatico.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date" data-it="2016 - 2021" data-en="2016 - 2021">2016 - 2021</span>
+                        <h4 class="timeline-title" data-it="Diploma Liceo Scientifico tradizionale" data-en="Traditional Scientific High School Diploma">Diploma Liceo Scientifico tradizionale</h4>
+                        <p class="timeline-subtitle" data-it="Liceo Scientifico A.Vallone, Galatina (LE)" data-en="Liceo Scientifico A.Vallone, Galatina (LE)">Liceo Scientifico A.Vallone, Galatina (LE)</p>
+                        <p class="timeline-desc" data-it="Diploma Liceo Scientifico tradizionale." data-en="Traditional Scientific High School Diploma.">Diploma Liceo Scientifico tradizionale.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-lavoro" class="exp-tab-content">
+                <div class="timeline">
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date" data-it="2022 - Presente" data-en="2022 - Present">2022 - Presente</span>
+                        <h4 class="timeline-title" data-it="Frontend Developer" data-en="Frontend Developer">Frontend Developer</h4>
+                        <p class="timeline-subtitle" data-it="Tech Company S.p.A." data-en="Tech Company S.p.A.">Tech Company S.p.A.</p>
+                        <p class="timeline-desc" data-it="Sviluppo di interfacce web responsive in React, gestione stato con Redux e collaborazione in team Agile." data-en="Development of responsive web interfaces in React, state management with Redux, and Agile team collaboration.">Sviluppo di interfacce web responsive in React, gestione stato con Redux e collaborazione in team Agile.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2020 - 2022</span>
+                        <h4 class="timeline-title" data-it="Junior Web Designer" data-en="Junior Web Designer">Junior Web Designer</h4>
+                        <p class="timeline-subtitle" data-it="Creative Agency" data-en="Creative Agency">Creative Agency</p>
+                        <p class="timeline-desc" data-it="Creazione mockup su Figma, realizzazione siti vetrina in HTML/CSS/JS e ottimizzazione SEO base." data-en="Created mockups on Figma, built static websites in HTML/CSS/JS, and basic SEO optimization.">Creazione mockup su Figma, realizzazione siti vetrina in HTML/CSS/JS e ottimizzazione SEO base.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-certificazioni" class="exp-tab-content">
+                <div class="timeline">
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2023</span>
+                        <h4 class="timeline-title" data-it="AWS Certified Developer" data-en="AWS Certified Developer">AWS Certified Developer</h4>
+                        <p class="timeline-subtitle" data-it="Amazon Web Services" data-en="Amazon Web Services">Amazon Web Services</p>
+                        <p class="timeline-desc" data-it="Certificazione sulle competenze di sviluppo e mantenimento di applicazioni cloud su AWS." data-en="Certification on skills for developing and maintaining cloud applications on AWS.">Certificazione sulle competenze di sviluppo e mantenimento di applicazioni cloud su AWS.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2022</span>
+                        <h4 class="timeline-title" data-it="React Advanced Certification" data-en="React Advanced Certification">React Advanced Certification</h4>
+                        <p class="timeline-subtitle" data-it="Meta / Coursera" data-en="Meta / Coursera">Meta / Coursera</p>
+                        <p class="timeline-desc" data-it="Corso intensivo su concetti avanzati di React: Custom Hooks, Context API e Performance." data-en="Intensive course on advanced React concepts: Custom Hooks, Context API, and Performance.">Corso intensivo su concetti avanzati di React: Custom Hooks, Context API e Performance.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2021</span>
+                        <h4 class="timeline-title" data-it="Certificazione Inglese C1" data-en="English C1 Certification">Certificazione Inglese C1</h4>
+                        <p class="timeline-subtitle" data-it="Cambridge Assessment" data-en="Cambridge Assessment">Cambridge Assessment</p>
+                        <p class="timeline-desc" data-it="Livello avanzato di comprensione e produzione scritta e orale della lingua inglese." data-en="Advanced level of comprehension and written/oral production of the English language.">Livello avanzato di comprensione e produzione scritta e orale della lingua inglese.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // =====================================================================
-        // 🔴🔴🔴 I TUOI 13 PROGETTI DA MODIFICARE! 🔴🔴🔴
-        // =====================================================================
         const mieiProgetti = [];
         for(let i=1; i<=13; i++) {
             mieiProgetti.push({
@@ -491,12 +535,10 @@
                 breveEN: `Short synthetic description of project ${i} to grab attention.`,
                 lungaIT: `Questa è la pagina dedicata interamente al <b>Progetto ${i}</b>.<br><br>Qui lo spazio non ti manca affatto! Puoi raccontare la storia di come è nato il progetto, le sfide tecniche che hai affrontato e superato, le tecnologie esatte che hai utilizzato (es. HTML, CSS, JavaScript, React) e il tuo ruolo.<br><br>Essendo una pagina a tutto schermo, il testo risulterà sempre pulito e comodissimo da leggere, sia da computer che da cellulare.`,
                 lungaEN: `This is the dedicated page entirely for <b>Project ${i}</b>.<br><br>You have plenty of space here! You can tell the story of how the project was born, the technical challenges you faced and overcame, the exact technologies used, and your role.<br><br>Since this is a full-screen view, the text will always look clean and easy to read.`,
-                linkGithub: "https://github.com/LiciaCongedo" // INCOLLA QUI IL LINK AL REPO GITHUB!
+                linkGithub: "https://github.com/LiciaCongedo" 
             });
         }
-        // =====================================================================
 
-        // 0. SFONDO E PROGETTI
         window.addEventListener('DOMContentLoaded', () => {
             const snippets = ['<div/>', '()=>{}', '0x4F', '0110', 'git push', 'npm start', 'console', '#FF00FF', 'const', '=>', '404', 'while(1)', '#00FFFF', 'binary'];
             const colorsLight = ['#000000', '#007bff', '#28a745', '#6f42c1'];
@@ -527,27 +569,42 @@
             mieiProgetti.forEach((prog, index) => {
                 const cardHTML = `
                     <div class="project-card">
-                        <h4 data-it="${prog.titoloIT}" data-en="${prog.titoloEN}">${currentLang === 'it' ? prog.titoloIT : prog.titoloEN}</h4>
-                        <p class="short-desc" data-it="${prog.breveIT}" data-en="${prog.breveEN}">${currentLang === 'it' ? prog.breveIT : prog.breveEN}</p>
-                        <button class="toggle-btn" onclick="openProjectDetail(${index})" data-it="Più dettagli" data-en="More details">${currentLang === 'it' ? 'Più dettagli' : 'More details'}</button>
+                        <h4 class="chaos-text" data-it="${prog.titoloIT}" data-en="${prog.titoloEN}">${currentLang === 'it' ? prog.titoloIT : prog.titoloEN}</h4>
+                        <p class="short-desc chaos-text" data-it="${prog.breveIT}" data-en="${prog.breveEN}">${currentLang === 'it' ? prog.breveIT : prog.breveEN}</p>
+                        <button class="toggle-btn chaos-block" onclick="openProjectDetail(${index})" data-it="Più dettagli" data-en="More details">${currentLang === 'it' ? 'Più dettagli' : 'More details'}</button>
                     </div>
                 `;
                 gridContainer.innerHTML += cardHTML;
             });
         });
 
-        // MODAL PROGETTI
+        // --- FUNZIONI MODAL ESPERIENZA ---
+        function openExpModal() {
+            document.body.classList.add('chaos-lock'); 
+            document.getElementById('esperienza-modal').classList.add('active');
+        }
+        function closeExpModal() {
+            document.body.classList.remove('chaos-lock');
+            document.getElementById('esperienza-modal').classList.remove('active');
+        }
+        function switchExpTab(tabId) {
+            document.querySelectorAll('.exp-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.exp-tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        // --- FUNZIONI MODAL PROGETTI ---
         function openProjectsModal() {
             document.body.classList.add('chaos-lock'); 
             document.getElementById('projects-modal').classList.add('active');
             showProjectsGrid(); 
         }
-
         function closeProjectsModal() {
             document.body.classList.remove('chaos-lock');
             document.getElementById('projects-modal').classList.remove('active');
         }
-
         function openProjectDetail(index) {
             const prog = mieiProgetti[index];
             document.getElementById('projects-grid-container').style.display = 'none';
@@ -558,13 +615,12 @@
             document.getElementById('project-detail-container').setAttribute('data-current-index', index);
             document.querySelector('#projects-modal .modal-content').scrollTop = 0;
         }
-
         function showProjectsGrid() {
             document.getElementById('project-detail-container').style.display = 'none';
             document.getElementById('projects-grid-container').style.display = 'grid';
         }
 
-        // DARK MODE, LINGUA, E FOTO SWAP
+        // DARK MODE E TRADUZIONE
         function toggleTheme() {
             const body = document.body;
             const themeBtn = document.getElementById('theme-btn');
@@ -594,10 +650,16 @@
             if(isChaosActive) return; 
             currentLang = currentLang === 'it' ? 'en' : 'it';
             document.getElementById('lang-btn').innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
+            
             const elements = document.querySelectorAll('[data-it]');
             elements.forEach(el => {
                 if(el.querySelector('span') && el.classList.contains('chaos-text')) return;
-                el.innerText = el.getAttribute('data-' + currentLang);
+                // Gestione dei testi con HTML interno (es. i <br> nei progetti o descrizioni timeline)
+                if (el.classList.contains('long-desc') || el.id === 'detail-desc' || el.classList.contains('timeline-desc')) {
+                    el.innerHTML = el.getAttribute('data-' + currentLang);
+                } else {
+                    el.innerText = el.getAttribute('data-' + currentLang);
+                }
             });
             const detailContainer = document.getElementById('project-detail-container');
             if (detailContainer.style.display === 'block') {
@@ -671,111 +733,103 @@
             document.getElementById('custom-modal').classList.add('active');
         }
 
-        // EASTER EGG E ROBOT
+        // EASTER EGG TORNADO
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        let konamiIndex = 0;
-        let isChaosActive = false;
-        let physicsLoop;
-        let activeParticles = [];
+        let konamiIndex = 0; let isChaosActive = false; let physicsLoop; let activeParticles = [];
+        
         document.addEventListener('keydown', (e) => {
             if (e.key === konamiCode[konamiIndex]) {
-                konamiIndex++;
-                if (konamiIndex === konamiCode.length) { triggerBouncingChaos(); konamiIndex = 0; }
+                konamiIndex++; if (konamiIndex === konamiCode.length) { triggerBouncingChaos(); konamiIndex = 0; }
             } else konamiIndex = 0;
         });
-        let tapCount = 0;
-        let tapTimer;
+
+        let tapCount = 0; let tapTimer;
         document.addEventListener('touchstart', (e) => {
-            if(e.target.closest('#runaway-bot') || e.target.closest('header')) return; 
-            tapCount++;
-            clearTimeout(tapTimer);
+            if(e.target.closest('#runaway-bot') || e.target.closest('header') || e.target.closest('.modal-overlay')) return; 
+            tapCount++; clearTimeout(tapTimer);
             if (tapCount === 5) { triggerBouncingChaos(); tapCount = 0; } 
             else { tapTimer = setTimeout(() => { tapCount = 0; }, 400); }
         });
+
         function triggerBouncingChaos() {
-            if (isChaosActive) return;
-            isChaosActive = true;
-            document.body.classList.add('chaos-lock');
+            if (isChaosActive) return; isChaosActive = true; document.body.classList.add('chaos-lock');
+
             const textEls = document.querySelectorAll('.chaos-text');
             const otherBlocks = document.querySelectorAll('.chaos-block, .image-container');
-            const originalHTML = new Map();
-            activeParticles = [];
+            const originalHTML = new Map(); activeParticles = [];
+
             textEls.forEach(el => {
                 originalHTML.set(el, el.innerHTML); 
-                const text = el.innerText;
-                el.innerHTML = '';
+                const text = el.innerText; el.innerHTML = '';
                 for(let i=0; i<text.length; i++) {
                     let span = document.createElement('span');
                     span.innerText = text[i] === ' ' ? '\u00A0' : text[i];
-                    span.style.display = 'inline-block';
-                    el.appendChild(span);
-                    setupParticle(span);
+                    span.style.display = 'inline-block'; el.appendChild(span); setupParticle(span);
                 }
             });
+
             otherBlocks.forEach(block => setupParticle(block));
+
             function setupParticle(el) {
                 const rect = el.getBoundingClientRect();
-                activeParticles.push({
-                    el: el, x: 0, y: 0, startLeft: rect.left, startTop: rect.top,
-                    width: rect.width, height: rect.height,
-                    vx: (Math.random() - 0.5) * 35, vy: (Math.random() - 0.5) * 35, 
-                    rot: 0, vrot: (Math.random() - 0.5) * 20
-                });
+                activeParticles.push({ el: el, x: 0, y: 0, startLeft: rect.left, startTop: rect.top, width: rect.width, height: rect.height, vx: (Math.random() - 0.5) * 35, vy: (Math.random() - 0.5) * 35, rot: 0, vrot: (Math.random() - 0.5) * 20 });
             }
+
             let lastTime = performance.now();
             function updatePhysics(time) {
                 if (!isChaosActive) return;
-                const dt = (time - lastTime) / 16; 
-                lastTime = time;
+                const dt = (time - lastTime) / 16; lastTime = time;
                 activeParticles.forEach(p => {
                     p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vrot * dt;
-                    const currentLeft = p.startLeft + p.x;
-                    const currentTop = p.startTop + p.y;
-                    if (currentLeft <= 0) { p.x = -p.startLeft; p.vx *= -1.05; }
-                    else if (currentLeft + p.width >= window.innerWidth) { p.x = window.innerWidth - p.startLeft - p.width; p.vx *= -1.05; }
-                    if (currentTop <= 0) { p.y = -p.startTop; p.vy *= -1.05; }
-                    else if (currentTop + p.height >= window.innerHeight) { p.y = window.innerHeight - p.startTop - p.height; p.vy *= -1.05; }
+                    const currentLeft = p.startLeft + p.x; const currentTop = p.startTop + p.y;
+                    if (currentLeft <= 0) { p.x = -p.startLeft; p.vx *= -1.05; } else if (currentLeft + p.width >= window.innerWidth) { p.x = window.innerWidth - p.startLeft - p.width; p.vx *= -1.05; }
+                    if (currentTop <= 0) { p.y = -p.startTop; p.vy *= -1.05; } else if (currentTop + p.height >= window.innerHeight) { p.y = window.innerHeight - p.startTop - p.height; p.vy *= -1.05; }
                     p.el.style.transform = `translate(${p.x}px, ${p.y}px) rotate(${p.rot}deg)`;
                 });
                 physicsLoop = requestAnimationFrame(updatePhysics);
             }
             physicsLoop = requestAnimationFrame(updatePhysics);
+
             setTimeout(() => {
                 cancelAnimationFrame(physicsLoop);
                 activeParticles.forEach(p => { p.el.style.transition = 'opacity 0.3s ease'; p.el.style.opacity = '0'; });
+
                 const msgContainer = document.getElementById('secret-msg-container');
                 msgContainer.innerText = msgContainer.getAttribute('data-' + currentLang);
                 msgContainer.classList.add('show');
+
                 setTimeout(() => {
                     msgContainer.classList.remove('show');
                     activeParticles.forEach(p => { p.el.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s'; p.el.style.transform = 'translate(0, 0) rotate(0deg)'; p.el.style.opacity = '1'; });
+
                     setTimeout(() => {
                         textEls.forEach(el => { el.innerHTML = originalHTML.get(el); });
                         otherBlocks.forEach(block => { block.style.transition = ''; block.style.transform = ''; });
-                        document.body.classList.remove('chaos-lock'); 
-                        isChaosActive = false;
+                        document.body.classList.remove('chaos-lock'); isChaosActive = false;
                     }, 1000);
                 }, 4000); 
             }, 2000); 
         }
 
+        // ROBOTTINO CATTURABILE (FIX TELETRASPORTO INIZIALE)
         const bot = document.getElementById('runaway-bot');
         const botFace = document.getElementById('bot-face');
         const bubble = document.getElementById('bot-bubble');
         let runTimeout, footprintInterval, isCaught = false, isMoving = false, touchAttempts = 0;
+
         window.addEventListener('DOMContentLoaded', () => {
-            const botWidth = bot.offsetWidth || 80;
-            const botHeight = bot.offsetHeight || 100;
+            const botWidth = bot.offsetWidth || 80; const botHeight = bot.offsetHeight || 100;
             bot.style.left = (window.innerWidth - botWidth - 30) + 'px';
             bot.style.top = (window.innerHeight - botHeight - 30) + 'px';
             bot.style.bottom = 'auto'; bot.style.right = 'auto';
         });
+
         function setBubbleText(testoIT, testoEN) {
             bubble.setAttribute('data-it', testoIT); bubble.setAttribute('data-en', testoEN); bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
         }
+
         function triggerRunHover() {
-            if (isCaught || isMoving) return; 
-            isMoving = true; 
+            if (isCaught || isMoving) return; isMoving = true; 
             setTimeout(() => { 
                 if (isCaught) return;
                 botFace.innerText = '😱'; setBubbleText("Mancato!", "Missed!");
@@ -783,20 +837,22 @@
                 setTimeout(() => { if (!isCaught) { bot.classList.remove('running'); botFace.innerText = '🤖'; stopFootprints(); isMoving = false; } }, 400); 
             }, 100); 
         }
+
         function handleTouchBot(e) {
             if (isCaught || isMoving) return;
             e.preventDefault(); e.stopPropagation(); 
             touchAttempts++;
             if (touchAttempts < 5) { 
                 isMoving = true; botFace.innerText = '😱';
-                let itTexts = ["Mancato!", "Troppo lento!", "Ritenta!", "Ci sei quasi..."];
-                let enTexts = ["Missed!", "Too slow!", "Try again!", "Almost there..."];
+                let itTexts = ["Mancato!", "Troppo lento!", "Ritenta!", "Ci sei quasi..."]; let enTexts = ["Missed!", "Too slow!", "Try again!", "Almost there..."];
                 setBubbleText(itTexts[touchAttempts - 1], enTexts[touchAttempts - 1]);
                 bot.classList.add('running'); startFootprints(); runAway();
                 setTimeout(() => { if (!isCaught) { bot.classList.remove('running'); botFace.innerText = '🤖'; stopFootprints(); isMoving = false; } }, 400);
             } else executeCatch();
         }
+
         function handleMouseClick(e) { if (isCaught) return; executeCatch(); }
+
         function runAway() {
             const rect = bot.getBoundingClientRect(), currentX = rect.left, currentY = rect.top, maxX = window.innerWidth - 120, maxY = window.innerHeight - 150;
             let randomX, randomY, distance = 0, attempts = 0;
@@ -806,10 +862,15 @@
             } while (distance < 400 && attempts < 30); 
             bot.style.bottom = 'auto'; bot.style.right = 'auto'; bot.style.left = randomX + 'px'; bot.style.top = randomY + 'px';
         }
+
         function startFootprints() { clearInterval(footprintInterval); footprintInterval = setInterval(() => { const rect = bot.getBoundingClientRect(); const print = document.createElement('div'); print.className = 'footprint'; print.style.left = (rect.left + 50) + 'px'; print.style.top = (rect.top + 90) + 'px'; document.body.appendChild(print); setTimeout(() => print.remove(), 1000); }, 100); }
         function stopFootprints() { clearInterval(footprintInterval); }
-        function executeCatch() { isCaught = true; clearTimeout(runTimeout); stopFootprints(); bot.classList.remove('running'); botFace.innerText = '😵'; setBubbleText("Preso!", "Got me!"); setTimeout(() => { bot.classList.add('bot-vanish'); }, 500); setTimeout(() => { showCustomModal(currentLang === 'it' ? "Preso! 🎯" : "Caught me! 🎯", currentLang === 'it' ? "Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" : "Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!"); }, 900); }
-        function closeModal() { document.getElementById('custom-modal').classList.remove('active'); }
+        function executeCatch() {
+            isCaught = true; clearTimeout(runTimeout); stopFootprints(); bot.classList.remove('running'); botFace.innerText = '😵'; setBubbleText("Preso!", "Got me!");
+            setTimeout(() => { bot.classList.add('bot-vanish'); }, 500);
+            setTimeout(() => { showCustomModal(currentLang === 'it' ? "Preso! 🎯" : "Caught me! 🎯", currentLang === 'it' ? "Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" : "Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!"); }, 900);
+        }
+        function closeModal() { document.getElementById('custom-modal').classList.remove('active'); document.getElementById('esperienza-modal').classList.remove('active'); document.body.classList.remove('chaos-lock'); }
     </script>
 </body>
 </html>
