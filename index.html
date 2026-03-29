@@ -113,7 +113,7 @@
         .image-container img {
             width: 100%; height: 100%; object-fit: contain; 
             position: absolute; top: 0; left: 0; transition: opacity 0.3s ease;
-            opacity: 0; z-index: 1;
+            opacity: 0; z-index: 1; /* Tutte nascoste di base */
         }
 
         /* LIGHT MODE */
@@ -280,6 +280,7 @@
         /* --- MODAL ESPERIENZA (TIMELINE, TABS E TITOLO ELEGANTE) --- */
         #esperienza-modal .modal-content { max-width: 900px; width: 95%; padding: 30px; text-align: left; }
         
+        /* Titolo "Il Mio Percorso" Stilizzato */
         .modal-main-title {
             font-size: 2.8em; color: var(--accent); text-transform: uppercase; letter-spacing: 3px;
             position: relative; padding-bottom: 15px; margin-top: -10px; margin-bottom: 20px; text-align: center;
@@ -321,14 +322,16 @@
         }
         .skill-pill:hover { background: var(--accent); color: white; transform: translateY(-2px); }
 
-        /* --- STILI TAB SOFT SKILLS --- */
-        .soft-skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 10px; }
+        /* --- STILI TAB SOFT SKILLS (GRIGLIA ATTRATTIVA) --- */
+        .soft-skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 10px; }
         .soft-skill-card {
             background: var(--card-bg); border: var(--card-border); padding: 20px; border-radius: 12px;
             text-align: center; font-weight: bold; color: var(--text-color); transition: transform 0.2s, box-shadow 0.2s;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow), var(--card-glow); position: relative;
         }
-        .soft-skill-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2); color: var(--accent); border-color: var(--accent); }
+        .soft-skill-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2), var(--card-glow); color: var(--accent); border-color: var(--accent); }
+        
+        .soft-skill-icon { font-size: 2em; margin-bottom: 10px; display: block; }
 
     </style>
 </head>
@@ -473,49 +476,6 @@
                             <span class="skill-pill" data-it="AI" data-en="AI">AI</span>
                             <span class="skill-pill" data-it="Project Managment" data-en="Project Management">Project Management</span>
                             <span class="skill-pill" data-it="Serious Game" data-en="Serious Games">Serious Games</span>
-                            <span class="skill-pill" data-it="AI for security" data-en="AI for Security">AI for Security</span>
-                            <span class="skill-pill" data-it="Secure Software" data-en="Secure Software">Secure Software</span>
-                            <span class="skill-pill" data-it="Security" data-en="Security">Security</span>
-                            <span class="skill-pill" data-it="Usable Privacy" data-en="Usable Privacy">Usable Privacy</span>
-                            <span class="skill-pill" data-it="IoT" data-en="IoT">IoT</span>
-                            <span class="skill-pill" data-it="Oracle" data-en="Oracle">Oracle</span>
-                            <span class="skill-pill" data-it="Fortify" data-en="Fortify">Fortify</span>
-                            <span class="skill-pill" data-it="OWASP" data-en="OWASP">OWASP</span>
-                            <span class="skill-pill" data-it="Kali Linux" data-en="Kali Linux">Kali Linux</span>
-                            <span class="skill-pill" data-it="Urban Security" data-en="Urban Security">Urban Security</span>
-                            <span class="skill-pill" data-it="Formal Methods" data-en="Formal Methods">Formal Methods</span>
-                            <span class="skill-pill" data-it="Information Theory" data-en="Information Theory">Information Theory</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="2021 - 2024" data-en="2021 - 2024">2021 - 2024</span>
-                        <h4 class="timeline-title" data-it="Laurea Triennale in Informatica" data-en="Bachelor's Degree in Computer Science">Laurea Triennale in Informatica</h4>
-                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
-                        <p class="timeline-desc" data-it="Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e delle architetture client-server, applicazione di metodologie di sviluppo software e gestione del ciclo di vita del software, capacità di raccogliere e analizzare i requisiti degli utenti, UX design, introduzione ai concetti di base dell'IA e dell'apprendimento automatico." data-en="Experience in collaborative teamwork on group projects, developing interpersonal and communication skills.<br><br>Acquired skills in programming, data analysis, problem-solving, design and querying of relational databases with SQL, understanding of network protocols and client-server architectures, application of software development methodologies and software lifecycle management, ability to gather and analyze user requirements, UX design, and introduction to the basic concepts of AI and machine learning.">Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e delle architetture client-server, applicazione di metodologie di sviluppo software e gestione del ciclo di vita del software, capacità di raccogliere e analizzare i requisiti degli utenti, UX design, introduzione ai concetti di base dell'IA e dell'apprendimento automatico.</p>
-                        <div class="skills-container chaos-text">
-                            <span class="skill-pill" data-it="Python" data-en="Python">Python</span>
-                            <span class="skill-pill" data-it="C" data-en="C">C</span>
-                            <span class="skill-pill" data-it="Java" data-en="Java">Java</span>
-                            <span class="skill-pill" data-it="Ada" data-en="Ada">Ada</span>
-                            <span class="skill-pill" data-it="Figma" data-en="Figma">Figma</span>
-                            <span class="skill-pill" data-it="UI UX" data-en="UI/UX">UI/UX</span>
-                            <span class="skill-pill" data-it="AI" data-en="AI">AI</span>
-                            <span class="skill-pill" data-it="SQL" data-en="SQL">SQL</span>
-                            <span class="skill-pill" data-it="Ingegneria Software" data-en="Software Engineering">Software Engineering</span>
-                            <span class="skill-pill" data-it="Scrum" data-en="Scrum">Scrum</span>
-                            <span class="skill-pill" data-it="Agile" data-en="Agile">Agile</span>
-                            <span class="skill-pill" data-it="Sistemi e Reti" data-en="Systems & Networks">Systems & Networks</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="2016 - 2021" data-en="2016 - 2021">2016 - 2021</span>
-                        <h4 class="timeline-title" data-it="Diploma Liceo Scientifico tradizionale" data-en="Traditional Scientific High School Diploma">Diploma Liceo Scientifico tradizionale</h4>
-                        <p class="timeline-subtitle" data-it="Liceo Scientifico A.Vallone, Galatina (LE)" data-en="Liceo Scientifico A.Vallone, Galatina (LE)">Liceo Scientifico A.Vallone, Galatina (LE)</p>
-                        <p class="timeline-desc" data-it="Diploma Liceo Scientifico tradizionale." data-en="Traditional Scientific High School Diploma.">Diploma Liceo Scientifico tradizionale.</p>
-                        <div class="skills-container chaos-text">
-                            <span class="skill-pill" data-it="Metodo Scientifico" data-en="Scientific Method">Scientific Method</span>
-                            <span class="skill-pill" data-it="Logica" data-en="Logic">Logic</span>
-                            <span class="skill-pill" data-it="Basi Programmazione" data-en="Programming Basics">Programming Basics</span>
                         </div>
                     </div>
                 </div>
@@ -527,27 +487,11 @@
                         <span class="timeline-date" data-it="15 - 20 Ottobre 2025" data-en="15 - 20 October 2025">15 - 20 Ottobre 2025</span>
                         <h4 class="timeline-title" data-it="Traduttrice Inglese e Accompagnatrice Ufficiale" data-en="English Translator and Official Escort">Traduttrice Inglese e Accompagnatrice Ufficiale</h4>
                         <p class="timeline-subtitle" data-it="SC Heerenveen (Torneo Youth League, Bari)" data-en="SC Heerenveen (Youth League Tournament, Bari)">SC Heerenveen (Torneo Youth League, Bari)</p>
-                        <p class="timeline-desc" data-it="Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari.<br><br>Per tutta la durata del loro soggiorno in Italia ho affiancato il team, supportandoli nella comunicazione quotidiana, nella gestione logistica e nelle interazioni con l’organizzazione del torneo." data-en="I had the great pleasure of collaborating as an English translator and official escort for the Dutch team SC Heerenveen during the Youth League tournament in Bari.<br><br>For the entire duration of their stay in Italy, I supported the team with daily communication, logistics management, and interactions with the tournament organization.">Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari.<br><br>Per tutta la durata del loro soggiorno in Italia ho affiancato il team, supportandoli nella comunicazione quotidiana, nella gestione logistica e nelle interazioni con l’organizzazione del torneo.</p>
+                        <p class="timeline-desc" data-it="Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari." data-en="I had the great pleasure of collaborating as an English translator and official escort for the Dutch team SC Heerenveen during the Youth League tournament in Bari.">Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari.</p>
                         <div class="skills-container chaos-text">
                             <span class="skill-pill" data-it="Inglese C1" data-en="English C1">Inglese C1</span>
                             <span class="skill-pill" data-it="Traduzione" data-en="Translation">Traduzione</span>
-                            <span class="skill-pill" data-it="Public Relations" data-en="Public Relations">Public Relations</span>
-                            <span class="skill-pill" data-it="Event Management" data-en="Event Management">Event Management</span>
                             <span class="skill-pill" data-it="Comunicazione" data-en="Communication">Comunicazione</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="2017 - Attuale" data-en="2017 - Present">2017 - Attuale</span>
-                        <h4 class="timeline-title" data-it="Graphic Designer e Content Creator Freelance" data-en="Freelance Graphic Designer and Content Creator">Graphic Designer e Content Creator Freelance</h4>
-                        <p class="timeline-subtitle" data-it="Libera Professionista" data-en="Freelance">Libera Professionista</p>
-                        <p class="timeline-desc" data-it="Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuole, aziende o iniziative promozionali, allineati alle strategie di comunicazione." data-en="Creation of graphic and textual content for social media and events, supporting brands, schools, companies, or promotional initiatives, aligned with communication strategies.">Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuole, aziende o iniziative promozionali, allineati alle strategie di comunicazione.</p>
-                        <div class="skills-container chaos-text">
-                            <span class="skill-pill" data-it="Graphic Design" data-en="Graphic Design">Graphic Design</span>
-                            <span class="skill-pill" data-it="Content Creation" data-en="Content Creation">Content Creation</span>
-                            <span class="skill-pill" data-it="Social Media" data-en="Social Media">Social Media</span>
-                            <span class="skill-pill" data-it="Figma" data-en="Figma">Figma</span>
-                            <span class="skill-pill" data-it="Canva" data-en="Canva">Canva</span>
-                            <span class="skill-pill" data-it="Copywriting" data-en="Copywriting">Copywriting</span>
                         </div>
                     </div>
                 </div>
@@ -558,43 +502,53 @@
                     <div class="timeline-item chaos-text">
                         <span class="timeline-date" data-it="In corso" data-en="Ongoing">In corso</span>
                         <h4 class="timeline-title" data-it="Inglese Universitario (C1)" data-en="University English (C1)">Inglese Universitario (C1)</h4>
-                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari" data-en="Università degli Studi di Bari">Università degli Studi di Bari</p>
                         <p class="timeline-desc" data-it="Certificazione accademica di livello avanzato (C1) per la lingua inglese." data-en="Advanced level (C1) academic certification for the English language.">Certificazione accademica di livello avanzato (C1) per la lingua inglese.</p>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="Valida a vita" data-en="Lifetime validity">Valida a vita</span>
-                        <h4 class="timeline-title" data-it="Certificazione Inglese B2 (Cambridge)" data-en="English B2 Certification (Cambridge)">Certificazione Inglese B2 (Cambridge)</h4>
-                        <p class="timeline-subtitle" data-it="Cambridge Assessment" data-en="Cambridge Assessment">Cambridge Assessment</p>
-                        <p class="timeline-desc" data-it="Certificazione linguistica internazionale livello B2." data-en="International language certification level B2.">Certificazione linguistica internazionale livello B2.</p>
                     </div>
                     <div class="timeline-item chaos-text">
                         <span class="timeline-date">2021</span>
                         <h4 class="timeline-title" data-it="Certificato BLSD" data-en="BLSD Certificate">Certificato BLSD</h4>
-                        <p class="timeline-desc" data-it="Basic Life Support and Defibrillation." data-en="Basic Life Support and Defibrillation.">Basic Life Support and Defibrillation.</p>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date">2019</span>
-                        <h4 class="timeline-title" data-it="Brevetto Bagnino di Salvataggio" data-en="Lifeguard Certification">Brevetto Bagnino di Salvataggio</h4>
-                        <p class="timeline-desc" data-it="Brevetto per il salvataggio acquatico e primo soccorso." data-en="Certification for aquatic rescue and first aid.">Brevetto per il salvataggio acquatico e primo soccorso.</p>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date">2019</span>
-                        <h4 class="timeline-title" data-it="Certificato ECDL Base" data-en="ECDL Base Certificate">Certificato ECDL Base</h4>
-                        <p class="timeline-desc" data-it="Patente Europea del Computer, attestante le competenze informatiche di base." data-en="European Computer Driving Licence, certifying basic IT skills.">Patente Europea del Computer, attestante le competenze informatiche di base.</p>
                     </div>
                 </div>
             </div>
 
             <div id="tab-softskills" class="exp-tab-content">
                 <div class="soft-skills-grid">
-                    <div class="soft-skill-card chaos-text" data-it="Problem Solving" data-en="Problem Solving">Problem Solving</div>
-                    <div class="soft-skill-card chaos-text" data-it="Lavoro di Squadra" data-en="Teamwork">Lavoro di Squadra</div>
-                    <div class="soft-skill-card chaos-text" data-it="Comunicazione Efficace" data-en="Effective Communication">Comunicazione Efficace</div>
-                    <div class="soft-skill-card chaos-text" data-it="Gestione del Tempo" data-en="Time Management">Gestione del Tempo</div>
-                    <div class="soft-skill-card chaos-text" data-it="Adattabilità" data-en="Adaptability">Adattabilità</div>
-                    <div class="soft-skill-card chaos-text" data-it="Pensiero Analitico" data-en="Critical Thinking">Pensiero Analitico</div>
-                    <div class="soft-skill-card chaos-text" data-it="Ascolto Attivo" data-en="Active Listening">Ascolto Attivo</div>
-                    <div class="soft-skill-card chaos-text" data-it="Intelligenza Emotiva" data-en="Emotional Intelligence">Intelligenza Emotiva</div>
+                    <div class="soft-skill-card chaos-text">
+                        <span class="soft-skill-icon">🎨</span>
+                        <span data-it="Conoscenza approfondita di figma e canva" data-en="Detailed knowledge of Figma and Canva">Conoscenza approfondita di figma e canva</span>
+                    </div>
+                    <div class="soft-skill-card chaos-text">
+                        <span class="soft-skill-icon">🤝</span>
+                        <span data-it="Teamworking" data-en="Teamworking">Teamworking</span>
+                    </div>
+                    <div class="soft-skill-card chaos-text">
+                        <span class="soft-skill-icon">🧩</span>
+                        <span data-it="Flessibilità e capacità di adattamento" data-en="Flexibility and adaptability">Flessibilità e capacità di adattamento</span>
+                    </div>
+                    <div class="soft-skill-card chaos-text">
+                        <span class="soft-skill-icon">🧠</span>
+                        <span data-it="Pensiero analitico e capacità di problem solving" data-en="Analytical thinking and problem-solving skills">Pensiero analitico e capacità di problem solving</span>
+                    </div>
+                    <div class="soft-skill-card chaos-text">
+                        <span class="soft-skill-icon">🎯</span>
+                        <span data-it="Propensione al lavoro per obiettivi" data-en="Goal-oriented work inclination">Propensione al lavoro per obiettivi</span>
+                    </div>
+                    <div class="soft-skill-card chaos-text">
+                        <span class="soft-skill-icon">🚀</span>
+                        <span data-it="Autonomia operativa" data-en="Operational autonomy">Autonomia operativa</span>
+                    </div>
+                    <div class="soft-skill-card chaos-text">
+                        <span class="soft-skill-icon">🧭</span>
+                        <span data-it="Predisposizione all'adattamento" data-en="Adaptability Readiness">Predisposizione all'adattamento</span>
+                    </div>
+                    <div class="soft-skill-card chaos-text">
+                        <span class="soft-skill-icon">🔍</span>
+                        <span data-it="Precisione e attenzione ai dettagli" data-en="Precision and attention to detail">Precisione e attenzione ai dettagli</span>
+                    </div>
+                    <div class="soft-skill-card chaos-text">
+                        <span class="soft-skill-icon">💡</span>
+                        <span data-it="Ottime capacità creative e gestionali" data-en="Excellent creative and managerial skills">Ottime capacità creative e gestionali</span>
+                    </div>
                 </div>
             </div>
 
@@ -609,7 +563,7 @@
                 titoloEN: `Special Project ${i}`,
                 breveIT: `Descrizione sintetica del progetto ${i} per attirare l'attenzione.`,
                 breveEN: `Short synthetic description of project ${i} to grab attention.`,
-                lungaIT: `Questa è la pagina dedicata interamente al <b>Progetto ${i}</b>.<br><br>Qui lo spazio non ti manca affatto! Puoi raccontare la storia di come è nato il progetto, le sfide tecniche che hai affrontato e superato, le tecnologie esatte che hai utilizzato (es. HTML, CSS, JavaScript, React) e il tuo ruolo.<br><br>Essendo una pagina a tutto schermo, il testo risulterà sempre pulito e comodissimo da leggere, sia da computer che da cellulare.`,
+                lungaIT: `Questa è la pagina dedicata interamente al <b>Progetto ${i}</b>.<br><br>Qui lo spazio non ti manca affatto! Puoi raccontare la storia di come è nato il progetto, le sfide tecniche che hai affrontco e superato, le tecnologie esatte che hai utilizzato (es. HTML, CSS, JavaScript, React) e il tuo ruolo.<br><br>Essendo una pagina a tutto schermo, il testo risulterà sempre pulito e comodissimo da leggere, sia da computer che da cellulare.`,
                 lungaEN: `This is the dedicated page entirely for <b>Project ${i}</b>.<br><br>You have plenty of space here! You can tell the story of how the project was born, the technical challenges you faced and overcame, the exact technologies used, and your role.<br><br>Since this is a full-screen view, the text will always look clean and easy to read.`,
                 linkGithub: "https://github.com/LiciaCongedo" 
             });
@@ -887,7 +841,7 @@
             }, 2000); 
         }
 
-        // ROBOTTINO CATTURABILE 
+        // ROBOTTINO CATTURABILE (FIX TELETRASPORTO INIZIALE)
         const bot = document.getElementById('runaway-bot');
         const botFace = document.getElementById('bot-face');
         const bubble = document.getElementById('bot-bubble');
