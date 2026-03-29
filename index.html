@@ -31,7 +31,10 @@
 
         html { scroll-behavior: smooth; }
 
-        html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
+        html, body {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+        }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -42,11 +45,20 @@
 
         .chaos-lock { overflow: hidden !important; }
 
-        #content-wrapper { display: flex; flex-direction: column; align-items: center; width: 100%; position: relative; z-index: 1; min-height: 100vh; }
+        #content-wrapper {
+            display: flex; flex-direction: column; align-items: center; width: 100%;
+            position: relative; z-index: 1; min-height: 100vh;
+        }
 
         /* --- SFONDO ANIMATO --- */
-        #bg-effects { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; overflow: hidden; pointer-events: none; }
-        .floating-code { position: absolute; font-family: 'Courier New', Courier, monospace; font-weight: bold; white-space: nowrap; opacity: 0; }
+        #bg-effects {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            z-index: -1; overflow: hidden; pointer-events: none;
+        }
+        .floating-code {
+            position: absolute; font-family: 'Courier New', Courier, monospace;
+            font-weight: bold; white-space: nowrap; opacity: 0; 
+        }
         @keyframes floatUp {
             0% { transform: translateY(10vh); opacity: 0; }
             10% { opacity: var(--current-opacity); } 
@@ -79,13 +91,31 @@
         }
         .action-btn:hover { filter: brightness(0.9); transform: scale(1.05); }
 
-        @media (max-width: 768px) { header { flex-direction: column; padding: 10px; } .nav-menu { gap: 5px; } .nav-menu a { padding: 6px 12px; font-size: 0.9em; } }
+        @media (max-width: 768px) {
+            header { flex-direction: column; padding: 10px; }
+            .nav-menu { gap: 5px; }
+            .nav-menu a { padding: 6px 12px; font-size: 0.9em; }
+        }
 
-        /* --- SEZIONE HERO E FOTO --- */
-        .hero { margin-top: 130px; text-align: center; padding: 20px; width: 100%; max-width: 900px; z-index: 10; display: flex; flex-direction: column; align-items: center; }
-        .image-container { position: relative; width: 100%; max-width: 300px; aspect-ratio: 1 / 1; margin: 0 auto 10px; background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent; }
-        .image-container img { width: 100%; height: 100%; object-fit: contain; position: absolute; top: 0; left: 0; transition: opacity 0.3s ease; }
+        /* --- SEZIONE HERO E FOTO (LOGICA INVINCIBILE PRESERVATA) --- */
+        .hero { 
+            margin-top: 130px; text-align: center; padding: 20px; 
+            width: 100%; max-width: 900px; z-index: 10; 
+            display: flex; flex-direction: column; align-items: center;
+        }
+        
+        .image-container {
+            position: relative; width: 100%; max-width: 300px; aspect-ratio: 1 / 1; 
+            margin: 0 auto 10px; background: transparent;
+            cursor: pointer; -webkit-tap-highlight-color: transparent; 
+        }
+        
+        .image-container img {
+            width: 100%; height: 100%; object-fit: contain; 
+            position: absolute; top: 0; left: 0; transition: opacity 0.3s ease;
+        }
 
+        /* Non toccare queste classi, sono la logica corretta */
         body:not([data-theme='dark']) .image-container img.cartoon-light { opacity: 1; z-index: 2; }
         [data-theme='dark'] .image-container img.cartoon-dark { opacity: 1; z-index: 2; }
         .image-container img.real { opacity: 0; z-index: 1; }
@@ -95,16 +125,22 @@
             body:not([data-theme='dark']) .image-container:not(.toggled-click):hover img.cartoon-light { opacity: 0; z-index: 1;}
             [data-theme='dark'] .image-container:not(.toggled-click):hover img.cartoon-dark { opacity: 0; z-index: 1;}
         }
+
         .image-container.toggled-click img.real { opacity: 1; z-index: 3; }
         body:not([data-theme='dark']) .image-container.toggled-click img.cartoon-light { opacity: 0; z-index: 1;}
         [data-theme='dark'] .image-container.toggled-click img.cartoon-dark { opacity: 0; z-index: 1;}
+
         @media (hover: hover) {
             .image-container.toggled-click:hover img.real { opacity: 0; z-index: 1;}
             body:not([data-theme='dark']) .image-container.toggled-click:hover img.cartoon-light { opacity: 1; z-index: 3;}
             [data-theme='dark'] .image-container.toggled-click:hover img.cartoon-dark { opacity: 1; z-index: 3;}
         }
 
-        .image-hint { font-size: 0.9em; font-weight: 500; color: var(--text-color); opacity: 0.5; margin-bottom: 20px; user-select: none; letter-spacing: 0.5px; }
+        .image-hint {
+            font-size: 0.9em; font-weight: 500; color: var(--text-color); 
+            opacity: 0.5; margin-bottom: 20px; user-select: none; letter-spacing: 0.5px;
+        }
+
         .hero h1 { font-size: 2.8em; margin: 0; user-select: none; }
         .typewriter-tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; min-height: 1.6em; margin-top: 5px; }
         .typewriter-tagline::after { content: '_'; animation: blinkType 0.7s infinite; }
@@ -112,27 +148,53 @@
         .hero p.bio { font-size: 1.1em; color: #888; max-width: 700px; margin: 10px auto; }
 
         /* --- GRIGLIA CARDS --- */
-        .grid-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; width: 95%; max-width: 1200px; padding: 40px 0; z-index: 10; scroll-margin-top: 100px; }
+        .grid-container {
+            display: grid; grid-template-columns: repeat(4, 1fr); 
+            gap: 20px; width: 95%; max-width: 1200px; padding: 40px 0; z-index: 10; scroll-margin-top: 100px;
+        }
         @media (max-width: 900px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 500px) { .grid-container { grid-template-columns: 1fr; } }
 
-        .card { background-color: var(--card-bg); padding: 30px 20px; border-radius: 15px; border: var(--card-border); box-shadow: var(--shadow), var(--card-glow); text-align: center; transition: transform 0.3s, box-shadow 0.3s, background-color 0.4s, border 0.4s; display: flex; flex-direction: column; align-items: center; scroll-margin-top: 120px; }
+        .card {
+            background-color: var(--card-bg); padding: 30px 20px; border-radius: 15px;
+            border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
+            text-align: center; transition: transform 0.3s, box-shadow 0.3s, background-color 0.4s, border 0.4s;
+            display: flex; flex-direction: column; align-items: center; scroll-margin-top: 120px;
+        }
         .card:hover { transform: translateY(-8px); box-shadow: 0 15px 30px rgba(0,0,0,0.2), var(--card-glow); }
         .card-icon { font-size: 3em; margin-bottom: 10px; }
         .card h3 { margin: 10px 0; font-size: 1.1em; }
         .card p { flex-grow: 1; font-size: 0.9em; width: 100%; }
-        .card button { background-color: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 20px; transition: background 0.2s; font-size: 0.95em; width: 90%; }
+        
+        .card button {
+            background-color: var(--accent); color: white; border: none; padding: 10px; border-radius: 8px; 
+            cursor: pointer; font-weight: bold; margin-top: 20px; transition: background 0.2s; font-size: 0.95em; width: 90%;
+        }
         .card button:hover { background-color: var(--accent-hover); }
 
         /* --- SEZIONE CONTATTI --- */
-        .contact-section { width: 90%; max-width: 600px; background-color: var(--card-bg); padding: 40px; border-radius: 15px; text-align: center; margin: 40px 0; border: var(--card-border); box-shadow: var(--shadow), var(--card-glow); transition: background-color 0.4s, border 0.4s; z-index: 10; scroll-margin-top: 120px; }
+        .contact-section {
+            width: 90%; max-width: 600px; background-color: var(--card-bg); padding: 40px; border-radius: 15px; 
+            text-align: center; margin: 40px 0; border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
+            transition: background-color 0.4s, border 0.4s; z-index: 10; scroll-margin-top: 120px;
+        }
         .contact-section h2 { font-size: 1.8em; margin-top: 0;}
-        .contact-section input, .contact-section textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 1em; }
+        .contact-section input, .contact-section textarea {
+            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-family: inherit; font-size: 1em;
+        }
         [data-theme='dark'] .contact-section input, [data-theme='dark'] .contact-section textarea { background: #2a2a2a; color: white; border-color: #444; }
-        .contact-section button { background-color: var(--text-color); color: var(--bg-color); border: none; padding: 12px 30px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s; }
+        .contact-section button {
+            background-color: var(--text-color); color: var(--bg-color); border: none; padding: 12px 30px; 
+            border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; font-size: 1.1em; transition: background-color 0.4s, color 0.4s;
+        }
 
         /* --- STILE EASTER EGG MESSAGGIO --- */
-        #secret-msg-container { position: fixed; top: 50%; left: 0; width: 100%; transform: translateY(-50%) scale(0); text-align: center; z-index: 9999999; pointer-events: none; opacity: 0; font-size: 4.5em; font-weight: 900; color: var(--accent); text-shadow: 3px 3px 20px rgba(0,0,0,0.5); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s; }
+        #secret-msg-container {
+            position: fixed; top: 50%; left: 0; width: 100%; transform: translateY(-50%) scale(0);
+            text-align: center; z-index: 9999999; pointer-events: none; opacity: 0;
+            font-size: 4.5em; font-weight: 900; color: var(--accent); text-shadow: 3px 3px 20px rgba(0,0,0,0.5);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s;
+        }
         #secret-msg-container.show { transform: translateY(-50%) scale(1); opacity: 1; }
         @media (max-width: 700px) { #secret-msg-container { font-size: 2.2em; padding: 0 10px; } }
 
@@ -140,9 +202,16 @@
         .footer-easter-hint { font-size: 0.85em; margin-top: 15px; opacity: 0.6; font-style: italic; }
 
         /* --- ROBOTTINO --- */
-        #runaway-bot { position: fixed !important; cursor: pointer; z-index: 99999 !important; transition: top 0.3s ease-out, left 0.3s ease-out, transform 0.4s, opacity 0.4s; user-select: none; display: flex; flex-direction: column; align-items: center; padding: 25px; -webkit-tap-highlight-color: transparent; }
+        #runaway-bot {
+            position: fixed !important; cursor: pointer; z-index: 99999 !important;
+            transition: top 0.3s ease-out, left 0.3s ease-out, transform 0.4s, opacity 0.4s; 
+            user-select: none; display: flex; flex-direction: column; align-items: center; padding: 25px; -webkit-tap-highlight-color: transparent; 
+        }
         .bot-vanish { opacity: 0; transform: scale(0) rotate(180deg); pointer-events: none; transition: all 0.5s; }
-        .bubble { position: absolute; top: -10px; background: white; color: black; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold; box-shadow: 0 2px 10px rgba(0,0,0,0.2); white-space: nowrap; border: 1px solid #ddd; z-index: 4; }
+        .bubble {
+            position: absolute; top: -10px; background: white; color: black; padding: 5px 12px; border-radius: 15px; font-size: 13px; font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2); white-space: nowrap; border: 1px solid #ddd; z-index: 4;
+        }
         .bubble::after { content: ''; position: absolute; bottom: -5px; left: 50%; transform: translateX(-50%); border-width: 5px 5px 0; border-style: solid; border-color: white transparent transparent transparent; }
         .bot-head { font-size: 42px; line-height: 1; z-index: 3; position: relative; transition: transform 0.2s; }
         .bot-body-part { width: 24px; height: 16px; background: #888; border-radius: 4px; margin-top: -4px; z-index: 2; position: relative; }
@@ -163,13 +232,27 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* MODAL GENERICO */
-        .modal-overlay { position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.8); z-index: 999999 !important; display: none; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px); }
-        .modal-content { background: var(--bg-color); color: var(--text-color); padding: 40px; border-radius: 20px; text-align: center; max-width: 400px; width: 80%; border: var(--card-border); box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow); transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 90vh; overflow-y: auto; }
+        /* MODAL GENERICO E GALLERIE */
+        .modal-overlay {
+            position: fixed !important; top: 0 !important; left: 0 !important; 
+            width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.8); 
+            z-index: 999999 !important; display: none; justify-content: center; align-items: center; 
+            opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: var(--bg-color); color: var(--text-color); padding: 40px; border-radius: 20px; 
+            text-align: center; max-width: 400px; width: 80%; border: var(--card-border); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
+            transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 90vh; overflow-y: auto;
+        }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-content h2 { margin-top: 0; font-size: 2.2em; }
-        .modal-content button.close-btn { background: var(--accent); color: white; border: none; padding: 12px 30px; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em; transition: 0.2s; }
+        .modal-content button.close-btn {
+            background: var(--accent); color: white; border: none; padding: 12px 30px; 
+            border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 25px; font-size: 1.1em; transition: 0.2s;
+        }
         .modal-content button.close-btn:hover { filter: brightness(0.9); }
 
         /* --- MODAL PROGETTI --- */
@@ -198,59 +281,40 @@
         [data-theme='dark'] .github-link-btn:hover { background: #ffffff; color: #000000;}
         .github-icon { width: 24px; height: 24px; fill: currentColor; }
 
-        /* --- MODAL ESPERIENZA (TIMELINE, TABS E PILLS) --- */
+        /* --- MODAL ESPERIENZA (TIMELINE E TABS) --- */
         #esperienza-modal .modal-content { max-width: 900px; width: 95%; padding: 30px; text-align: left; }
         .exp-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
-        .exp-tab-btn { background: transparent; color: var(--text-color); border: 2px solid var(--text-color); padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1.05em; transition: all 0.3s; }
+        .exp-tab-btn {
+            background: transparent; color: var(--text-color); border: 2px solid var(--text-color);
+            padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 1.05em; transition: all 0.3s;
+        }
         .exp-tab-btn.active, .exp-tab-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
         .exp-tab-content { display: none; animation: fadeIn 0.4s ease; padding: 10px; }
         .exp-tab-content.active { display: block; }
         
-        /* Timeline */
         .timeline { border-left: 3px solid var(--accent); margin-left: 15px; padding-left: 25px; }
         .timeline-item { position: relative; margin-bottom: 35px; }
         .timeline-item:last-child { margin-bottom: 0; }
-        .timeline-item::before { content: ''; position: absolute; left: -36px; top: 0; width: 18px; height: 18px; border-radius: 50%; background: var(--accent); border: 4px solid var(--bg-color); transition: background 0.4s, border 0.4s; }
+        .timeline-item::before {
+            content: ''; position: absolute; left: -36px; top: 0; width: 18px; height: 18px;
+            border-radius: 50%; background: var(--accent); border: 4px solid var(--bg-color);
+        }
         .timeline-date { font-size: 0.9em; color: var(--accent); font-weight: bold; margin-bottom: 5px; display: block; letter-spacing: 0.5px;}
         .timeline-title { font-size: 1.3em; font-weight: bold; margin: 0 0 5px 0; color: var(--text-color); }
-        .timeline-subtitle { font-size: 1.05em; font-style: italic; color: #777; margin: 0 0 10px 0; transition: color 0.4s; }
+        .timeline-subtitle { font-size: 1.05em; font-style: italic; color: #777; margin: 0 0 10px 0; }
         [data-theme='dark'] .timeline-subtitle { color: #aaa; }
-        .timeline-desc { font-size: 1em; color: var(--text-color); line-height: 1.6; margin: 0; text-align: justify;}
+        .timeline-desc { font-size: 1em; color: var(--text-color); line-height: 1.6; margin: 0 0 15px 0; }
         
-        /* Evidenziazione Security Engineering */
-        .highlight-se {
-            color: var(--accent);
-            font-weight: 800;
-            text-shadow: 0 0 5px rgba(0, 123, 255, 0.1);
-            transition: text-shadow 0.4s;
-        }
-        [data-theme='dark'] .highlight-se {
-            text-shadow: 0 0 10px rgba(0, 123, 255, 0.6);
-        }
+        /* Evidenziatore accento per il testo */
+        .highlight-accent { color: var(--accent); font-weight: bold; }
 
-        /* Skills Pills */
-        .skills-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(128,128,128,0.2); }
+        /* --- STILI PILLOLE DELLE COMPETENZE (SKILLS TAGS) --- */
+        .skills-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .skill-pill {
-            font-size: 0.85em;
-            font-weight: 600;
-            padding: 5px 12px;
-            border-radius: 15px;
-            background-color: rgba(0, 123, 255, 0.1);
-            color: var(--accent);
-            border: 1px solid rgba(0, 123, 255, 0.2);
-            transition: all 0.3s ease;
-            user-select: none;
+            display: inline-block; padding: 4px 12px; border-radius: 15px; font-size: 0.85em; font-weight: 600;
+            background: transparent; color: var(--accent); border: 1px solid var(--accent); transition: 0.2s;
         }
-        .skill-pill:hover {
-            background-color: var(--accent);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
-        }
-        [data-theme='dark'] .skill-pill {
-            background-color: rgba(0, 123, 255, 0.15);
-            border-color: rgba(0, 123, 255, 0.3);
-        }
+        .skill-pill:hover { background: var(--accent); color: white; transform: translateY(-2px); }
 
     </style>
 </head>
@@ -295,7 +359,7 @@
                 <button class="chaos-block" onclick="openProjectsModal()" data-it="Vedi Progetti" data-en="View Projects">Vedi Progetti</button>
             </div>
             <div class="card" id="esperienza">
-                <div class="card-icon chaos-block">🧭</div>
+                <div class="card-icon chaos-block">Compass</div>
                 <h3 class="chaos-text" data-it="ESPERIENZA" data-en="EXPERIENCE">ESPERIENZA</h3>
                 <p class="chaos-text" data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p>
                 <button class="chaos-block" onclick="openExpModal()" data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button>
@@ -386,43 +450,44 @@
                     <div class="timeline-item chaos-text">
                         <span class="timeline-date" data-it="2024 - Luglio 2026" data-en="2024 - July 2026">2024 - Luglio 2026</span>
                         <h4 class="timeline-title" data-it="Laurea Magistrale in Computer Science" data-en="Master's Degree in Computer Science">Laurea Magistrale in Computer Science</h4>
-                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="University of Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
-                        <p class="timeline-desc" data-it="Laurea Magistrale in Computer science curriculum <span class='highlight-se'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente, con l'obiettivo di coordinare soluzioni innovative in contesti critici come le Smart Cities e i sistemi sanitari digitali." data-en="Master's Degree in Computer Science, <span class='highlight-se'>SECURITY ENGINEERING</span> curriculum (degree course taught in English, C1 university level).<br><br>A master's program focused on the design and development of intrinsically secure software systems and the secure management of complex IT projects. The training delves into the integration of Artificial Intelligence techniques to support security, the protection of IoT devices, and the development of serious games to educate on mindful data usage.<br><br>Special emphasis is given to Secure Project Management and the analysis of vulnerabilities in user interactions, aiming to coordinate innovative solutions in critical contexts such as Smart Cities and digital healthcare systems.">Laurea Magistrale in Computer science curriculum SECURITY ENGINEERING (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente, con l'obiettivo di coordinare soluzioni innovative in contesti critici come le Smart Cities e i sistemi sanitari digitali.</p>
-                        <div class="skills-container">
-                            <span class="skill-pill">AI</span>
-                            <span class="skill-pill" data-it="Project Management" data-en="Project Management">Project Management</span>
-                            <span class="skill-pill">Serious Game</span>
-                            <span class="skill-pill">AI for Security</span>
-                            <span class="skill-pill" data-it="Secure Software & Security" data-en="Secure Software & Security">Secure Software & Security</span>
-                            <span class="skill-pill" data-it="Usable Privacy & Security" data-en="Usable Privacy & Security">Usable Privacy & Security</span>
-                            <span class="skill-pill">IoT</span>
-                            <span class="skill-pill">Oracle</span>
-                            <span class="skill-pill">Fortify</span>
-                            <span class="skill-pill">OWASP</span>
-                            <span class="skill-pill">Kali Linux</span>
+                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
+                        <p class="timeline-desc" data-it="Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente, con l'obiettivo di coordinare soluzioni innovative in contesti critici come le Smart Cities e i sistemi sanitari digitali." data-en="Master's Degree in Computer Science, <span class='highlight-accent'>SECURITY ENGINEERING</span> curriculum (degree course taught in English, C1 university level).<br><br>A master's program focused on the design and development of intrinsically secure software systems and the secure management of complex IT projects. The training delves into the integration of Artificial Intelligence techniques to support security, the protection of IoT devices, and the development of serious games to educate on mindful data usage.<br><br>Special emphasis is given to Secure Project Management and the analysis of vulnerabilities in user interactions, aiming to coordinate innovative solutions in critical contexts such as Smart Cities and digital healthcare systems.">Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente, con l'obiettivo di coordinare soluzioni innovative in contesti critici come le Smart Cities e i sistemi sanitari digitali.</p>
+                        <div class="skills-container chaos-text">
+                            <span class="skill-pill" data-it="AI" data-en="AI">AI</span>
+                            <span class="skill-pill" data-it="Project Managment" data-en="Project Management">Project Management</span>
+                            <span class="skill-pill" data-it="Serious Game" data-en="Serious Games">Serious Games</span>
+                            <span class="skill-pill" data-it="AI for security" data-en="AI for Security">AI for Security</span>
+                            <span class="skill-pill" data-it="Secure Software" data-en="Secure Software">Secure Software</span>
+                            <span class="skill-pill" data-it="Security" data-en="Security">Security</span>
+                            <span class="skill-pill" data-it="Usable Privacy" data-en="Usable Privacy">Usable Privacy</span>
+                            <span class="skill-pill" data-it="IoT" data-en="IoT">IoT</span>
+                            <span class="skill-pill" data-it="Oracle" data-en="Oracle">Oracle</span>
+                            <span class="skill-pill" data-it="Fortify" data-en="Fortify">Fortify</span>
+                            <span class="skill-pill" data-it="OWASP" data-en="OWASP">OWASP</span>
+                            <span class="skill-pill" data-it="Kali Linux" data-en="Kali Linux">Kali Linux</span>
                             <span class="skill-pill" data-it="Urban Security" data-en="Urban Security">Urban Security</span>
-                            <span class="skill-pill" data-it="Metodi Formali" data-en="Formal Methods">Metodi Formali</span>
-                            <span class="skill-pill" data-it="Teoria dell'Informazione" data-en="Information Theory">Teoria dell'Informazione</span>
+                            <span class="skill-pill" data-it="Formal Methods" data-en="Formal Methods">Formal Methods</span>
+                            <span class="skill-pill" data-it="Information Theory" data-en="Information Theory">Information Theory</span>
                         </div>
                     </div>
                     <div class="timeline-item chaos-text">
                         <span class="timeline-date" data-it="2021 - 2024" data-en="2021 - 2024">2021 - 2024</span>
                         <h4 class="timeline-title" data-it="Laurea Triennale in Informatica" data-en="Bachelor's Degree in Computer Science">Laurea Triennale in Informatica</h4>
-                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="University of Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
+                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
                         <p class="timeline-desc" data-it="Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e delle architetture client-server, applicazione di metodologie di sviluppo software e gestione del ciclo di vita del software, capacità di raccogliere e analizzare i requisiti degli utenti, UX design, introduzione ai concetti di base dell'IA e dell'apprendimento automatico." data-en="Experience in collaborative teamwork on group projects, developing interpersonal and communication skills.<br><br>Acquired skills in programming, data analysis, problem-solving, design and querying of relational databases with SQL, understanding of network protocols and client-server architectures, application of software development methodologies and software lifecycle management, ability to gather and analyze user requirements, UX design, and introduction to the basic concepts of AI and machine learning.">Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e delle architetture client-server, applicazione di metodologie di sviluppo software e gestione del ciclo di vita del software, capacità di raccogliere e analizzare i requisiti degli utenti, UX design, introduzione ai concetti di base dell'IA e dell'apprendimento automatico.</p>
-                        <div class="skills-container">
-                            <span class="skill-pill">Python</span>
-                            <span class="skill-pill">C</span>
-                            <span class="skill-pill">Java</span>
-                            <span class="skill-pill">Ada</span>
-                            <span class="skill-pill">Figma</span>
-                            <span class="skill-pill" data-it="UI UX Design" data-en="UI UX Design">UI UX Design</span>
-                            <span class="skill-pill">AI</span>
-                            <span class="skill-pill">SQL</span>
-                            <span class="skill-pill" data-it="Ingegneria del Software" data-en="Software Engineering">Ingegneria del Software</span>
-                            <span class="skill-pill">Scrum</span>
-                            <span class="skill-pill">Agile</span>
-                            <span class="skill-pill" data-it="Sistemi e Reti" data-en="Systems and Networks">Sistemi e Reti</span>
+                        <div class="skills-container chaos-text">
+                            <span class="skill-pill" data-it="Python" data-en="Python">Python</span>
+                            <span class="skill-pill" data-it="C" data-en="C">C</span>
+                            <span class="skill-pill" data-it="Java" data-en="Java">Java</span>
+                            <span class="skill-pill" data-it="Ada" data-en="Ada">Ada</span>
+                            <span class="skill-pill" data-it="Figma" data-en="Figma">Figma</span>
+                            <span class="skill-pill" data-it="UI UX" data-en="UI/UX">UI/UX</span>
+                            <span class="skill-pill" data-it="AI" data-en="AI">AI</span>
+                            <span class="skill-pill" data-it="SQL" data-en="SQL">SQL</span>
+                            <span class="skill-pill" data-it="Ingegneria Software" data-en="Software Engineering">Software Engineering</span>
+                            <span class="skill-pill" data-it="Scrum" data-en="Scrum">Scrum</span>
+                            <span class="skill-pill" data-it="Agile" data-en="Agile">Agile</span>
+                            <span class="skill-pill" data-it="Sistemi e Reti" data-en="Systems & Networks">Systems & Networks</span>
                         </div>
                     </div>
                     <div class="timeline-item chaos-text">
@@ -430,6 +495,11 @@
                         <h4 class="timeline-title" data-it="Diploma Liceo Scientifico tradizionale" data-en="Traditional Scientific High School Diploma">Diploma Liceo Scientifico tradizionale</h4>
                         <p class="timeline-subtitle" data-it="Liceo Scientifico A.Vallone, Galatina (LE)" data-en="Liceo Scientifico A.Vallone, Galatina (LE)">Liceo Scientifico A.Vallone, Galatina (LE)</p>
                         <p class="timeline-desc" data-it="Diploma Liceo Scientifico tradizionale." data-en="Traditional Scientific High School Diploma.">Diploma Liceo Scientifico tradizionale.</p>
+                        <div class="skills-container chaos-text">
+                            <span class="skill-pill" data-it="Metodo Scientifico" data-en="Scientific Method">Scientific Method</span>
+                            <span class="skill-pill" data-it="Logica" data-en="Logic">Logic</span>
+                            <span class="skill-pill" data-it="Basi Programmazione" data-en="Programming Basics">Programming Basics</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -442,6 +512,12 @@
                         <p class="timeline-subtitle" data-it="Tech Company S.p.A." data-en="Tech Company S.p.A.">Tech Company S.p.A.</p>
                         <p class="timeline-desc" data-it="Sviluppo di interfacce web responsive in React, gestione stato con Redux e collaborazione in team Agile." data-en="Development of responsive web interfaces in React, state management with Redux, and Agile team collaboration.">Sviluppo di interfacce web responsive in React, gestione stato con Redux e collaborazione in team Agile.</p>
                     </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2020 - 2022</span>
+                        <h4 class="timeline-title" data-it="Junior Web Designer" data-en="Junior Web Designer">Junior Web Designer</h4>
+                        <p class="timeline-subtitle" data-it="Creative Agency" data-en="Creative Agency">Creative Agency</p>
+                        <p class="timeline-desc" data-it="Creazione mockup su Figma, realizzazione siti vetrina in HTML/CSS/JS e ottimizzazione SEO base." data-en="Created mockups on Figma, built static websites in HTML/CSS/JS, and basic SEO optimization.">Creazione mockup su Figma, realizzazione siti vetrina in HTML/CSS/JS e ottimizzazione SEO base.</p>
+                    </div>
                 </div>
             </div>
 
@@ -452,6 +528,18 @@
                         <h4 class="timeline-title" data-it="AWS Certified Developer" data-en="AWS Certified Developer">AWS Certified Developer</h4>
                         <p class="timeline-subtitle" data-it="Amazon Web Services" data-en="Amazon Web Services">Amazon Web Services</p>
                         <p class="timeline-desc" data-it="Certificazione sulle competenze di sviluppo e mantenimento di applicazioni cloud su AWS." data-en="Certification on skills for developing and maintaining cloud applications on AWS.">Certificazione sulle competenze di sviluppo e mantenimento di applicazioni cloud su AWS.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2022</span>
+                        <h4 class="timeline-title" data-it="React Advanced Certification" data-en="React Advanced Certification">React Advanced Certification</h4>
+                        <p class="timeline-subtitle" data-it="Meta / Coursera" data-en="Meta / Coursera">Meta / Coursera</p>
+                        <p class="timeline-desc" data-it="Corso intensivo su concetti avanzati di React: Custom Hooks, Context API e Performance." data-en="Intensive course on advanced React concepts: Custom Hooks, Context API, and Performance.">Corso intensivo su concetti avanzati di React: Custom Hooks, Context API e Performance.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2021</span>
+                        <h4 class="timeline-title" data-it="Certificazione Inglese C1" data-en="English C1 Certification">Certificazione Inglese C1</h4>
+                        <p class="timeline-subtitle" data-it="Cambridge Assessment" data-en="Cambridge Assessment">Cambridge Assessment</p>
+                        <p class="timeline-desc" data-it="Livello avanzato di comprensione e produzione scritta e orale della lingua inglese." data-en="Advanced level of comprehension and written/oral production of the English language.">Livello avanzato di comprensione e produzione scritta e orale della lingua inglese.</p>
                     </div>
                 </div>
             </div>
@@ -511,19 +599,33 @@
             });
         });
 
-        // MODAL ESPERIENZA
-        function openExpModal() { document.body.classList.add('chaos-lock'); document.getElementById('esperienza-modal').classList.add('active'); }
-        function closeExpModal() { document.body.classList.remove('chaos-lock'); document.getElementById('esperienza-modal').classList.remove('active'); }
+        // --- FUNZIONI MODAL ESPERIENZA ---
+        function openExpModal() {
+            document.body.classList.add('chaos-lock'); 
+            document.getElementById('esperienza-modal').classList.add('active');
+        }
+        function closeExpModal() {
+            document.body.classList.remove('chaos-lock');
+            document.getElementById('esperienza-modal').classList.remove('active');
+        }
         function switchExpTab(tabId) {
             document.querySelectorAll('.exp-tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.exp-tab-content').forEach(content => content.classList.remove('active'));
+            
             event.target.classList.add('active');
             document.getElementById('tab-' + tabId).classList.add('active');
         }
 
-        // MODAL PROGETTI
-        function openProjectsModal() { document.body.classList.add('chaos-lock'); document.getElementById('projects-modal').classList.add('active'); showProjectsGrid(); }
-        function closeProjectsModal() { document.body.classList.remove('chaos-lock'); document.getElementById('projects-modal').classList.remove('active'); }
+        // --- FUNZIONI MODAL PROGETTI ---
+        function openProjectsModal() {
+            document.body.classList.add('chaos-lock'); 
+            document.getElementById('projects-modal').classList.add('active');
+            showProjectsGrid(); 
+        }
+        function closeProjectsModal() {
+            document.body.classList.remove('chaos-lock');
+            document.getElementById('projects-modal').classList.remove('active');
+        }
         function openProjectDetail(index) {
             const prog = mieiProgetti[index];
             document.getElementById('projects-grid-container').style.display = 'none';
@@ -534,7 +636,10 @@
             document.getElementById('project-detail-container').setAttribute('data-current-index', index);
             document.querySelector('#projects-modal .modal-content').scrollTop = 0;
         }
-        function showProjectsGrid() { document.getElementById('project-detail-container').style.display = 'none'; document.getElementById('projects-grid-container').style.display = 'grid'; }
+        function showProjectsGrid() {
+            document.getElementById('project-detail-container').style.display = 'none';
+            document.getElementById('projects-grid-container').style.display = 'grid';
+        }
 
         // DARK MODE E TRADUZIONE
         function toggleTheme() {
@@ -547,11 +652,17 @@
             if (body.getAttribute('data-theme') === 'dark') {
                 body.removeAttribute('data-theme');
                 themeBtn.innerHTML = '🌙 Dark Mode';
-                floatingCodes.forEach(el => { el.style.color = colorsLight[Math.floor(Math.random() * colorsLight.length)]; el.style.setProperty('--current-opacity', Math.random() * 0.15 + 0.05); });
+                floatingCodes.forEach(el => {
+                    el.style.color = colorsLight[Math.floor(Math.random() * colorsLight.length)];
+                    el.style.setProperty('--current-opacity', Math.random() * 0.15 + 0.05);
+                });
             } else {
                 body.setAttribute('data-theme', 'dark');
                 themeBtn.innerHTML = '☀️ Light Mode';
-                floatingCodes.forEach(el => { el.style.color = colorsDark[Math.floor(Math.random() * colorsDark.length)]; el.style.setProperty('--current-opacity', Math.random() * 0.15 + 0.02); });
+                floatingCodes.forEach(el => {
+                    el.style.color = colorsDark[Math.floor(Math.random() * colorsDark.length)];
+                    el.style.setProperty('--current-opacity', Math.random() * 0.15 + 0.02);
+                });
             }
         }
         
@@ -560,11 +671,12 @@
             if(isChaosActive) return; 
             currentLang = currentLang === 'it' ? 'en' : 'it';
             document.getElementById('lang-btn').innerHTML = currentLang === 'it' ? '🇬🇧 English' : '🇮🇹 Italiano';
+            
             const elements = document.querySelectorAll('[data-it]');
             elements.forEach(el => {
                 if(el.querySelector('span') && el.classList.contains('chaos-text')) return;
-                // Gestione HTML interno per highlights e <br>
-                if (el.classList.contains('long-desc') || el.id === 'detail-desc' || el.classList.contains('timeline-desc')) {
+                // Gestione dei testi con HTML interno (es. i <br> o <span> nei progetti o descrizioni timeline)
+                if (el.classList.contains('long-desc') || el.id === 'detail-desc' || el.classList.contains('timeline-desc') || el.classList.contains('skill-pill')) {
                     el.innerHTML = el.getAttribute('data-' + currentLang);
                 } else {
                     el.innerText = el.getAttribute('data-' + currentLang);
@@ -585,75 +697,200 @@
         const textToType = document.getElementById('typing-text').getAttribute('data-' + currentLang);
         let charIndex = 0;
         function typeWriter() {
-            if (charIndex < textToType.length) { document.getElementById('typing-text').innerText += textToType.charAt(charIndex); charIndex++; setTimeout(typeWriter, 100); }
+            if (charIndex < textToType.length) {
+                document.getElementById('typing-text').innerText += textToType.charAt(charIndex);
+                charIndex++;
+                setTimeout(typeWriter, 100);
+            }
         }
         typeWriter();
-        imageSwapContainer.addEventListener('mousemove', (e) => { const rect = imageSwapContainer.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2; imageSwapContainer.style.transform = `perspective(1000px) rotateX(${y/15}deg) rotateY(${-x/15}deg) scale(1.02)`; });
-        imageSwapContainer.addEventListener('mouseleave', () => { imageSwapContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)'; });
-        imageSwapContainer.addEventListener('click', () => { imageSwapContainer.classList.toggle('toggled-click'); });
+        imageSwapContainer.addEventListener('mousemove', (e) => {
+            const rect = imageSwapContainer.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            imageSwapContainer.style.transform = `perspective(1000px) rotateX(${y/15}deg) rotateY(${-x/15}deg) scale(1.02)`;
+        });
+        imageSwapContainer.addEventListener('mouseleave', () => {
+            imageSwapContainer.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+        });
+        imageSwapContainer.addEventListener('click', () => {
+            imageSwapContainer.classList.toggle('toggled-click');
+        });
 
         // FORM E MODAL GENERICO
         const contactForm = document.getElementById('contact-form');
         contactForm.addEventListener('submit', function(e) {
-            e.preventDefault(); const formData = new FormData(contactForm); const object = Object.fromEntries(formData); const json = JSON.stringify(object); const submitBtn = contactForm.querySelector('button'); const originalBtnText = submitBtn.innerText; submitBtn.innerText = "Invio in corso...";
-            fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: json
-            }).then(async (response) => {
-                if (response.status == 200) { showCustomModal(currentLang === 'it' ? "Inviato! 🚀" : "Sent! 🚀", currentLang === 'it' ? "Il tuo messaggio è stato inviato con successo. Ti risponderò al più presto!" : "Your message was sent successfully. I'll get back to you soon!"); contactForm.reset();
-                } else showCustomModal("Ops!", "Qualcosa è andato storto nell'invio del modulo.");
-            }).catch(error => { showCustomModal("Errore di rete", "Non è stato possibile inviare il messaggio.");
-            }).finally(() => { submitBtn.innerText = originalBtnText; });
+            e.preventDefault();
+            const formData = new FormData(contactForm);
+            const object = Object.fromEntries(formData);
+            const json = JSON.stringify(object);
+            const submitBtn = contactForm.querySelector('button');
+            const originalBtnText = submitBtn.innerText;
+            submitBtn.innerText = "Invio in corso...";
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: json
+            })
+            .then(async (response) => {
+                if (response.status == 200) {
+                    showCustomModal(currentLang === 'it' ? "Inviato! 🚀" : "Sent! 🚀", currentLang === 'it' ? "Il tuo messaggio è stato inviato con successo. Ti risponderò al più presto!" : "Your message was sent successfully. I'll get back to you soon!");
+                    contactForm.reset();
+                } else {
+                    showCustomModal("Ops!", "Qualcosa è andato storto nell'invio del modulo.");
+                }
+            })
+            .catch(error => {
+                showCustomModal("Errore di rete", "Non è stato possibile inviare il messaggio.");
+            })
+            .finally(() => {
+                submitBtn.innerText = originalBtnText;
+            });
         });
-        function showCustomModal(title, desc) { document.getElementById('modal-title').innerText = title; document.getElementById('modal-desc').innerText = desc; document.getElementById('custom-modal').classList.add('active'); }
 
-        // EASTER EGG E ROBOT
+        function showCustomModal(title, desc) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-desc').innerText = desc;
+            document.getElementById('custom-modal').classList.add('active');
+        }
+
+        // EASTER EGG TORNADO
         const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-        let konamiIndex = 0, isChaosActive = false, physicsLoop, activeParticles = [];
-        document.addEventListener('keydown', (e) => { if (e.key === konamiCode[konamiIndex]) { konamiIndex++; if (konamiIndex === konamiCode.length) { triggerBouncingChaos(); konamiIndex = 0; } } else konamiIndex = 0; });
-        let tapCount = 0, tapTimer;
+        let konamiIndex = 0; let isChaosActive = false; let physicsLoop; let activeParticles = [];
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === konamiCode[konamiIndex]) {
+                konamiIndex++; if (konamiIndex === konamiCode.length) { triggerBouncingChaos(); konamiIndex = 0; }
+            } else konamiIndex = 0;
+        });
+
+        let tapCount = 0; let tapTimer;
         document.addEventListener('touchstart', (e) => {
             if(e.target.closest('#runaway-bot') || e.target.closest('header') || e.target.closest('.modal-overlay')) return; 
             tapCount++; clearTimeout(tapTimer);
-            if (tapCount === 5) { triggerBouncingChaos(); tapCount = 0; } else tapTimer = setTimeout(() => { tapCount = 0; }, 400);
+            if (tapCount === 5) { triggerBouncingChaos(); tapCount = 0; } 
+            else { tapTimer = setTimeout(() => { tapCount = 0; }, 400); }
         });
+
         function triggerBouncingChaos() {
             if (isChaosActive) return; isChaosActive = true; document.body.classList.add('chaos-lock');
-            const textEls = document.querySelectorAll('.chaos-text'), otherBlocks = document.querySelectorAll('.chaos-block, .image-container'), originalHTML = new Map(); activeParticles = [];
+
+            const textEls = document.querySelectorAll('.chaos-text');
+            const otherBlocks = document.querySelectorAll('.chaos-block, .image-container');
+            const originalHTML = new Map(); activeParticles = [];
+
             textEls.forEach(el => {
-                originalHTML.set(el, el.innerHTML); const text = el.innerText; el.innerHTML = '';
-                for(let i=0; i<text.length; i++) { let span = document.createElement('span'); span.innerText = text[i] === ' ' ? '\u00A0' : text[i]; span.style.display = 'inline-block'; el.appendChild(span); setupParticle(span); }
+                originalHTML.set(el, el.innerHTML); 
+                const text = el.innerText; el.innerHTML = '';
+                for(let i=0; i<text.length; i++) {
+                    let span = document.createElement('span');
+                    span.innerText = text[i] === ' ' ? '\u00A0' : text[i];
+                    span.style.display = 'inline-block'; el.appendChild(span); setupParticle(span);
+                }
             });
+
             otherBlocks.forEach(block => setupParticle(block));
-            function setupParticle(el) { const rect = el.getBoundingClientRect(); activeParticles.push({ el: el, x: 0, y: 0, startLeft: rect.left, startTop: rect.top, width: rect.width, height: rect.height, vx: (Math.random() - 0.5) * 35, vy: (Math.random() - 0.5) * 35, rot: 0, vrot: (Math.random() - 0.5) * 20 }); }
+
+            function setupParticle(el) {
+                const rect = el.getBoundingClientRect();
+                activeParticles.push({ el: el, x: 0, y: 0, startLeft: rect.left, startTop: rect.top, width: rect.width, height: rect.height, vx: (Math.random() - 0.5) * 35, vy: (Math.random() - 0.5) * 35, rot: 0, vrot: (Math.random() - 0.5) * 20 });
+            }
+
             let lastTime = performance.now();
             function updatePhysics(time) {
-                if (!isChaosActive) return; const dt = (time - lastTime) / 16; lastTime = time;
-                activeParticles.forEach(p => { p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vrot * dt; const currentLeft = p.startLeft + p.x, currentTop = p.startTop + p.y; if (currentLeft <= 0) { p.x = -p.startLeft; p.vx *= -1.05; } else if (currentLeft + p.width >= window.innerWidth) { p.x = window.innerWidth - p.startLeft - p.width; p.vx *= -1.05; } if (currentTop <= 0) { p.y = -p.startTop; p.vy *= -1.05; } else if (currentTop + p.height >= window.innerHeight) { p.y = window.innerHeight - p.startTop - p.height; p.vy *= -1.05; } p.el.style.transform = `translate(${p.x}px, ${p.y}px) rotate(${p.rot}deg)`; });
+                if (!isChaosActive) return;
+                const dt = (time - lastTime) / 16; lastTime = time;
+                activeParticles.forEach(p => {
+                    p.x += p.vx * dt; p.y += p.vy * dt; p.rot += p.vrot * dt;
+                    const currentLeft = p.startLeft + p.x; const currentTop = p.startTop + p.y;
+                    if (currentLeft <= 0) { p.x = -p.startLeft; p.vx *= -1.05; } else if (currentLeft + p.width >= window.innerWidth) { p.x = window.innerWidth - p.startLeft - p.width; p.vx *= -1.05; }
+                    if (currentTop <= 0) { p.y = -p.startTop; p.vy *= -1.05; } else if (currentTop + p.height >= window.innerHeight) { p.y = window.innerHeight - p.startTop - p.height; p.vy *= -1.05; }
+                    p.el.style.transform = `translate(${p.x}px, ${p.y}px) rotate(${p.rot}deg)`;
+                });
                 physicsLoop = requestAnimationFrame(updatePhysics);
             }
             physicsLoop = requestAnimationFrame(updatePhysics);
+
             setTimeout(() => {
                 cancelAnimationFrame(physicsLoop);
                 activeParticles.forEach(p => { p.el.style.transition = 'opacity 0.3s ease'; p.el.style.opacity = '0'; });
-                const msgContainer = document.getElementById('secret-msg-container'); msgContainer.innerText = msgContainer.getAttribute('data-' + currentLang); msgContainer.classList.add('show');
+
+                const msgContainer = document.getElementById('secret-msg-container');
+                msgContainer.innerText = msgContainer.getAttribute('data-' + currentLang);
+                msgContainer.classList.add('show');
+
                 setTimeout(() => {
                     msgContainer.classList.remove('show');
                     activeParticles.forEach(p => { p.el.style.transition = 'transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.8s'; p.el.style.transform = 'translate(0, 0) rotate(0deg)'; p.el.style.opacity = '1'; });
-                    setTimeout(() => { textEls.forEach(el => { el.innerHTML = originalHTML.get(el); }); otherBlocks.forEach(block => { block.style.transition = ''; block.style.transform = ''; }); document.body.classList.remove('chaos-lock'); isChaosActive = false; }, 1000);
+
+                    setTimeout(() => {
+                        textEls.forEach(el => { el.innerHTML = originalHTML.get(el); });
+                        otherBlocks.forEach(block => { block.style.transition = ''; block.style.transform = ''; });
+                        document.body.classList.remove('chaos-lock'); isChaosActive = false;
+                    }, 1000);
                 }, 4000); 
             }, 2000); 
         }
 
-        const bot = document.getElementById('runaway-bot'); const botFace = document.getElementById('bot-face'); const bubble = document.getElementById('bot-bubble');
+        // ROBOTTINO CATTURABILE
+        const bot = document.getElementById('runaway-bot');
+        const botFace = document.getElementById('bot-face');
+        const bubble = document.getElementById('bot-bubble');
         let runTimeout, footprintInterval, isCaught = false, isMoving = false, touchAttempts = 0;
-        window.addEventListener('DOMContentLoaded', () => { const botWidth = bot.offsetWidth || 80; const botHeight = bot.offsetHeight || 100; bot.style.left = (window.innerWidth - botWidth - 30) + 'px'; bot.style.top = (window.innerHeight - botHeight - 30) + 'px'; bot.style.bottom = 'auto'; bot.style.right = 'auto'; });
-        function setBubbleText(testoIT, testoEN) { bubble.setAttribute('data-it', testoIT); bubble.setAttribute('data-en', testoEN); bubble.innerText = currentLang === 'it' ? testoIT : testoEN; }
-        function triggerRunHover() { if (isCaught || isMoving) return; isMoving = true; setTimeout(() => { if (isCaught) return; botFace.innerText = '😱'; setBubbleText("Mancato!", "Missed!"); bot.classList.add('running'); startFootprints(); runAway(); setTimeout(() => { if (!isCaught) { bot.classList.remove('running'); botFace.innerText = '🤖'; stopFootprints(); isMoving = false; } }, 400); }, 100); }
-        function handleTouchBot(e) { if (isCaught || isMoving) return; e.preventDefault(); e.stopPropagation(); touchAttempts++; if (touchAttempts < 5) { isMoving = true; botFace.innerText = '😱'; setBubbleText(tapCount % 2 == 0 ? "Troppo lento!" : "Mancato!", tapCount % 2 == 0 ? "Too slow!" : "Missed!"); bot.classList.add('running'); startFootprints(); runAway(); setTimeout(() => { if (!isCaught) { bot.classList.remove('running'); botFace.innerText = '🤖'; stopFootprints(); isMoving = false; } }, 400); } else executeCatch(); }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const botWidth = bot.offsetWidth || 80; const botHeight = bot.offsetHeight || 100;
+            bot.style.left = (window.innerWidth - botWidth - 30) + 'px';
+            bot.style.top = (window.innerHeight - botHeight - 30) + 'px';
+            bot.style.bottom = 'auto'; bot.style.right = 'auto';
+        });
+
+        function setBubbleText(testoIT, testoEN) {
+            bubble.setAttribute('data-it', testoIT); bubble.setAttribute('data-en', testoEN); bubble.innerText = currentLang === 'it' ? testoIT : testoEN;
+        }
+
+        function triggerRunHover() {
+            if (isCaught || isMoving) return; isMoving = true; 
+            setTimeout(() => { 
+                if (isCaught) return;
+                botFace.innerText = '😱'; setBubbleText("Mancato!", "Missed!");
+                bot.classList.add('running'); startFootprints(); runAway();
+                setTimeout(() => { if (!isCaught) { bot.classList.remove('running'); botFace.innerText = '🤖'; stopFootprints(); isMoving = false; } }, 400); 
+            }, 100); 
+        }
+
+        function handleTouchBot(e) {
+            if (isCaught || isMoving) return;
+            e.preventDefault(); e.stopPropagation(); 
+            touchAttempts++;
+            if (touchAttempts < 5) { 
+                isMoving = true; botFace.innerText = '😱';
+                let itTexts = ["Mancato!", "Troppo lento!", "Ritenta!", "Ci sei quasi..."]; let enTexts = ["Missed!", "Too slow!", "Try again!", "Almost there..."];
+                setBubbleText(itTexts[touchAttempts - 1], enTexts[touchAttempts - 1]);
+                bot.classList.add('running'); startFootprints(); runAway();
+                setTimeout(() => { if (!isCaught) { bot.classList.remove('running'); botFace.innerText = '🤖'; stopFootprints(); isMoving = false; } }, 400);
+            } else executeCatch();
+        }
+
         function handleMouseClick(e) { if (isCaught) return; executeCatch(); }
-        function runAway() { const rect = bot.getBoundingClientRect(), currentX = rect.left, currentY = rect.top, maxX = window.innerWidth - 120, maxY = window.innerHeight - 150; let randomX, randomY, distance = 0, attempts = 0; do { randomX = Math.max(20, Math.floor(Math.random() * maxX)); randomY = Math.max(80, Math.floor(Math.random() * maxY)); distance = Math.sqrt(Math.pow(randomX - currentX, 2) + Math.pow(randomY - currentY, 2)); attempts++; } while (distance < 400 && attempts < 30); bot.style.bottom = 'auto'; bot.style.right = 'auto'; bot.style.left = randomX + 'px'; bot.style.top = randomY + 'px'; }
+
+        function runAway() {
+            const rect = bot.getBoundingClientRect(), currentX = rect.left, currentY = rect.top, maxX = window.innerWidth - 120, maxY = window.innerHeight - 150;
+            let randomX, randomY, distance = 0, attempts = 0;
+            do {
+                randomX = Math.max(20, Math.floor(Math.random() * maxX)); randomY = Math.max(80, Math.floor(Math.random() * maxY));
+                distance = Math.sqrt(Math.pow(randomX - currentX, 2) + Math.pow(randomY - currentY, 2)); attempts++;
+            } while (distance < 400 && attempts < 30); 
+            bot.style.bottom = 'auto'; bot.style.right = 'auto'; bot.style.left = randomX + 'px'; bot.style.top = randomY + 'px';
+        }
+
         function startFootprints() { clearInterval(footprintInterval); footprintInterval = setInterval(() => { const rect = bot.getBoundingClientRect(); const print = document.createElement('div'); print.className = 'footprint'; print.style.left = (rect.left + 50) + 'px'; print.style.top = (rect.top + 90) + 'px'; document.body.appendChild(print); setTimeout(() => print.remove(), 1000); }, 100); }
         function stopFootprints() { clearInterval(footprintInterval); }
-        function executeCatch() { isCaught = true; clearTimeout(runTimeout); stopFootprints(); bot.classList.remove('running'); botFace.innerText = '😵'; setBubbleText("Preso!", "Got me!"); setTimeout(() => { bot.classList.add('bot-vanish'); }, 500); setTimeout(() => { showCustomModal(currentLang === 'it' ? "Preso! 🎯" : "Caught me! 🎯", currentLang === 'it' ? "Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" : "Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!"); }, 900); }
+        function executeCatch() {
+            isCaught = true; clearTimeout(runTimeout); stopFootprints(); bot.classList.remove('running'); botFace.innerText = '😵'; setBubbleText("Preso!", "Got me!");
+            setTimeout(() => { bot.classList.add('bot-vanish'); }, 500);
+            setTimeout(() => { showCustomModal(currentLang === 'it' ? "Preso! 🎯" : "Caught me! 🎯", currentLang === 'it' ? "Complimenti per i riflessi! Grazie per aver visitato il sito, buon proseguimento!" : "Great reflexes! Thanks for visiting the site, enjoy the rest of your stay!"); }, 900);
+        }
         function closeModal() { document.getElementById('custom-modal').classList.remove('active'); document.getElementById('esperienza-modal').classList.remove('active'); document.body.classList.remove('chaos-lock'); }
     </script>
 </body>
