@@ -97,7 +97,7 @@
             .nav-menu a { padding: 6px 12px; font-size: 0.9em; }
         }
 
-        /* --- SEZIONE HERO E FOTO (LOGICA 100% BLINDATA) --- */
+        /* --- SEZIONE HERO E FOTO (LOGICA IMMAGINI BLINDATA) --- */
         .hero { 
             margin-top: 130px; text-align: center; padding: 20px; 
             width: 100%; max-width: 900px; z-index: 10; 
@@ -115,30 +115,30 @@
             position: absolute; top: 0; left: 0; transition: opacity 0.3s ease;
         }
 
-        /* 1. Stato di base (tutto invisibile tranne la Light) */
-        .img-light { opacity: 1; z-index: 2; }
+        /* Stato base: tutte a opacità 0 */
+        .img-light { opacity: 0; z-index: 1; }
         .img-dark { opacity: 0; z-index: 1; }
-        .img-real { opacity: 0; z-index: 1; }
+        .img-real { opacity: 0; z-index: 3; }
 
-        /* 2. Se Dark Mode è attiva, accendi Dark e spegni Light */
-        [data-theme='dark'] .img-light { opacity: 0; z-index: 1; }
-        [data-theme='dark'] .img-dark { opacity: 1; z-index: 2; }
+        /* Gestione visibilità in base al tema */
+        body:not([data-theme='dark']) .img-light { opacity: 1; z-index: 2; }
+        body[data-theme='dark'] .img-dark { opacity: 1; z-index: 2; }
 
-        /* 3. Se hover o click: accendi Reale e spegni le Cartoon */
+        /* Hover e Click: mostra la Reale, nascondi le altre */
         @media (hover: hover) {
-            .image-container:not(.toggled-click):hover .img-real { opacity: 1; z-index: 3; }
-            body:not([data-theme='dark']) .image-container:not(.toggled-click):hover .img-light { opacity: 0; }
-            [data-theme='dark'] .image-container:not(.toggled-click):hover .img-dark { opacity: 0; }
+            .image-container:not(.toggled-click):hover .img-real { opacity: 1; }
+            .image-container:not(.toggled-click):hover .img-light { opacity: 0; }
+            .image-container:not(.toggled-click):hover .img-dark { opacity: 0; }
         }
-        .image-container.toggled-click .img-real { opacity: 1; z-index: 3; }
-        body:not([data-theme='dark']) .image-container.toggled-click .img-light { opacity: 0; }
-        [data-theme='dark'] .image-container.toggled-click .img-dark { opacity: 0; }
+        .image-container.toggled-click .img-real { opacity: 1; }
+        .image-container.toggled-click .img-light { opacity: 0; }
+        .image-container.toggled-click .img-dark { opacity: 0; }
 
-        /* 4. Ritorno per Mobile */
+        /* Mobile revert */
         @media (hover: hover) {
-            .image-container.toggled-click:hover .img-real { opacity: 0; z-index: 1; }
-            body:not([data-theme='dark']) .image-container.toggled-click:hover .img-light { opacity: 1; z-index: 3; }
-            [data-theme='dark'] .image-container.toggled-click:hover .img-dark { opacity: 1; z-index: 3; }
+            .image-container.toggled-click:hover .img-real { opacity: 0; }
+            body:not([data-theme='dark']) .image-container.toggled-click:hover .img-light { opacity: 1; }
+            body[data-theme='dark'] .image-container.toggled-click:hover .img-dark { opacity: 1; }
         }
 
         .image-hint {
@@ -146,19 +146,37 @@
             opacity: 0.5; margin-bottom: 20px; user-select: none; letter-spacing: 0.5px;
         }
 
-        .hero h1 { font-size: 2.8em; margin: 0; user-select: none; }
+        /* --- NUOVO STILE DEL TITOLO PRINCIPALE --- */
+        .hero h1 { 
+            font-size: 3.5em; 
+            margin: 0; 
+            user-select: none; 
+            font-weight: 900;
+            letter-spacing: -1px;
+            background: linear-gradient(45deg, var(--text-color), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.4s ease;
+        }
+        [data-theme='dark'] .hero h1 {
+            background: linear-gradient(45deg, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         .typewriter-tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; min-height: 1.6em; margin-top: 5px; }
         .typewriter-tagline::after { content: '_'; animation: blinkType 0.7s infinite; }
         @keyframes blinkType { 50% { opacity: 0; } }
-        .hero p.bio { font-size: 1.1em; color: #888; max-width: 700px; margin: 10px auto; }
+        .hero p.bio { font-size: 1.1em; color: #666; max-width: 800px; margin: 15px auto; line-height: 1.8; }
+        [data-theme='dark'] .hero p.bio { color: #aaa; }
 
-        /* --- GRIGLIA CARDS --- */
+        /* --- GRIGLIA CARDS (ORA A 3 COLONNE) --- */
         .grid-container {
-            display: grid; grid-template-columns: repeat(4, 1fr); 
-            gap: 20px; width: 95%; max-width: 1200px; padding: 40px 0; z-index: 10; scroll-margin-top: 100px;
+            display: grid; grid-template-columns: repeat(3, 1fr); 
+            gap: 20px; width: 95%; max-width: 1000px; padding: 40px 0; z-index: 10; scroll-margin-top: 100px;
         }
         @media (max-width: 900px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 500px) { .grid-container { grid-template-columns: 1fr; } }
+        @media (max-width: 600px) { .grid-container { grid-template-columns: 1fr; } }
 
         .card {
             background-color: var(--card-bg); padding: 30px 20px; border-radius: 15px;
@@ -177,7 +195,7 @@
         }
         .card button:hover { background-color: var(--accent-hover); }
 
-        /* --- SEZIONE CONTATTI (NUOVO DESIGN CON SOCIAL CARDS) --- */
+        /* --- SEZIONE CONTATTI E SOCIAL --- */
         .contact-section {
             width: 95%; max-width: 1000px; background-color: transparent; padding: 0; 
             text-align: center; margin: 40px 0 80px 0; z-index: 10; scroll-margin-top: 120px;
@@ -190,10 +208,7 @@
             display: flex; flex-wrap: wrap; gap: 30px; justify-content: center; align-items: stretch;
         }
 
-        /* Colonna Social */
-        .social-column {
-            flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 15px;
-        }
+        .social-column { flex: 1; min-width: 280px; display: flex; flex-direction: column; gap: 15px; }
         .social-card {
             display: flex; align-items: center; gap: 15px; padding: 18px 25px;
             background: var(--card-bg); border: var(--card-border); border-radius: 15px;
@@ -209,7 +224,6 @@
         .social-card svg { width: 28px; height: 28px; fill: currentColor; }
         .social-card span { flex-grow: 1; text-align: left; }
 
-        /* Colonna Form */
         .form-column {
             flex: 1.2; min-width: 300px; background: var(--card-bg); padding: 30px; 
             border-radius: 15px; border: var(--card-border); box-shadow: var(--shadow), var(--card-glow);
@@ -321,7 +335,7 @@
         [data-theme='dark'] .github-link-btn:hover { background: #ffffff; color: #000000;}
         .github-icon { width: 24px; height: 24px; fill: currentColor; }
 
-        /* --- MODAL ESPERIENZA (TIMELINE E TABS) --- */
+        /* --- MODAL ESPERIENZA (TIMELINE) --- */
         #esperienza-modal .modal-content { max-width: 900px; padding: 30px; text-align: left; }
         
         .modal-main-title {
@@ -384,7 +398,7 @@
             <a href="#home" data-it="Home" data-en="Home">Home</a>
             <a href="#progetti" data-it="Progetti" data-en="Projects">Progetti</a>
             <a href="#esperienza" data-it="Esperienza" data-en="Experience">Esperienza</a>
-            <a href="#contatti" data-it="Contatti" data-en="Contact">Contatti</a>
+            <a href="#contatti-section" data-it="Contatti" data-en="Contact">Contatti</a>
             <a href="#blog" data-it="Blog" data-en="Blog">Blog</a>
         </div>
         <div class="header-actions">
@@ -396,16 +410,18 @@
     <div id="content-wrapper">
         <section class="hero">
             <div class="image-container" id="image-swap-container">
-                <img class="img-light front-img" src="foto-cartoon.png" alt="Profile Cartoon Light" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Light';">
-                <img class="img-dark front-img" src="foto-cartoon-dark.jpg" alt="Profile Cartoon Dark" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Dark';">
-                <img class="img-real back-img" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/300?text=Reale+PNG';">
+                <img class="img-light" src="foto-cartoon.png" alt="Profile Cartoon Light" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Light';">
+                <img class="img-dark" src="foto-cartoon-dark.jpg" alt="Profile Cartoon Dark" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Dark';">
+                <img class="img-real" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/300?text=Reale+PNG';">
             </div>
             
             <div class="image-hint" id="hint-text" data-it="Clicca o passa il mouse sull'immagine per scoprirmi" data-en="Click or hover over the image to reveal me">Clicca o passa il mouse sull'immagine per scoprirmi</div>
 
             <h1 id="secret-name" class="chaos-text" data-it="Licia Congedo" data-en="Licia Congedo">Licia Congedo</h1>
-            <p class="typewriter-tagline chaos-text" id="typing-text" data-it="Digital Architect & Creative Code Alchemist" data-en="Digital Architect & Creative Code Alchemist"></p>
-            <p class="bio chaos-text" data-it="Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro." data-en="This is a sample short bio. Here you can write who you are, what you are passionate about, and your mission.">Questa è una breve bio di esempio. Qui potrai scrivere chi sei, cosa ti appassiona e quale è la tua missione nel mondo del lavoro.</p>
+            
+            <p class="typewriter-tagline chaos-text" id="typing-text" data-it="Progettista, Sviluppatore e Security Specialist" data-en="Designer, Developer, and Security Specialist"></p>
+            
+            <p class="bio chaos-text" data-it="Laureanda Magistrale in Security Engineering con una spiccata attitudine alla progettazione e al Project Management. Unisco solide competenze tecniche a una visione creativa e strategica, che mi permette di trasformare sfide tecnologiche complesse in soluzioni progettuali innovative. Appassionata del settore e-Health, aspiro a coordinare progetti dove la sicurezza del dato e l'efficienza dei sistemi sanitari digitali si incontrano. Sono una professionista energica, orientata al problem solving e pronta a guidare team dinamici verso obiettivi ambiziosi." data-en="Master's student in Security Engineering with a strong aptitude for design and Project Management. I combine solid technical skills with a creative and strategic vision, allowing me to transform complex technological challenges into innovative design solutions. Passionate about the e-Health sector, I aspire to coordinate projects where data security and the efficiency of digital healthcare systems meet. I am an energetic professional, problem-solving oriented, and ready to lead dynamic teams towards ambitious goals.">Laureanda Magistrale in Security Engineering con una spiccata attitudine alla progettazione e al Project Management. Unisco solide competenze tecniche a una visione creativa e strategica, che mi permette di trasformare sfide tecnologiche complesse in soluzioni progettuali innovative. Appassionata del settore e-Health, aspiro a coordinare progetti dove la sicurezza del dato e l'efficienza dei sistemi sanitari digitali si incontrano. Sono una professionista energica, orientata al problem solving e pronta a guidare team dinamici verso obiettivi ambiziosi.</p>
         </section>
 
         <section class="grid-container">
@@ -421,8 +437,12 @@
                 <p class="chaos-text" data-it="Il mio percorso e le mie competenze." data-en="My path and skills.">Il mio percorso e le mie competenze.</p>
                 <button class="chaos-block" onclick="openExpModal()" data-it="Leggi il CV" data-en="Read CV">Leggi il CV</button>
             </div>
-            <div class="card" id="contatti"><div class="card-icon chaos-block">✉️</div><h3 class="chaos-text" data-it="CONTATTI" data-en="CONTACT">CONTATTI</h3><p class="chaos-text" data-it="Troviamo un modo per collaborare." data-en="Let's find a way to collaborate.">Troviamo un modo per collaborare.</p><button class="chaos-block" data-it="Scrivimi" data-en="Write me">Scrivimi</button></div>
-            <div class="card" id="blog"><div class="card-icon chaos-block">📖</div><h3 class="chaos-text" data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3><p class="chaos-text" data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p><button class="chaos-block" data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button></div>
+            <div class="card" id="blog">
+                <div class="card-icon chaos-block">📖</div>
+                <h3 class="chaos-text" data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3>
+                <p class="chaos-text" data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p>
+                <button class="chaos-block" data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button>
+            </div>
         </section>
 
         <section class="contact-section" id="contatti-section">
@@ -823,7 +843,7 @@
             elements.forEach(el => {
                 if(el.querySelector('span') && el.classList.contains('chaos-text')) return;
                 
-                if (el.classList.contains('long-desc') || el.id === 'detail-desc' || el.classList.contains('timeline-desc') || el.classList.contains('skill-pill') || el.classList.contains('modal-main-title') || el.tagName.toLowerCase() === 'span') {
+                if (el.classList.contains('long-desc') || el.id === 'detail-desc' || el.classList.contains('timeline-desc') || el.classList.contains('skill-pill') || el.classList.contains('modal-main-title') || el.tagName.toLowerCase() === 'span' || el.classList.contains('bio')) {
                     el.innerHTML = el.getAttribute('data-' + currentLang);
                 } else {
                     el.innerText = el.getAttribute('data-' + currentLang);
@@ -979,7 +999,7 @@
             }, 2000); 
         }
 
-        // ROBOTTINO CATTURABILE 
+        // ROBOTTINO CATTURABILE
         const bot = document.getElementById('runaway-bot');
         const botFace = document.getElementById('bot-face');
         const bubble = document.getElementById('bot-bubble');
