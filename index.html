@@ -97,7 +97,7 @@
             .nav-menu a { padding: 6px 12px; font-size: 0.9em; }
         }
 
-        /* --- SEZIONE HERO E FOTO SWAP --- */
+        /* --- SEZIONE HERO E FOTO (LOGICA FOTO BLINDATA) --- */
         .hero { 
             margin-top: 130px; text-align: center; padding: 20px; 
             width: 100%; max-width: 900px; z-index: 10; 
@@ -113,29 +113,24 @@
         .image-container img {
             width: 100%; height: 100%; object-fit: contain; 
             position: absolute; top: 0; left: 0; transition: opacity 0.3s ease;
-            opacity: 0; /* NASCONDE TUTTO DI BASE per evitare sovrapposizioni */
-            z-index: 1;
+            opacity: 0; z-index: 1;
         }
 
-        /* Solo una visibile per volta in base al tema */
+        /* LIGHT MODE */
         body:not([data-theme='dark']) .image-container img.cartoon-light { opacity: 1; z-index: 2; }
+        /* DARK MODE */
         [data-theme='dark'] .image-container img.cartoon-dark { opacity: 1; z-index: 2; }
 
+        /* HOVER E CLICK (Mostra la Reale, nasconde le Cartoon) */
         @media (hover: hover) {
             .image-container:not(.toggled-click):hover img.real { opacity: 1; z-index: 3; }
-            body:not([data-theme='dark']) .image-container:not(.toggled-click):hover img.cartoon-light { opacity: 0; z-index: 1;}
-            [data-theme='dark'] .image-container:not(.toggled-click):hover img.cartoon-dark { opacity: 0; z-index: 1;}
+            body:not([data-theme='dark']) .image-container:not(.toggled-click):hover img.cartoon-light { opacity: 0; }
+            [data-theme='dark'] .image-container:not(.toggled-click):hover img.cartoon-dark { opacity: 0; }
         }
 
         .image-container.toggled-click img.real { opacity: 1; z-index: 3; }
-        body:not([data-theme='dark']) .image-container.toggled-click img.cartoon-light { opacity: 0; z-index: 1;}
-        [data-theme='dark'] .image-container.toggled-click img.cartoon-dark { opacity: 0; z-index: 1;}
-
-        @media (hover: hover) {
-            .image-container.toggled-click:hover img.real { opacity: 0; z-index: 1;}
-            body:not([data-theme='dark']) .image-container.toggled-click:hover img.cartoon-light { opacity: 1; z-index: 3;}
-            [data-theme='dark'] .image-container.toggled-click:hover img.cartoon-dark { opacity: 1; z-index: 3;}
-        }
+        body:not([data-theme='dark']) .image-container.toggled-click img.cartoon-light { opacity: 0; }
+        [data-theme='dark'] .image-container.toggled-click img.cartoon-dark { opacity: 0; }
 
         .image-hint {
             font-size: 0.9em; font-weight: 500; color: var(--text-color); 
@@ -282,8 +277,18 @@
         [data-theme='dark'] .github-link-btn:hover { background: #ffffff; color: #000000;}
         .github-icon { width: 24px; height: 24px; fill: currentColor; }
 
-        /* --- MODAL ESPERIENZA (TIMELINE E TABS) --- */
+        /* --- MODAL ESPERIENZA (TIMELINE, TABS E TITOLO ELEGANTE) --- */
         #esperienza-modal .modal-content { max-width: 900px; width: 95%; padding: 30px; text-align: left; }
+        
+        .modal-main-title {
+            font-size: 2.8em; color: var(--accent); text-transform: uppercase; letter-spacing: 3px;
+            position: relative; padding-bottom: 15px; margin-top: -10px; margin-bottom: 20px; text-align: center;
+        }
+        .modal-main-title::after {
+            content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 60px; height: 4px; background-color: var(--accent); border-radius: 2px;
+        }
+
         .exp-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
         .exp-tab-btn {
             background: transparent; color: var(--text-color); border: 2px solid var(--text-color);
@@ -306,16 +311,24 @@
         [data-theme='dark'] .timeline-subtitle { color: #aaa; }
         .timeline-desc { font-size: 1em; color: var(--text-color); line-height: 1.6; margin: 0 0 15px 0; }
         
-        /* Evidenziatore accento per il testo (SECURITY ENGINEERING) */
         .highlight-accent { color: var(--accent); font-weight: bold; }
 
-        /* --- STILI PILLOLE DELLE COMPETENZE (SKILLS TAGS) --- */
+        /* --- STILI PILLOLE DELLE COMPETENZE --- */
         .skills-container { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
         .skill-pill {
             display: inline-block; padding: 4px 12px; border-radius: 15px; font-size: 0.85em; font-weight: 600;
             background: transparent; color: var(--accent); border: 1px solid var(--accent); transition: 0.2s;
         }
         .skill-pill:hover { background: var(--accent); color: white; transform: translateY(-2px); }
+
+        /* --- STILI TAB SOFT SKILLS --- */
+        .soft-skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-top: 10px; }
+        .soft-skill-card {
+            background: var(--card-bg); border: var(--card-border); padding: 20px; border-radius: 12px;
+            text-align: center; font-weight: bold; color: var(--text-color); transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: var(--shadow);
+        }
+        .soft-skill-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.2); color: var(--accent); border-color: var(--accent); }
 
     </style>
 </head>
@@ -435,15 +448,18 @@
 
     <div class="modal-overlay" id="esperienza-modal">
         <div class="modal-content">
-            <div class="modal-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 25px;">
-                <h2 class="chaos-text" data-it="Il Mio Percorso" data-en="My Journey" style="margin:0; font-size:2em;">Il Mio Percorso</h2>
-                <button class="close-icon" onclick="closeExpModal()" style="font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color);">✖</button>
+            
+            <div style="width: 100%; display: flex; justify-content: flex-end; margin-bottom: -15px;">
+                <button class="close-icon" onclick="closeExpModal()" style="font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color); z-index: 10;">✖</button>
             </div>
+            
+            <h2 class="modal-main-title chaos-text" data-it="Il Mio Percorso" data-en="My Journey">Il Mio Percorso</h2>
             
             <div class="exp-tabs">
                 <button class="exp-tab-btn chaos-block active" onclick="switchExpTab('istruzione')" data-it="Istruzione" data-en="Education">Istruzione</button>
-                <button class="exp-tab-btn chaos-block" onclick="switchExpTab('lavoro')" data-it="Lavorative" data-en="Work">Lavorative</button>
+                <button class="exp-tab-btn chaos-block" onclick="switchExpTab('lavoro')" data-it="Lavoro" data-en="Work">Lavoro</button>
                 <button class="exp-tab-btn chaos-block" onclick="switchExpTab('certificazioni')" data-it="Certificazioni" data-en="Certifications">Certificazioni</button>
+                <button class="exp-tab-btn chaos-block" onclick="switchExpTab('softskills')" data-it="Soft Skills" data-en="Soft Skills">Soft Skills</button>
             </div>
 
             <div id="tab-istruzione" class="exp-tab-content active">
@@ -513,7 +529,7 @@
                         <p class="timeline-subtitle" data-it="SC Heerenveen (Torneo Youth League, Bari)" data-en="SC Heerenveen (Youth League Tournament, Bari)">SC Heerenveen (Torneo Youth League, Bari)</p>
                         <p class="timeline-desc" data-it="Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari.<br><br>Per tutta la durata del loro soggiorno in Italia ho affiancato il team, supportandoli nella comunicazione quotidiana, nella gestione logistica e nelle interazioni con l’organizzazione del torneo." data-en="I had the great pleasure of collaborating as an English translator and official escort for the Dutch team SC Heerenveen during the Youth League tournament in Bari.<br><br>For the entire duration of their stay in Italy, I supported the team with daily communication, logistics management, and interactions with the tournament organization.">Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari.<br><br>Per tutta la durata del loro soggiorno in Italia ho affiancato il team, supportandoli nella comunicazione quotidiana, nella gestione logistica e nelle interazioni con l’organizzazione del torneo.</p>
                         <div class="skills-container chaos-text">
-                            <span class="skill-pill" data-it="Inglese" data-en="English">Inglese</span>
+                            <span class="skill-pill" data-it="Inglese C1" data-en="English C1">Inglese C1</span>
                             <span class="skill-pill" data-it="Traduzione" data-en="Translation">Traduzione</span>
                             <span class="skill-pill" data-it="Public Relations" data-en="Public Relations">Public Relations</span>
                             <span class="skill-pill" data-it="Event Management" data-en="Event Management">Event Management</span>
@@ -524,7 +540,7 @@
                         <span class="timeline-date" data-it="2017 - Attuale" data-en="2017 - Present">2017 - Attuale</span>
                         <h4 class="timeline-title" data-it="Graphic Designer e Content Creator Freelance" data-en="Freelance Graphic Designer and Content Creator">Graphic Designer e Content Creator Freelance</h4>
                         <p class="timeline-subtitle" data-it="Libera Professionista" data-en="Freelance">Libera Professionista</p>
-                        <p class="timeline-desc" data-it="Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuola, aziende o iniziative promozionali, allineati alle strategie di comunicazione." data-en="Creation of graphic and textual content for social media and events, supporting brands, schools, companies, or promotional initiatives, aligned with communication strategies.">Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuola, aziende o iniziative promozionali, allineati alle strategie di comunicazione.</p>
+                        <p class="timeline-desc" data-it="Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuole, aziende o iniziative promozionali, allineati alle strategie di comunicazione." data-en="Creation of graphic and textual content for social media and events, supporting brands, schools, companies, or promotional initiatives, aligned with communication strategies.">Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuole, aziende o iniziative promozionali, allineati alle strategie di comunicazione.</p>
                         <div class="skills-container chaos-text">
                             <span class="skill-pill" data-it="Graphic Design" data-en="Graphic Design">Graphic Design</span>
                             <span class="skill-pill" data-it="Content Creation" data-en="Content Creation">Content Creation</span>
@@ -540,19 +556,48 @@
             <div id="tab-certificazioni" class="exp-tab-content">
                 <div class="timeline">
                     <div class="timeline-item chaos-text">
-                        <span class="timeline-date">2023</span>
-                        <h4 class="timeline-title" data-it="AWS Certified Developer" data-en="AWS Certified Developer">AWS Certified Developer</h4>
-                        <p class="timeline-subtitle" data-it="Amazon Web Services" data-en="Amazon Web Services">Amazon Web Services</p>
-                        <p class="timeline-desc" data-it="Certificazione sulle competenze di sviluppo e mantenimento di applicazioni cloud su AWS." data-en="Certification on skills for developing and maintaining cloud applications on AWS.">Certificazione sulle competenze di sviluppo e mantenimento di applicazioni cloud su AWS.</p>
+                        <span class="timeline-date" data-it="In corso" data-en="Ongoing">In corso</span>
+                        <h4 class="timeline-title" data-it="Inglese Universitario (C1)" data-en="University English (C1)">Inglese Universitario (C1)</h4>
+                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari" data-en="Università degli Studi di Bari">Università degli Studi di Bari</p>
+                        <p class="timeline-desc" data-it="Certificazione accademica di livello avanzato (C1) per la lingua inglese." data-en="Advanced level (C1) academic certification for the English language.">Certificazione accademica di livello avanzato (C1) per la lingua inglese.</p>
                     </div>
                     <div class="timeline-item chaos-text">
-                        <span class="timeline-date">2022</span>
-                        <h4 class="timeline-title" data-it="React Advanced Certification" data-en="React Advanced Certification">React Advanced Certification</h4>
-                        <p class="timeline-subtitle" data-it="Meta / Coursera" data-en="Meta / Coursera">Meta / Coursera</p>
-                        <p class="timeline-desc" data-it="Corso intensivo su concetti avanzati di React: Custom Hooks, Context API e Performance." data-en="Intensive course on advanced React concepts: Custom Hooks, Context API, and Performance.">Corso intensivo su concetti avanzati di React: Custom Hooks, Context API e Performance.</p>
+                        <span class="timeline-date" data-it="Valida a vita" data-en="Lifetime validity">Valida a vita</span>
+                        <h4 class="timeline-title" data-it="Certificazione Inglese B2 (Cambridge)" data-en="English B2 Certification (Cambridge)">Certificazione Inglese B2 (Cambridge)</h4>
+                        <p class="timeline-subtitle" data-it="Cambridge Assessment" data-en="Cambridge Assessment">Cambridge Assessment</p>
+                        <p class="timeline-desc" data-it="Certificazione linguistica internazionale livello B2." data-en="International language certification level B2.">Certificazione linguistica internazionale livello B2.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2021</span>
+                        <h4 class="timeline-title" data-it="Certificato BLSD" data-en="BLSD Certificate">Certificato BLSD</h4>
+                        <p class="timeline-desc" data-it="Basic Life Support and Defibrillation." data-en="Basic Life Support and Defibrillation.">Basic Life Support and Defibrillation.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2019</span>
+                        <h4 class="timeline-title" data-it="Brevetto Bagnino di Salvataggio" data-en="Lifeguard Certification">Brevetto Bagnino di Salvataggio</h4>
+                        <p class="timeline-desc" data-it="Brevetto per il salvataggio acquatico e primo soccorso." data-en="Certification for aquatic rescue and first aid.">Brevetto per il salvataggio acquatico e primo soccorso.</p>
+                    </div>
+                    <div class="timeline-item chaos-text">
+                        <span class="timeline-date">2019</span>
+                        <h4 class="timeline-title" data-it="Certificato ECDL Base" data-en="ECDL Base Certificate">Certificato ECDL Base</h4>
+                        <p class="timeline-desc" data-it="Patente Europea del Computer, attestante le competenze informatiche di base." data-en="European Computer Driving Licence, certifying basic IT skills.">Patente Europea del Computer, attestante le competenze informatiche di base.</p>
                     </div>
                 </div>
             </div>
+
+            <div id="tab-softskills" class="exp-tab-content">
+                <div class="soft-skills-grid">
+                    <div class="soft-skill-card chaos-text" data-it="Problem Solving" data-en="Problem Solving">Problem Solving</div>
+                    <div class="soft-skill-card chaos-text" data-it="Lavoro di Squadra" data-en="Teamwork">Lavoro di Squadra</div>
+                    <div class="soft-skill-card chaos-text" data-it="Comunicazione Efficace" data-en="Effective Communication">Comunicazione Efficace</div>
+                    <div class="soft-skill-card chaos-text" data-it="Gestione del Tempo" data-en="Time Management">Gestione del Tempo</div>
+                    <div class="soft-skill-card chaos-text" data-it="Adattabilità" data-en="Adaptability">Adattabilità</div>
+                    <div class="soft-skill-card chaos-text" data-it="Pensiero Analitico" data-en="Critical Thinking">Pensiero Analitico</div>
+                    <div class="soft-skill-card chaos-text" data-it="Ascolto Attivo" data-en="Active Listening">Ascolto Attivo</div>
+                    <div class="soft-skill-card chaos-text" data-it="Intelligenza Emotiva" data-en="Emotional Intelligence">Intelligenza Emotiva</div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -686,8 +731,7 @@
             elements.forEach(el => {
                 if(el.querySelector('span') && el.classList.contains('chaos-text')) return;
                 
-                // Gestione HTML interno (es. i <br> o <span> per highlighter)
-                if (el.classList.contains('long-desc') || el.id === 'detail-desc' || el.classList.contains('timeline-desc') || el.classList.contains('skill-pill')) {
+                if (el.classList.contains('long-desc') || el.id === 'detail-desc' || el.classList.contains('timeline-desc') || el.classList.contains('skill-pill') || el.classList.contains('modal-main-title')) {
                     el.innerHTML = el.getAttribute('data-' + currentLang);
                 } else {
                     el.innerText = el.getAttribute('data-' + currentLang);
@@ -843,7 +887,7 @@
             }, 2000); 
         }
 
-        // ROBOTTINO CATTURABILE (FIX TELETRASPORTO INIZIALE)
+        // ROBOTTINO CATTURABILE 
         const bot = document.getElementById('runaway-bot');
         const botFace = document.getElementById('bot-face');
         const bubble = document.getElementById('bot-bubble');
