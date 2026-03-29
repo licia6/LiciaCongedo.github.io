@@ -146,22 +146,14 @@
             opacity: 0.5; margin-bottom: 20px; user-select: none; letter-spacing: 0.5px;
         }
 
-        /* --- NUOVO STILE DEL TITOLO PRINCIPALE --- */
+        /* --- TITOLO PRINCIPALE RIPRISTINATO --- */
         .hero h1 { 
-            font-size: 3.5em; 
+            font-size: 2.8em; 
             margin: 0; 
             user-select: none; 
-            font-weight: 900;
-            letter-spacing: -1px;
-            background: linear-gradient(45deg, var(--text-color), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            transition: all 0.4s ease;
-        }
-        [data-theme='dark'] .hero h1 {
-            background: linear-gradient(45deg, #ffffff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            color: var(--text-color);
+            transition: color 0.4s ease;
         }
 
         .typewriter-tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; min-height: 1.6em; margin-top: 5px; }
@@ -170,7 +162,7 @@
         .hero p.bio { font-size: 1.1em; color: #666; max-width: 800px; margin: 15px auto; line-height: 1.8; }
         [data-theme='dark'] .hero p.bio { color: #aaa; }
 
-        /* --- GRIGLIA CARDS (ORA A 3 COLONNE) --- */
+        /* --- GRIGLIA CARDS (3 COLONNE) --- */
         .grid-container {
             display: grid; grid-template-columns: repeat(3, 1fr); 
             gap: 20px; width: 95%; max-width: 1000px; padding: 40px 0; z-index: 10; scroll-margin-top: 100px;
@@ -335,7 +327,7 @@
         [data-theme='dark'] .github-link-btn:hover { background: #ffffff; color: #000000;}
         .github-icon { width: 24px; height: 24px; fill: currentColor; }
 
-        /* --- MODAL ESPERIENZA (TIMELINE) --- */
+        /* --- MODAL ESPERIENZA (TIMELINE E TABS) --- */
         #esperienza-modal .modal-content { max-width: 900px; padding: 30px; text-align: left; }
         
         .modal-main-title {
@@ -399,7 +391,6 @@
             <a href="#progetti" data-it="Progetti" data-en="Projects">Progetti</a>
             <a href="#esperienza" data-it="Esperienza" data-en="Experience">Esperienza</a>
             <a href="#contatti-section" data-it="Contatti" data-en="Contact">Contatti</a>
-            <a href="#blog" data-it="Blog" data-en="Blog">Blog</a>
         </div>
         <div class="header-actions">
             <div class="action-btn" onclick="toggleTheme()" id="theme-btn">🌙 Dark Mode</div>
@@ -421,7 +412,7 @@
             
             <p class="typewriter-tagline chaos-text" id="typing-text" data-it="Progettista, Sviluppatore e Security Specialist" data-en="Designer, Developer, and Security Specialist"></p>
             
-            <p class="bio chaos-text" data-it="Laureanda Magistrale in Security Engineering con una spiccata attitudine alla progettazione e al Project Management. Unisco solide competenze tecniche a una visione creativa e strategica, che mi permette di trasformare sfide tecnologiche complesse in soluzioni progettuali innovative. Appassionata del settore e-Health, aspiro a coordinare progetti dove la sicurezza del dato e l'efficienza dei sistemi sanitari digitali si incontrano. Sono una professionista energica, orientata al problem solving e pronta a guidare team dinamici verso obiettivi ambiziosi." data-en="Master's student in Security Engineering with a strong aptitude for design and Project Management. I combine solid technical skills with a creative and strategic vision, allowing me to transform complex technological challenges into innovative design solutions. Passionate about the e-Health sector, I aspire to coordinate projects where data security and the efficiency of digital healthcare systems meet. I am an energetic professional, problem-solving oriented, and ready to lead dynamic teams towards ambitious goals.">Laureanda Magistrale in Security Engineering con una spiccata attitudine alla progettazione e al Project Management. Unisco solide competenze tecniche a una visione creativa e strategica, che mi permette di trasformare sfide tecnologiche complesse in soluzioni progettuali innovative. Appassionata del settore e-Health, aspiro a coordinare progetti dove la sicurezza del dato e l'efficienza dei sistemi sanitari digitali si incontrano. Sono una professionista energica, orientata al problem solving e pronta a guidare team dinamici verso obiettivi ambiziosi.</p>
+            <p class="bio chaos-text" data-it="Laureanda Magistrale in Security Engineering, unisco solide competenze tecniche a una visione creativa e strategica per trasformare sfide complesse in soluzioni innovative. Appassionata di e-Health e Project Management, aspiro a coordinare progetti che uniscano sicurezza dei dati ed efficienza digitale. Dinamica e orientata al problem solving." data-en="Master's student in Security Engineering, combining solid technical skills with a creative and strategic vision to turn complex challenges into innovative solutions. Passionate about e-Health and Project Management, I aspire to coordinate projects merging data security and digital efficiency. Dynamic and problem-solving oriented.">Laureanda Magistrale in Security Engineering, unisco solide competenze tecniche a una visione creativa e strategica per trasformare sfide complesse in soluzioni innovative. Appassionata di e-Health e Project Management, aspiro a coordinare progetti che uniscano sicurezza dei dati ed efficienza digitale. Dinamica e orientata al problem solving.</p>
         </section>
 
         <section class="grid-container">
@@ -441,7 +432,7 @@
                 <div class="card-icon chaos-block">📖</div>
                 <h3 class="chaos-text" data-it="IL MIO BLOG" data-en="MY BLOG">IL MIO BLOG</h3>
                 <p class="chaos-text" data-it="Pensieri, tutorial o notizie." data-en="Thoughts, tutorials or news.">Pensieri, tutorial o notizie.</p>
-                <button class="chaos-block" data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button>
+                <button class="chaos-block" onclick="openBlogModal()" data-it="Vai al Blog" data-en="Go to Blog">Vai al Blog</button>
             </div>
         </section>
 
@@ -511,6 +502,15 @@
             <h2 id="modal-title" class="chaos-text"></h2>
             <p id="modal-desc" class="chaos-text"></p>
             <button class="close-btn chaos-block" onclick="closeModal()" data-it="Chiudi" data-en="Close">Chiudi</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="blog-modal">
+        <div class="modal-content">
+            <div style="font-size: 4em; margin-bottom: 10px;">🚧🤖🏗️</div>
+            <h2 class="chaos-text" data-it="Lavori in corso!" data-en="Work in progress!">Lavori in corso!</h2>
+            <p class="chaos-text" data-it="Stiamo scrivendo, arriviamo presto!" data-en="We are writing, coming soon!">Stiamo scrivendo, arriviamo presto!</p>
+            <button class="close-btn chaos-block" onclick="closeBlogModal()" data-it="Torna indietro" data-en="Go back">Torna indietro</button>
         </div>
     </div>
 
@@ -763,6 +763,16 @@
                 gridContainer.innerHTML += cardHTML;
             });
         });
+
+        // --- FUNZIONI MODAL BLOG (LAVORI IN CORSO) ---
+        function openBlogModal() {
+            document.body.classList.add('chaos-lock'); 
+            document.getElementById('blog-modal').classList.add('active');
+        }
+        function closeBlogModal() {
+            document.body.classList.remove('chaos-lock');
+            document.getElementById('blog-modal').classList.remove('active');
+        }
 
         // --- FUNZIONI MODAL ESPERIENZA ---
         function openExpModal() {
