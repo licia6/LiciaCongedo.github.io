@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Licia Congedo - Portfolio</title>
+    <meta name="description" content="Portfolio di Licia Congedo, Laureanda Magistrale in Security Engineering, Progettista e Sviluppatrice.">
+    <meta name="keywords" content="Licia Congedo, Portfolio, Security Engineering, UX Designer, Developer, Cybersecurity, e-Health">
+    <meta name="author" content="Licia Congedo">
+    <title>Licia Congedo | Security Specialist</title>
+    
     <style>
         /* --- VARIABILI E STILI BASE --- */
         :root {
@@ -30,13 +34,8 @@
         }
 
         * { box-sizing: border-box; }
-
         html { scroll-behavior: smooth; }
-
-        html, body {
-            margin: 0; padding: 0;
-            width: 100%; height: 100%;
-        }
+        html, body { margin: 0; padding: 0; width: 100%; height: 100%; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -99,7 +98,7 @@
             .nav-menu a { padding: 6px 12px; font-size: 0.9em; }
         }
 
-        /* --- SEZIONE HERO E FOTO (LOGICA ORIGINALE RIPRISTINATA) --- */
+        /* --- SEZIONE HERO E FOTO BLINDATA --- */
         .hero { 
             margin-top: 130px; text-align: center; padding: 20px; 
             width: 100%; max-width: 900px; z-index: 10; 
@@ -114,7 +113,7 @@
         
         .image-container img {
             width: 100%; height: 100%; object-fit: contain; 
-            position: absolute; top: 0; left: 0; transition: opacity 0.4s ease;
+            position: absolute; top: 0; left: 0; transition: opacity 0.3s ease;
         }
 
         .img-light { opacity: 1; z-index: 2; }
@@ -129,7 +128,6 @@
             body:not([data-theme='dark']) .image-container:not(.toggled-click):hover .img-light { opacity: 0; }
             body[data-theme='dark'] .image-container:not(.toggled-click):hover .img-dark { opacity: 0; }
         }
-
         .image-container.toggled-click .img-real { opacity: 1; }
         body:not([data-theme='dark']) .image-container.toggled-click .img-light { opacity: 0; }
         body[data-theme='dark'] .image-container.toggled-click .img-dark { opacity: 0; }
@@ -149,7 +147,6 @@
             font-size: 2.8em; margin: 0; user-select: none; 
             font-weight: 800; color: var(--text-color); transition: color 0.4s ease;
         }
-
         .typewriter-tagline { font-size: 1.3em; color: var(--accent); font-weight: bold; min-height: 1.6em; margin-top: 5px; }
         .typewriter-tagline::after { content: '_'; animation: blinkType 0.7s infinite; }
         @keyframes blinkType { 50% { opacity: 0; } }
@@ -269,19 +266,19 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* MODAL GENERICO E GALLERIE */
+        /* MODAL GENERICO E CANTIERE */
         .modal-overlay {
             position: fixed !important; top: 0 !important; left: 0 !important; 
             width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.8); 
-            z-index: 999999 !important; display: none; align-items: flex-start; justify-content: center; 
-            overflow-y: auto; padding: 40px 10px; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);
+            z-index: 999999 !important; display: none; align-items: center; justify-content: center; 
+            padding: 0; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);
         }
         .modal-content {
-            background: var(--bg-color); color: var(--text-color); padding: 40px; border-radius: 20px; 
-            text-align: center; max-width: 400px; width: 95%; border: var(--card-border); 
+            background: var(--bg-color); color: var(--text-color); padding: 35px; border-radius: 20px; 
+            text-align: center; max-width: 450px; width: 95%; border: var(--card-border); 
             box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
             transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin: auto; position: relative;
+            max-height: 90vh; overflow-y: auto; position: relative;
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-overlay.active .modal-content { transform: scale(1); }
@@ -293,41 +290,45 @@
         .modal-content button.close-btn:hover { filter: brightness(0.9); }
 
         /* --- STILI CANTIERE ANIMATO --- */
-        .wip-stage {
-            position: relative; width: 100%; height: 200px; margin-bottom: 20px; overflow: hidden;
-            background: rgba(0,0,0,0.03); border-radius: 10px;
-        }
+        .wip-stage { position: relative; width: 100%; height: 200px; margin-bottom: 20px; overflow: hidden; background: rgba(0,0,0,0.03); border-radius: 10px; }
         [data-theme='dark'] .wip-stage { background: rgba(255,255,255,0.03); }
         .wip-stage::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: #555; border-radius: 2px; }
         .wip-robot { font-size: 3em; position: absolute; bottom: 5px; left: 10%; display: flex; align-items: flex-end; animation: robot-move 10s infinite linear; }
         .wip-robot .tool { font-size: 0.7em; margin-left: -5px; margin-bottom: 5px; transform-origin: bottom center; animation: hammering 0.6s infinite alternate; }
         .wip-pile { font-size: 3.5em; position: absolute; bottom: 5px; right: 10%; animation: building-shake 1s infinite; }
         .flying-brick { font-size: 1.5em; position: absolute; opacity: 0; animation: placement 5s infinite; }
-        
         @keyframes hammering { 0% { transform: rotate(-30deg); } 100% { transform: rotate(15deg); } }
         @keyframes robot-move { 0% { left: 10%; transform: scaleX(1); } 45% { left: calc(90% - 150px); transform: scaleX(1); } 50% { left: calc(90% - 150px); transform: scaleX(-1); } 95% { left: 10%; transform: scaleX(-1); } 100% { left: 10%; transform: scaleX(1); } }
         @keyframes building-shake { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
         @keyframes placement { 0% { bottom: 150px; right: calc(10% + 50px); opacity: 0; transform: scale(0.5); } 10% { opacity: 1; transform: scale(1); } 20% { bottom: 50px; right: calc(10% + 50px); opacity: 1; } 25% { bottom: 5px; right: calc(10% + 50px); opacity: 0; } 100% { opacity: 0; } }
 
-        /* --- MODAL PROGETTI (GRIGLIA SUPER COLORATA E CARICA) --- */
-        #projects-modal .modal-content { max-width: 1100px; padding: 30px; }
+        /* --- MODAL PROGETTI (GRAFICA MIGLIORATA & STICKY HEADER) --- */
+        #projects-modal .modal-content { max-width: 1100px; padding: 0; overflow: hidden; display: flex; flex-direction: column; }
+        #projects-modal .modal-body-scroll { padding: 30px; overflow-y: auto; height: 100%; }
+        
         #projects-modal .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; margin-bottom: 25px; }
-        #projects-modal .modal-header h2 { margin: 0; font-size: 2.2em; color: var(--accent); }
+        #projects-modal .modal-header h2 { margin: 0; font-size: 2.2em; color: var(--text-color); }
         #projects-modal .close-icon { font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color); transition: color 0.2s; }
         #projects-modal .close-icon:hover { color: var(--accent); }
+        
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; text-align: left; }
         
         .project-card { 
-            background: linear-gradient(145deg, var(--card-bg), rgba(0, 123, 255, 0.03)); 
-            padding: 25px; border-radius: 15px; 
-            border: 1px solid var(--card-border);
-            border-top: 5px solid var(--accent);
-            transition: transform 0.3s, box-shadow 0.3s; 
-            display: flex; flex-direction: column; position: relative; overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            background: #ffffff; padding: 25px; border-radius: 16px; 
+            border: 1px solid #eaeaea; border-top: 5px solid var(--accent); 
+            transition: all 0.3s ease; display: flex; flex-direction: column; position: relative; overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
         }
-        [data-theme='dark'] .project-card { background: linear-gradient(145deg, var(--card-bg), rgba(0, 123, 255, 0.08)); border-color: rgba(0, 123, 255, 0.2); }
-        .project-card:hover { transform: translateY(-8px); box-shadow: 0 12px 25px rgba(0, 123, 255, 0.15), var(--card-glow); border-top: 5px solid #bd10e0; }
+        [data-theme='dark'] .project-card { 
+            background: linear-gradient(145deg, #1e1e1e, #252525); 
+            border-color: #333; box-shadow: 0 8px 24px rgba(0,0,0,0.4); 
+            border-top: 5px solid var(--accent);
+        }
+        .project-card:hover { 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 35px rgba(0, 123, 255, 0.15), var(--card-glow); 
+            border-color: rgba(0, 123, 255, 0.4); 
+        }
         
         .project-date-badge {
             display: inline-block; background: var(--gradient-accent); color: white;
@@ -344,13 +345,16 @@
         }
         .project-card button.toggle-btn:hover { filter: brightness(1.1); transform: scale(1.02); }
         
-        /* DETTAGLIO PROGETTO E STICKY HEADER */
+        /* DETTAGLIO PROGETTO E STICKY HEADER PERFETTO */
         #project-detail-container { text-align: left; display: none; animation: fadeIn 0.4s ease; padding-top: 5px; }
         
         .sticky-header {
-            position: sticky; top: -1px; background: var(--bg-color); z-index: 100;
-            padding: 10px 0; margin-bottom: 20px; border-bottom: 2px solid var(--accent);
+            position: sticky; top: -30px; background: var(--bg-color); z-index: 100;
+            padding: 20px 30px; margin: -30px -30px 20px -30px;
+            border-bottom: 1px solid var(--card-border);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; align-items: center;
         }
+        [data-theme='dark'] .sticky-header { box-shadow: 0 4px 15px rgba(0,0,0,0.4); }
         
         .back-btn { background: transparent; color: var(--text-color); border: none; font-size: 1.2em; cursor: pointer; font-weight: bold; padding: 0; display: flex; align-items: center; gap: 8px; transition: color 0.2s; }
         .back-btn:hover { color: var(--accent); }
@@ -364,6 +368,13 @@
         [data-theme='dark'] .github-link-btn { background: #f0f6fc; color: #24292e; }
         [data-theme='dark'] .github-link-btn:hover { background: #ffffff; color: #000000;}
         .github-icon { width: 24px; height: 24px; fill: currentColor; }
+
+        /* Media query per Sticky su mobile */
+        @media (max-width: 768px) {
+            .modal-content { width: 100%; height: 100vh; max-height: 100vh; border-radius: 0; }
+            #projects-modal .modal-body-scroll { padding: 20px; }
+            .sticky-header { top: -20px; margin: -20px -20px 20px -20px; padding: 15px 20px; }
+        }
 
         /* --- MODAL ESPERIENZA (TIMELINE E TABS) --- */
         #esperienza-modal .modal-content { max-width: 900px; padding: 30px; text-align: left; }
@@ -418,7 +429,7 @@
         <section class="hero">
             <div class="image-container" id="image-swap-container">
                 <img class="img-light front-img" src="foto-cartoon.png" alt="Profile Cartoon Light" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Light';">
-                <img class="img-dark front-img" src="foto-cartoon-dark.png" alt="Profile Cartoon Dark" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Dark';">
+                <img class="img-dark front-img" src="foto-cartoon-dark.jpg" alt="Profile Cartoon Dark" onerror="this.src='https://via.placeholder.com/300?text=Cartoon+Dark';">
                 <img class="img-real back-img" src="foto-reale.png" alt="Profile Real" onerror="this.src='https://via.placeholder.com/300?text=Reale+PNG';">
             </div>
             
@@ -538,210 +549,215 @@
 
     <div class="modal-overlay" id="projects-modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="chaos-text" data-it="I Miei Progetti" data-en="My Projects">I Miei Progetti</h2>
-                <button class="close-icon" onclick="closeProjectsModal()">✖</button>
-            </div>
-            <div class="projects-grid" id="projects-grid-container"></div>
-            
-            <div id="project-detail-container">
-                <div class="sticky-header">
-                    <button class="back-btn chaos-block" onclick="showProjectsGrid()">⬅ <span data-it="Torna ai progetti" data-en="Back to projects">Torna ai progetti</span></button>
+            <div class="modal-body-scroll">
+                <div class="modal-header">
+                    <h2 class="chaos-text" data-it="I Miei Progetti" data-en="My Projects">I Miei Progetti</h2>
+                    <button class="close-icon" onclick="closeProjectsModal()">✖</button>
                 </div>
-                <h3 id="detail-title" class="chaos-text">Titolo</h3>
-                <span id="detail-date"></span>
-                <div id="detail-desc" class="chaos-text">Desc</div>
-                <a href="#" target="_blank" id="detail-github-btn" class="github-link-btn chaos-block">
-                    <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
-                    <span data-it="Vedi su GitHub" data-en="View on GitHub">Vedi su GitHub</span>
-                </a>
+                <div class="projects-grid" id="projects-grid-container"></div>
+                
+                <div id="project-detail-container">
+                    <div class="sticky-header">
+                        <button class="back-btn chaos-block" onclick="showProjectsGrid()">⬅ <span data-it="Torna ai progetti" data-en="Back to projects">Torna ai progetti</span></button>
+                    </div>
+                    <h3 id="detail-title" class="chaos-text">Titolo</h3>
+                    <span id="detail-date"></span>
+                    <div id="detail-desc" class="chaos-text">Desc</div>
+                    <a href="#" target="_blank" id="detail-github-btn" class="github-link-btn chaos-block">
+                        <svg class="github-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                        <span data-it="Vedi su GitHub" data-en="View on GitHub">Vedi su GitHub</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="modal-overlay" id="esperienza-modal">
-        <div class="modal-content">
-            <div style="width: 100%; display: flex; justify-content: flex-end; margin-bottom: -15px;">
-                <button class="close-icon" onclick="closeExpModal()" style="font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color); z-index: 10;">✖</button>
-            </div>
-            <h2 class="modal-main-title chaos-text" data-it="Il Mio Percorso" data-en="My Journey">Il Mio Percorso</h2>
-            
-            <div class="exp-tabs">
-                <button class="exp-tab-btn chaos-block active" onclick="switchExpTab('istruzione')" data-it="Istruzione" data-en="Education">Istruzione</button>
-                <button class="exp-tab-btn chaos-block" onclick="switchExpTab('lavoro')" data-it="Lavoro" data-en="Work">Lavoro</button>
-                <button class="exp-tab-btn chaos-block" onclick="switchExpTab('certificazioni')" data-it="Certificazioni" data-en="Certifications">Certificazioni</button>
-                <button class="exp-tab-btn chaos-block" onclick="switchExpTab('softskills')" data-it="Soft Skills" data-en="Soft Skills">Soft Skills</button>
-            </div>
+        <div class="modal-content" style="padding:0; overflow:hidden;">
+            <div style="padding: 30px; height: 100%; overflow-y: auto;">
+                <div style="width: 100%; display: flex; justify-content: flex-end; margin-bottom: -15px;">
+                    <button class="close-icon" onclick="closeExpModal()" style="font-size: 1.8em; cursor: pointer; background: none; border: none; color: var(--text-color); z-index: 10;">✖</button>
+                </div>
+                <h2 class="modal-main-title chaos-text" data-it="Il Mio Percorso" data-en="My Journey">Il Mio Percorso</h2>
+                
+                <div class="exp-tabs">
+                    <button class="exp-tab-btn chaos-block active" onclick="switchExpTab('istruzione')" data-it="Istruzione" data-en="Education">Istruzione</button>
+                    <button class="exp-tab-btn chaos-block" onclick="switchExpTab('lavoro')" data-it="Lavoro" data-en="Work">Lavoro</button>
+                    <button class="exp-tab-btn chaos-block" onclick="switchExpTab('certificazioni')" data-it="Certificazioni" data-en="Certifications">Certificazioni</button>
+                    <button class="exp-tab-btn chaos-block" onclick="switchExpTab('softskills')" data-it="Soft Skills" data-en="Soft Skills">Soft Skills</button>
+                </div>
 
-            <div id="tab-istruzione" class="exp-tab-content active">
-                <div class="timeline">
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="2024 - Luglio 2026" data-en="2024 - July 2026">2024 - Luglio 2026</span>
-                        <h4 class="timeline-title" data-it="Laurea Magistrale in Computer Science" data-en="Master's Degree in Computer Science">Laurea Magistrale in Computer Science</h4>
-                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
-                        <p class="timeline-desc" data-it="Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente." data-en="Master's Degree in Computer Science, <span class='highlight-accent'>SECURITY ENGINEERING</span> curriculum (taught in English, C1 level).<br><br>Focused on the design and development of intrinsically secure software systems and the secure management of complex IT projects. The training delves into AI techniques to support security, IoT protection, and serious games to educate on mindful data usage.">Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente.</p>
-                        <div class="skills-container chaos-text">
-                            <span class="skill-pill" data-it="AI" data-en="AI">AI</span>
-                            <span class="skill-pill" data-it="Project Managment" data-en="Project Management">Project Management</span>
-                            <span class="skill-pill" data-it="Serious Game" data-en="Serious Games">Serious Games</span>
-                            <span class="skill-pill" data-it="AI for security" data-en="AI for Security">AI for Security</span>
-                            <span class="skill-pill" data-it="Secure Software" data-en="Secure Software">Secure Software</span>
-                            <span class="skill-pill" data-it="Security" data-en="Security">Security</span>
-                            <span class="skill-pill" data-it="Usable Privacy" data-en="Usable Privacy">Usable Privacy</span>
-                            <span class="skill-pill" data-it="IoT" data-en="IoT">IoT</span>
-                            <span class="skill-pill" data-it="Oracle" data-en="Oracle">Oracle</span>
-                            <span class="skill-pill" data-it="Fortify" data-en="Fortify">Fortify</span>
-                            <span class="skill-pill" data-it="OWASP" data-en="OWASP">OWASP</span>
-                            <span class="skill-pill" data-it="Kali Linux" data-en="Kali Linux">Kali Linux</span>
-                            <span class="skill-pill" data-it="Urban Security" data-en="Urban Security">Urban Security</span>
-                            <span class="skill-pill" data-it="Formal Methods" data-en="Formal Methods">Formal Methods</span>
-                            <span class="skill-pill" data-it="Information Theory" data-en="Information Theory">Information Theory</span>
+                <div id="tab-istruzione" class="exp-tab-content active">
+                    <div class="timeline">
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date" data-it="2024 - Luglio 2026" data-en="2024 - July 2026">2024 - Luglio 2026</span>
+                            <h4 class="timeline-title" data-it="Laurea Magistrale in Computer Science" data-en="Master's Degree in Computer Science">Laurea Magistrale in Computer Science</h4>
+                            <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
+                            <p class="timeline-desc" data-it="Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente." data-en="Master's Degree in Computer Science, <span class='highlight-accent'>SECURITY ENGINEERING</span> curriculum (taught in English, C1 level).<br><br>Focused on the design and development of intrinsically secure software systems and the secure management of complex IT projects. The training delves into AI techniques to support security, IoT protection, and serious games to educate on mindful data usage.">Laurea Magistrale in Computer science curriculum <span class='highlight-accent'>SECURITY ENGINEERING</span> (corso di laurea in lingua inglese C1 universitario).<br><br>Percorso magistrale incentrato sulla progettazione e sullo sviluppo di sistemi software intrinsecamente sicuri e sulla gestione protetta di progetti IT complessi. La formazione approfondisce l’integrazione di tecniche di Intelligenza Artificiale a supporto della sicurezza, la protezione di dispositivi IoT e lo sviluppo di serious games per educare ad un uso consapevole dei dati.<br><br>Particolare rilievo è dato al Secure Project Management e all'analisi delle vulnerabilità nelle interazioni utente.</p>
+                            <div class="skills-container chaos-text">
+                                <span class="skill-pill" data-it="AI" data-en="AI">AI</span>
+                                <span class="skill-pill" data-it="Project Managment" data-en="Project Management">Project Management</span>
+                                <span class="skill-pill" data-it="Serious Game" data-en="Serious Games">Serious Games</span>
+                                <span class="skill-pill" data-it="AI for security" data-en="AI for Security">AI for Security</span>
+                                <span class="skill-pill" data-it="Secure Software" data-en="Secure Software">Secure Software</span>
+                                <span class="skill-pill" data-it="Security" data-en="Security">Security</span>
+                                <span class="skill-pill" data-it="Usable Privacy" data-en="Usable Privacy">Usable Privacy</span>
+                                <span class="skill-pill" data-it="IoT" data-en="IoT">IoT</span>
+                                <span class="skill-pill" data-it="Oracle" data-en="Oracle">Oracle</span>
+                                <span class="skill-pill" data-it="Fortify" data-en="Fortify">Fortify</span>
+                                <span class="skill-pill" data-it="OWASP" data-en="OWASP">OWASP</span>
+                                <span class="skill-pill" data-it="Kali Linux" data-en="Kali Linux">Kali Linux</span>
+                                <span class="skill-pill" data-it="Urban Security" data-en="Urban Security">Urban Security</span>
+                                <span class="skill-pill" data-it="Formal Methods" data-en="Formal Methods">Formal Methods</span>
+                                <span class="skill-pill" data-it="Information Theory" data-en="Information Theory">Information Theory</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date" data-it="2021 - 2024" data-en="2021 - 2024">2021 - 2024</span>
+                            <h4 class="timeline-title" data-it="Laurea Triennale in Informatica" data-en="Bachelor's Degree in Computer Science">Laurea Triennale in Informatica</h4>
+                            <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
+                            <p class="timeline-desc" data-it="Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e architetture client-server, applicazione di metodologie di sviluppo software, UX design e concetti base dell'IA." data-en="Experience in collaborative teamwork on group projects, developing interpersonal and communication skills.<br><br>Acquired skills in programming, data analysis, problem-solving, design and querying of relational databases with SQL, understanding of network protocols and client-server architectures, software development methodologies, UX design, and basic AI concepts.">Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e architetture client-server, applicazione di metodologie di sviluppo software, UX design e concetti base dell'IA.</p>
+                            <div class="skills-container chaos-text">
+                                <span class="skill-pill" data-it="Python" data-en="Python">Python</span>
+                                <span class="skill-pill" data-it="C" data-en="C">C</span>
+                                <span class="skill-pill" data-it="Java" data-en="Java">Java</span>
+                                <span class="skill-pill" data-it="Ada" data-en="Ada">Ada</span>
+                                <span class="skill-pill" data-it="Figma" data-en="Figma">Figma</span>
+                                <span class="skill-pill" data-it="UI UX" data-en="UI/UX">UI/UX</span>
+                                <span class="skill-pill" data-it="AI" data-en="AI">AI</span>
+                                <span class="skill-pill" data-it="SQL" data-en="SQL">SQL</span>
+                                <span class="skill-pill" data-it="Ingegneria Software" data-en="Software Engineering">Software Engineering</span>
+                                <span class="skill-pill" data-it="Scrum" data-en="Scrum">Scrum</span>
+                                <span class="skill-pill" data-it="Agile" data-en="Agile">Agile</span>
+                                <span class="skill-pill" data-it="Sistemi e Reti" data-en="Systems & Networks">Systems & Networks</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date" data-it="2016 - 2021" data-en="2016 - 2021">2016 - 2021</span>
+                            <h4 class="timeline-title" data-it="Diploma Liceo Scientifico tradizionale" data-en="Traditional Scientific High School Diploma">Diploma Liceo Scientifico tradizionale</h4>
+                            <p class="timeline-subtitle" data-it="Liceo Scientifico A.Vallone, Galatina (LE)" data-en="Liceo Scientifico A.Vallone, Galatina (LE)">Liceo Scientifico A.Vallone, Galatina (LE)</p>
+                            <p class="timeline-desc" data-it="Diploma Liceo Scientifico tradizionale." data-en="Traditional Scientific High School Diploma.">Diploma Liceo Scientifico tradizionale.</p>
+                            <div class="skills-container chaos-text">
+                                <span class="skill-pill" data-it="Metodo Scientifico" data-en="Scientific Method">Scientific Method</span>
+                                <span class="skill-pill" data-it="Logica" data-en="Logic">Logic</span>
+                                <span class="skill-pill" data-it="Basi Programmazione" data-en="Programming Basics">Programming Basics</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="2021 - 2024" data-en="2021 - 2024">2021 - 2024</span>
-                        <h4 class="timeline-title" data-it="Laurea Triennale in Informatica" data-en="Bachelor's Degree in Computer Science">Laurea Triennale in Informatica</h4>
-                        <p class="timeline-subtitle" data-it="Università degli Studi di Bari Aldo Moro" data-en="Università degli Studi di Bari Aldo Moro">Università degli Studi di Bari Aldo Moro</p>
-                        <p class="timeline-desc" data-it="Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e architetture client-server, applicazione di metodologie di sviluppo software, UX design e concetti base dell'IA." data-en="Experience in collaborative teamwork on group projects, developing interpersonal and communication skills.<br><br>Acquired skills in programming, data analysis, problem-solving, design and querying of relational databases with SQL, understanding of network protocols and client-server architectures, software development methodologies, UX design, and basic AI concepts.">Esperienza nel lavoro collaborativo in progetti di gruppo, sviluppando competenze interpersonali e comunicative.<br><br>Ho acquisito competenze in programmazione, analisi dei dati, problem solving, progettazione e interrogazione di database relazionali con SQL, comprensione dei protocolli di rete e architetture client-server, applicazione di metodologie di sviluppo software, UX design e concetti base dell'IA.</p>
-                        <div class="skills-container chaos-text">
-                            <span class="skill-pill" data-it="Python" data-en="Python">Python</span>
-                            <span class="skill-pill" data-it="C" data-en="C">C</span>
-                            <span class="skill-pill" data-it="Java" data-en="Java">Java</span>
-                            <span class="skill-pill" data-it="Ada" data-en="Ada">Ada</span>
-                            <span class="skill-pill" data-it="Figma" data-en="Figma">Figma</span>
-                            <span class="skill-pill" data-it="UI UX" data-en="UI/UX">UI/UX</span>
-                            <span class="skill-pill" data-it="AI" data-en="AI">AI</span>
-                            <span class="skill-pill" data-it="SQL" data-en="SQL">SQL</span>
-                            <span class="skill-pill" data-it="Ingegneria Software" data-en="Software Engineering">Software Engineering</span>
-                            <span class="skill-pill" data-it="Scrum" data-en="Scrum">Scrum</span>
-                            <span class="skill-pill" data-it="Agile" data-en="Agile">Agile</span>
-                            <span class="skill-pill" data-it="Sistemi e Reti" data-en="Systems & Networks">Systems & Networks</span>
+                </div>
+
+                <div id="tab-lavoro" class="exp-tab-content">
+                    <div class="timeline">
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date" data-it="15 - 20 Ottobre 2025" data-en="15 - 20 October 2025">15 - 20 Ottobre 2025</span>
+                            <h4 class="timeline-title" data-it="Traduttrice Inglese e Accompagnatrice Ufficiale" data-en="English Translator and Official Escort">Traduttrice Inglese e Accompagnatrice Ufficiale</h4>
+                            <p class="timeline-subtitle" data-it="SC Heerenveen (Torneo Youth League, Bari)" data-en="SC Heerenveen (Youth League Tournament, Bari)">SC Heerenveen (Torneo Youth League, Bari)</p>
+                            <p class="timeline-desc" data-it="Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari.<br><br>Per tutta la durata del loro soggiorno in Italia ho affiancato il team, supportandoli nella comunicazione quotidiana, nella gestione logistica e nelle interazioni con l’organizzazione del torneo." data-en="I had the great pleasure of collaborating as an English translator and official escort for the Dutch team SC Heerenveen during the Youth League tournament in Bari.<br><br>For the entire duration of their stay in Italy, I supported the team with daily communication, logistics management, and interactions with the tournament organization.">Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari.<br><br>Per tutta la durata del loro soggiorno in Italia ho affiancato il team, supportandoli nella comunicazione quotidiana, nella gestione logistica e nelle interazioni con l’organizzazione del torneo.</p>
+                            <div class="skills-container chaos-text">
+                                <span class="skill-pill" data-it="Inglese C1" data-en="English C1">Inglese C1</span>
+                                <span class="skill-pill" data-it="Traduzione" data-en="Translation">Traduzione</span>
+                                <span class="skill-pill" data-it="Comunicazione" data-en="Communication">Comunicazione</span>
+                            </div>
+                        </div>
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date" data-it="2017 - Attuale" data-en="2017 - Present">2017 - Attuale</span>
+                            <h4 class="timeline-title" data-it="Graphic Designer e Content Creator Freelance" data-en="Freelance Graphic Designer and Content Creator">Graphic Designer e Content Creator Freelance</h4>
+                            <p class="timeline-subtitle" data-it="Libera Professionista" data-en="Freelance">Libera Professionista</p>
+                            <p class="timeline-desc" data-it="Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuole, aziende o iniziative promozionali, allineati alle strategie di comunicazione." data-en="Creation of graphic and textual content for social media and events, supporting brands, schools, companies, or promotional initiatives, aligned with communication strategies.">Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuole, aziende o iniziative promozionali, allineati alle strategie di comunicazione.</p>
+                            <div class="skills-container chaos-text">
+                                <span class="skill-pill" data-it="Graphic Design" data-en="Graphic Design">Graphic Design</span>
+                                <span class="skill-pill" data-it="Content Creation" data-en="Content Creation">Content Creation</span>
+                                <span class="skill-pill" data-it="Social Media" data-en="Social Media">Social Media</span>
+                                <span class="skill-pill" data-it="Copywriting" data-en="Copywriting">Copywriting</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="2016 - 2021" data-en="2016 - 2021">2016 - 2021</span>
-                        <h4 class="timeline-title" data-it="Diploma Liceo Scientifico tradizionale" data-en="Traditional Scientific High School Diploma">Diploma Liceo Scientifico tradizionale</h4>
-                        <p class="timeline-subtitle" data-it="Liceo Scientifico A.Vallone, Galatina (LE)" data-en="Liceo Scientifico A.Vallone, Galatina (LE)">Liceo Scientifico A.Vallone, Galatina (LE)</p>
-                        <p class="timeline-desc" data-it="Diploma Liceo Scientifico tradizionale." data-en="Traditional Scientific High School Diploma.">Diploma Liceo Scientifico tradizionale.</p>
-                        <div class="skills-container chaos-text">
-                            <span class="skill-pill" data-it="Metodo Scientifico" data-en="Scientific Method">Scientific Method</span>
-                            <span class="skill-pill" data-it="Logica" data-en="Logic">Logic</span>
-                            <span class="skill-pill" data-it="Basi Programmazione" data-en="Programming Basics">Programming Basics</span>
+                </div>
+
+                <div id="tab-certificazioni" class="exp-tab-content">
+                    <div class="timeline">
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date" data-it="In corso" data-en="Ongoing">In corso</span>
+                            <h4 class="timeline-title" data-it="Inglese Universitario (C1)" data-en="University English (C1)">Inglese Universitario (C1)</h4>
+                            <p class="timeline-desc" data-it="Certificazione accademica di livello avanzato (C1) per la lingua inglese." data-en="Advanced level (C1) academic certification for the English language.">Certificazione accademica di livello avanzato (C1) per la lingua inglese.</p>
+                        </div>
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date" data-it="Valida a vita" data-en="Lifetime validity">Valida a vita</span>
+                            <h4 class="timeline-title" data-it="Certificazione Inglese B2 (Cambridge)" data-en="English B2 Certification (Cambridge)">Certificazione Inglese B2 (Cambridge)</h4>
+                            <p class="timeline-subtitle" data-it="Cambridge Assessment" data-en="Cambridge Assessment">Cambridge Assessment</p>
+                            <p class="timeline-desc" data-it="Certificazione linguistica internazionale livello B2." data-en="International language certification level B2.">Certificazione linguistica internazionale livello B2.</p>
+                        </div>
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date">2021</span>
+                            <h4 class="timeline-title" data-it="Certificato BLSD" data-en="BLSD Certificate">Certificato BLSD</h4>
+                            <p class="timeline-desc" data-it="Basic Life Support and Defibrillation." data-en="Basic Life Support and Defibrillation.">Basic Life Support and Defibrillation.</p>
+                        </div>
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date">2019</span>
+                            <h4 class="timeline-title" data-it="Brevetto Bagnino di Salvataggio" data-en="Lifeguard Certification">Brevetto Bagnino di Salvataggio</h4>
+                            <p class="timeline-desc" data-it="Brevetto per il salvataggio acquatico e primo soccorso." data-en="Certification for aquatic rescue and first aid.">Brevetto per il salvataggio acquatico e primo soccorso.</p>
+                        </div>
+                        <div class="timeline-item chaos-text">
+                            <span class="timeline-date">2019</span>
+                            <h4 class="timeline-title" data-it="Certificato ECDL Base" data-en="ECDL Base Certificate">Certificato ECDL Base</h4>
+                            <p class="timeline-desc" data-it="Patente Europea del Computer, attestante le competenze informatiche di base." data-en="European Computer Driving Licence, certifying basic IT skills.">Patente Europea del Computer, attestante le competenze informatiche di base.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="tab-softskills" class="exp-tab-content">
+                    <div class="soft-skills-grid">
+                        <div class="soft-skill-card chaos-text">
+                            <span class="soft-skill-icon">🎨</span>
+                            <span data-it="Conoscenza approfondita di Figma e Canva" data-en="Detailed knowledge of Figma and Canva">Conoscenza approfondita di Figma e Canva</span>
+                        </div>
+                        <div class="soft-skill-card chaos-text">
+                            <span class="soft-skill-icon">🤝</span>
+                            <span data-it="Teamworking" data-en="Teamworking">Teamworking</span>
+                        </div>
+                        <div class="soft-skill-card chaos-text">
+                            <span class="soft-skill-icon">🧩</span>
+                            <span data-it="Flessibilità e capacità di adattamento" data-en="Flexibility and adaptability">Flessibilità e capacità di adattamento</span>
+                        </div>
+                        <div class="soft-skill-card chaos-text">
+                            <span class="soft-skill-icon">🧠</span>
+                            <span data-it="Pensiero analitico e problem solving" data-en="Analytical thinking and problem-solving">Pensiero analitico e problem solving</span>
+                        </div>
+                        <div class="soft-skill-card chaos-text">
+                            <span class="soft-skill-icon">🎯</span>
+                            <span data-it="Propensione al lavoro per obiettivi" data-en="Goal-oriented work inclination">Propensione al lavoro per obiettivi</span>
+                        </div>
+                        <div class="soft-skill-card chaos-text">
+                            <span class="soft-skill-icon">🚀</span>
+                            <span data-it="Autonomia operativa" data-en="Operational autonomy">Autonomia operativa</span>
+                        </div>
+                        <div class="soft-skill-card chaos-text">
+                            <span class="soft-skill-icon">🧭</span>
+                            <span data-it="Predisposizione all'adattamento" data-en="Adaptability readiness">Predisposizione all'adattamento</span>
+                        </div>
+                        <div class="soft-skill-card chaos-text">
+                            <span class="soft-skill-icon">🔍</span>
+                            <span data-it="Precisione e attenzione ai dettagli" data-en="Precision and attention to detail">Precisione e attenzione ai dettagli</span>
+                        </div>
+                        <div class="soft-skill-card chaos-text">
+                            <span class="soft-skill-icon">💡</span>
+                            <span data-it="Ottime capacità creative e gestionali" data-en="Excellent creative and managerial skills">Ottime capacità creative e gestionali</span>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <div id="tab-lavoro" class="exp-tab-content">
-                <div class="timeline">
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="15 - 20 Ottobre 2025" data-en="15 - 20 October 2025">15 - 20 Ottobre 2025</span>
-                        <h4 class="timeline-title" data-it="Traduttrice Inglese e Accompagnatrice Ufficiale" data-en="English Translator and Official Escort">Traduttrice Inglese e Accompagnatrice Ufficiale</h4>
-                        <p class="timeline-subtitle" data-it="SC Heerenveen (Torneo Youth League, Bari)" data-en="SC Heerenveen (Youth League Tournament, Bari)">SC Heerenveen (Torneo Youth League, Bari)</p>
-                        <p class="timeline-desc" data-it="Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari.<br><br>Per tutta la durata del loro soggiorno in Italia ho affiancato il team, supportandoli nella comunicazione quotidiana, nella gestione logistica e nelle interazioni con l’organizzazione del torneo." data-en="I had the great pleasure of collaborating as an English translator and official escort for the Dutch team SC Heerenveen during the Youth League tournament in Bari.<br><br>For the entire duration of their stay in Italy, I supported the team with daily communication, logistics management, and interactions with the tournament organization.">Ho avuto il grande piacere di collaborare come traduttrice inglese e accompagnatrice ufficiale della squadra olandese SC Heerenveen durante il torneo Youth League di Bari.<br><br>Per tutta la durata del loro soggiorno in Italia ho affiancato il team, supportandoli nella comunicazione quotidiana, nella gestione logistica e nelle interazioni con l’organizzazione del torneo.</p>
-                        <div class="skills-container chaos-text">
-                            <span class="skill-pill" data-it="Inglese C1" data-en="English C1">Inglese C1</span>
-                            <span class="skill-pill" data-it="Traduzione" data-en="Translation">Traduzione</span>
-                            <span class="skill-pill" data-it="Comunicazione" data-en="Communication">Comunicazione</span>
-                        </div>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="2017 - Attuale" data-en="2017 - Present">2017 - Attuale</span>
-                        <h4 class="timeline-title" data-it="Graphic Designer e Content Creator Freelance" data-en="Freelance Graphic Designer and Content Creator">Graphic Designer e Content Creator Freelance</h4>
-                        <p class="timeline-subtitle" data-it="Libera Professionista" data-en="Freelance">Libera Professionista</p>
-                        <p class="timeline-desc" data-it="Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuole, aziende o iniziative promozionali, allineati alle strategie di comunicazione." data-en="Creation of graphic and textual content for social media and events, supporting brands, schools, companies, or promotional initiatives, aligned with communication strategies.">Creazione di contenuti grafici e testuali per social media ed eventi, in supporto a brand, scuole, aziende o iniziative promozionali, allineati alle strategie di comunicazione.</p>
-                        <div class="skills-container chaos-text">
-                            <span class="skill-pill" data-it="Graphic Design" data-en="Graphic Design">Graphic Design</span>
-                            <span class="skill-pill" data-it="Content Creation" data-en="Content Creation">Content Creation</span>
-                            <span class="skill-pill" data-it="Social Media" data-en="Social Media">Social Media</span>
-                            <span class="skill-pill" data-it="Copywriting" data-en="Copywriting">Copywriting</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-certificazioni" class="exp-tab-content">
-                <div class="timeline">
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="In corso" data-en="Ongoing">In corso</span>
-                        <h4 class="timeline-title" data-it="Inglese Universitario (C1)" data-en="University English (C1)">Inglese Universitario (C1)</h4>
-                        <p class="timeline-desc" data-it="Certificazione accademica di livello avanzato (C1) per la lingua inglese." data-en="Advanced level (C1) academic certification for the English language.">Certificazione accademica di livello avanzato (C1) per la lingua inglese.</p>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date" data-it="Valida a vita" data-en="Lifetime validity">Valida a vita</span>
-                        <h4 class="timeline-title" data-it="Certificazione Inglese B2 (Cambridge)" data-en="English B2 Certification (Cambridge)">Certificazione Inglese B2 (Cambridge)</h4>
-                        <p class="timeline-subtitle" data-it="Cambridge Assessment" data-en="Cambridge Assessment">Cambridge Assessment</p>
-                        <p class="timeline-desc" data-it="Certificazione linguistica internazionale livello B2." data-en="International language certification level B2.">Certificazione linguistica internazionale livello B2.</p>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date">2021</span>
-                        <h4 class="timeline-title" data-it="Certificato BLSD" data-en="BLSD Certificate">Certificato BLSD</h4>
-                        <p class="timeline-desc" data-it="Basic Life Support and Defibrillation." data-en="Basic Life Support and Defibrillation.">Basic Life Support and Defibrillation.</p>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date">2019</span>
-                        <h4 class="timeline-title" data-it="Brevetto Bagnino di Salvataggio" data-en="Lifeguard Certification">Brevetto Bagnino di Salvataggio</h4>
-                        <p class="timeline-desc" data-it="Brevetto per il salvataggio acquatico e primo soccorso." data-en="Certification for aquatic rescue and first aid.">Brevetto per il salvataggio acquatico e primo soccorso.</p>
-                    </div>
-                    <div class="timeline-item chaos-text">
-                        <span class="timeline-date">2019</span>
-                        <h4 class="timeline-title" data-it="Certificato ECDL Base" data-en="ECDL Base Certificate">Certificato ECDL Base</h4>
-                        <p class="timeline-desc" data-it="Patente Europea del Computer, attestante le competenze informatiche di base." data-en="European Computer Driving Licence, certifying basic IT skills.">Patente Europea del Computer, attestante le competenze informatiche di base.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div id="tab-softskills" class="exp-tab-content">
-                <div class="soft-skills-grid">
-                    <div class="soft-skill-card chaos-text">
-                        <span class="soft-skill-icon">🎨</span>
-                        <span data-it="Conoscenza approfondita di Figma e Canva" data-en="Detailed knowledge of Figma and Canva">Conoscenza approfondita di Figma e Canva</span>
-                    </div>
-                    <div class="soft-skill-card chaos-text">
-                        <span class="soft-skill-icon">🤝</span>
-                        <span data-it="Teamworking" data-en="Teamworking">Teamworking</span>
-                    </div>
-                    <div class="soft-skill-card chaos-text">
-                        <span class="soft-skill-icon">🧩</span>
-                        <span data-it="Flessibilità e capacità di adattamento" data-en="Flexibility and adaptability">Flessibilità e capacità di adattamento</span>
-                    </div>
-                    <div class="soft-skill-card chaos-text">
-                        <span class="soft-skill-icon">🧠</span>
-                        <span data-it="Pensiero analitico e problem solving" data-en="Analytical thinking and problem-solving">Pensiero analitico e problem solving</span>
-                    </div>
-                    <div class="soft-skill-card chaos-text">
-                        <span class="soft-skill-icon">🎯</span>
-                        <span data-it="Propensione al lavoro per obiettivi" data-en="Goal-oriented work inclination">Propensione al lavoro per obiettivi</span>
-                    </div>
-                    <div class="soft-skill-card chaos-text">
-                        <span class="soft-skill-icon">🚀</span>
-                        <span data-it="Autonomia operativa" data-en="Operational autonomy">Autonomia operativa</span>
-                    </div>
-                    <div class="soft-skill-card chaos-text">
-                        <span class="soft-skill-icon">🧭</span>
-                        <span data-it="Predisposizione all'adattamento" data-en="Adaptability readiness">Predisposizione all'adattamento</span>
-                    </div>
-                    <div class="soft-skill-card chaos-text">
-                        <span class="soft-skill-icon">🔍</span>
-                        <span data-it="Precisione e attenzione ai dettagli" data-en="Precision and attention to detail">Precisione e attenzione ai dettagli</span>
-                    </div>
-                    <div class="soft-skill-card chaos-text">
-                        <span class="soft-skill-icon">💡</span>
-                        <span data-it="Ottime capacità creative e gestionali" data-en="Excellent creative and managerial skills">Ottime capacità creative e gestionali</span>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
     <script>
-        // FORZATURA SCORRIMENTO ALL'INIZIO (Risolve il bug del caricamento a fondo pagina)
+        // FORZATURA SCORRIMENTO ALL'INIZIO E RESET URL
         window.history.scrollRestoration = 'manual';
-        
         window.addEventListener('load', function() {
             setTimeout(function() { window.scrollTo(0, 0); }, 50);
-            setTimeout(function() { window.scrollTo(0, 0); }, 300);
+            if (window.location.hash) {
+                history.replaceState(null, null, ' '); // Rimuove l'ancora dall'URL che forzava il salto in basso
+                window.scrollTo(0, 0);
+            }
         });
 
         // =====================================================================
@@ -981,9 +997,13 @@
         function closeProjectsModal() {
             document.body.classList.remove('chaos-lock');
             document.getElementById('projects-modal').classList.remove('active');
+            setTimeout(() => { showProjectsGrid(); }, 300); // Ripristina la griglia di base quando si chiude
         }
         function openProjectDetail(index) {
             const prog = mieiProgetti[index];
+            
+            // Nascondi intestazione principale ed elenchi, mostra il dettaglio
+            document.querySelector('#projects-modal .modal-header').style.display = 'none';
             document.getElementById('projects-grid-container').style.display = 'none';
             document.getElementById('project-detail-container').style.display = 'block';
             
@@ -993,10 +1013,10 @@
             document.getElementById('detail-github-btn').href = prog.linkGithub;
             document.getElementById('project-detail-container').setAttribute('data-current-index', index);
             
-            document.querySelector('#projects-modal').scrollTo(0, 0);
-            document.querySelector('#projects-modal .modal-content').scrollTo(0, 0);
+            document.querySelector('#projects-modal .modal-content').scrollTop = 0;
         }
         function showProjectsGrid() {
+            document.querySelector('#projects-modal .modal-header').style.display = 'flex';
             document.getElementById('project-detail-container').style.display = 'none';
             document.getElementById('projects-grid-container').style.display = 'grid';
         }
