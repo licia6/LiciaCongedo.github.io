@@ -266,19 +266,19 @@
         [data-theme='dark'] .footprint { background: rgba(255,255,255,0.15); }
         @keyframes fadeOutFoot { to { opacity: 0; transform: scale(1.5); } }
 
-        /* MODAL GENERICO E CANTIERE */
+        /* MODAL GENERICO E GALLERIE */
         .modal-overlay {
             position: fixed !important; top: 0 !important; left: 0 !important; 
             width: 100vw !important; height: 100vh !important; background: rgba(0,0,0,0.8); 
-            z-index: 999999 !important; display: none; align-items: center; justify-content: center; 
-            padding: 0; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);
+            z-index: 999999 !important; display: none; align-items: flex-start; justify-content: center; 
+            overflow-y: auto; padding: 40px 10px; opacity: 0; transition: opacity 0.3s; backdrop-filter: blur(5px);
         }
         .modal-content {
-            background: var(--bg-color); color: var(--text-color); padding: 35px; border-radius: 20px; 
-            text-align: center; max-width: 450px; width: 95%; border: var(--card-border); 
+            background: var(--bg-color); color: var(--text-color); padding: 40px; border-radius: 20px; 
+            text-align: center; max-width: 400px; width: 95%; border: var(--card-border); 
             box-shadow: 0 15px 30px rgba(0,0,0,0.5), var(--card-glow);
             transform: scale(0.8); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            max-height: 90vh; overflow-y: auto; position: relative;
+            margin: auto; position: relative;
         }
         .modal-overlay.active { display: flex; opacity: 1; }
         .modal-overlay.active .modal-content { transform: scale(1); }
@@ -290,13 +290,17 @@
         .modal-content button.close-btn:hover { filter: brightness(0.9); }
 
         /* --- STILI CANTIERE ANIMATO --- */
-        .wip-stage { position: relative; width: 100%; height: 200px; margin-bottom: 20px; overflow: hidden; background: rgba(0,0,0,0.03); border-radius: 10px; }
+        .wip-stage {
+            position: relative; width: 100%; height: 200px; margin-bottom: 20px; overflow: hidden;
+            background: rgba(0,0,0,0.03); border-radius: 10px;
+        }
         [data-theme='dark'] .wip-stage { background: rgba(255,255,255,0.03); }
         .wip-stage::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 5px; background: #555; border-radius: 2px; }
         .wip-robot { font-size: 3em; position: absolute; bottom: 5px; left: 10%; display: flex; align-items: flex-end; animation: robot-move 10s infinite linear; }
         .wip-robot .tool { font-size: 0.7em; margin-left: -5px; margin-bottom: 5px; transform-origin: bottom center; animation: hammering 0.6s infinite alternate; }
         .wip-pile { font-size: 3.5em; position: absolute; bottom: 5px; right: 10%; animation: building-shake 1s infinite; }
         .flying-brick { font-size: 1.5em; position: absolute; opacity: 0; animation: placement 5s infinite; }
+        
         @keyframes hammering { 0% { transform: rotate(-30deg); } 100% { transform: rotate(15deg); } }
         @keyframes robot-move { 0% { left: 10%; transform: scaleX(1); } 45% { left: calc(90% - 150px); transform: scaleX(1); } 50% { left: calc(90% - 150px); transform: scaleX(-1); } 95% { left: 10%; transform: scaleX(-1); } 100% { left: 10%; transform: scaleX(1); } }
         @keyframes building-shake { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
@@ -377,7 +381,7 @@
         }
 
         /* --- MODAL ESPERIENZA (TIMELINE E TABS) --- */
-        #esperienza-modal .modal-content { max-width: 900px; padding: 30px; text-align: left; }
+        #esperienza-modal .modal-content { max-width: 900px; padding: 30px; text-align: left; border-radius: 20px;}
         .modal-main-title { font-size: 2.8em; color: var(--accent); text-transform: uppercase; letter-spacing: 3px; position: relative; padding-bottom: 15px; margin-top: -10px; margin-bottom: 20px; text-align: center; }
         .modal-main-title::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 4px; background-color: var(--accent); border-radius: 2px; }
         .exp-tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
@@ -477,7 +481,7 @@
                         <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                         <span>Instagram</span>
                     </a>
-                    <a href="https://github.com/licia6" target="_blank" class="social-card chaos-block">
+                    <a href="https://github.com/liciacongedo" target="_blank" class="social-card chaos-block">
                         <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
                         <span>GitHub</span>
                     </a>
@@ -533,7 +537,7 @@
     </div>
 
     <div class="modal-overlay" id="blog-modal">
-        <div class="modal-content" style="overflow: hidden;">
+        <div class="modal-content" style="overflow: hidden; border-radius: 20px;">
             <div class="wip-stage">
                 <div class="wip-robot">🤖<span class="tool">🔧</span></div>
                 <div class="wip-pile">🏢</div>
@@ -755,7 +759,7 @@
         window.addEventListener('load', function() {
             setTimeout(function() { window.scrollTo(0, 0); }, 50);
             if (window.location.hash) {
-                history.replaceState(null, null, ' '); // Rimuove l'ancora dall'URL che forzava il salto in basso
+                history.replaceState(null, null, ' '); 
                 window.scrollTo(0, 0);
             }
         });
@@ -773,7 +777,7 @@
                 breveEN: `VR lab for functional diagnosis of endometriosis using biomarkers (HRV, Pupillometry) and Explainable AI.`,
                 lungaIT: `<b>Biomedical VR Researcher / AI Engineer</b> - Tesi Magistrale (Neuro-Stress VR Lab): Ideazione e sviluppo di un protocollo clinico innovativo in Realtà Virtuale (VR) per la diagnosi funzionale precoce dell'endometriosi.<br><br>Basandomi sui recenti paradigmi neurobiologici della Sensibilizzazione Centrale e della Disautonomia, ho progettato in <b>Unity</b> un "laboratorio di stress standardizzato" capace di indurre e misurare risposte psicofisiologiche controllate. Il sistema triangola biomarcatori estratti in tempo reale: l'HRV per valutare il tono vagale, la Pupillometria fasica per il sistema inibitorio del dolore, e la Cinematica (IMU) per rilevare pattern di difesa motoria pelvica.<br><br>I dati alimentano un modello di Machine Learning supervisionato basato sull'<b>Explainable AI (XAI)</b>, capace di fornire ai medici un referto oggettivo e trasparente, puntando a ridurre il ritardo diagnostico legato all'invisibilità anatomica della patologia.`,
                 lungaEN: `<b>Biomedical VR Researcher / AI Engineer</b> - Master's Thesis (Neuro-Stress VR Lab): Ideation and development of an innovative clinical protocol in Virtual Reality (VR) for the early functional diagnosis of endometriosis.<br><br>Based on recent neurobiological paradigms of Central Sensitization and Dysautonomia, I designed in <b>Unity</b> a "standardized stress laboratory" capable of inducing and measuring controlled psychophysiological responses. The system triangulates biomarkers extracted in real-time: HRV to evaluate vagal tone, phasic Pupillometry for the pain inhibitory system, and Kinematics (IMU) to detect pelvic motor guarding patterns.<br><br>The data feeds a supervised Machine Learning model based on <b>Explainable AI (XAI)</b>, capable of providing doctors with an objective and transparent report, aiming to reduce the diagnostic delay linked to the anatomical invisibility of the pathology.`,
-                linkGithub: "https://github.com/LiciaCongedo"
+                linkGithub: "https://github.com/liciacongedo"
             },
             {
                 data: "Febbraio 2026",
@@ -784,7 +788,7 @@
                 breveEN: `Development and comparison of Machine/Deep Learning architectures for advanced DDoS attack detection.`,
                 lungaIT: `<b>AI / Machine Learning Engineer</b> - DDoS Detection Architectures: Progettazione, sviluppo e analisi comparativa di architetture di Intelligenza Artificiale per il rilevamento di attacchi DDoS a partire da traffico di rete ad alta dimensionalità.<br><br>Ho sviluppato tre distinte pipeline in Python (Scikit-learn, Keras/TensorFlow): un modello <b>Random Forest</b> ottimizzato tramite Grid Search e Stratified K-Fold CV (raggiungendo un'accuratezza del 99.5% grazie ad avanzate tecniche di feature selection e data cleaning); una rete neurale <b>Deep Learning (MLP)</b> stabilizzata tramite MinMaxScaler ed Early Stopping; e un sofisticato Stacked Ensemble sperimentale basato su SVM randomizzate e reti neurali.<br><br>L'analisi diagnostica dei risultati ha validato empiricamente come la qualità dell'ingegnerizzazione dei dati (gestione outlier, scaling) superi la pura complessità algoritmica nell'ottimizzazione dei sistemi di Network Security.`,
                 lungaEN: `<b>AI / Machine Learning Engineer</b> - DDoS Detection Architectures: Design, development, and comparative analysis of Artificial Intelligence architectures for detecting DDoS attacks from high-dimensionality network traffic.<br><br>I developed three distinct Python pipelines (Scikit-learn, Keras/TensorFlow): a <b>Random Forest</b> model optimized via Grid Search and Stratified K-Fold CV (reaching 99.5% accuracy thanks to advanced feature selection and data cleaning techniques); a <b>Deep Learning (MLP)</b> neural network stabilized via MinMaxScaler and Early Stopping; and a sophisticated experimental Stacked Ensemble based on randomized SVMs and neural networks.<br><br>The diagnostic analysis of the results empirically validated how data engineering quality (outlier management, scaling) surpasses pure algorithmic complexity in optimizing Network Security systems.`,
-                linkGithub: "https://github.com/licia6/Artificial-Intelligence-x-CyberSecurity"
+                linkGithub: "https://github.com/liciacongedo/Artificial-Intelligence-x-CyberSecurity"
             },
             {
                 data: "Febbraio 2026",
@@ -795,7 +799,7 @@
                 breveEN: `Design of a lab-based Learning Unit on Python for teaching computational thinking.`,
                 lungaIT: `<b>Instructional Designer / Docente di Informatica</b> - Progettazione U.D.A. Python: Ideazione, strutturazione e conduzione di un'Unità di Apprendimento (U.D.A.) laboratoriale sui fondamenti di Python (costrutti di selezione e iterazione) per una classe 3ª di Istituto Tecnico.<br><br>Adottando metodologie di Problem-Based Learning (PBL), Learning by Doing e Role Playing, ho progettato un percorso didattico interdisciplinare (Informatica ed Economia Aziendale) finalizzato alla creazione di un software gestionale da parte degli studenti. Ho curato integralmente la stesura dei materiali (schede progetto, tracce di laboratorio e soluzioni tecniche), guidando gli alunni dall'analisi del problema algoritmico fino alla scrittura e al debugging del codice (es. gestione delle eccezioni).<br><br>L'attività si è conclusa con l'erogazione di una "Prova Esperta" valutativa, mirata a misurare lo sviluppo del pensiero computazionale e la capacità di autovalutazione critica degli studenti.`,
                 lungaEN: `<b>Instructional Designer / Computer Science Teacher</b> - Python U.D.A. Design: Ideation, structuring, and conduction of a lab-based Learning Unit (U.D.A.) on Python fundamentals (selection and iteration constructs) for a 3rd-year Technical Institute class.<br><br>Adopting Problem-Based Learning (PBL), Learning by Doing, and Role Playing methodologies, I designed an interdisciplinary educational path (Computer Science and Business Economics) aimed at students creating management software. I fully oversaw the drafting of materials (project sheets, lab outlines, and technical solutions), guiding students from algorithmic problem analysis to code writing and debugging (e.g., exception handling).<br><br>The activity concluded with the delivery of an "Expert Test", aimed at measuring the development of computational thinking and students' critical self-evaluation skills.`,
-                linkGithub: "https://github.com/licia6/programmazione-lezione-informatica"
+                linkGithub: "https://github.com/liciacongedo/programmazione-lezione-informatica"
             },
             {
                 data: "Gennaio 2026",
@@ -806,7 +810,7 @@
                 breveEN: `Management of a multicultural virtual team and advanced simulation of an IT recruiting process.`,
                 lungaIT: `<b>International Project Manager & HR Strategist</b>: Simulazione end-to-end della gestione di progetti internazionali e dei processi di recruiting all'interno di un team multiculturale distribuito (Italia, Francia, Spagna).<br><br>Applicando le metriche culturali di Hofstede, ho ottimizzato il workflow del team combinando sessioni sincrone (brainstorming su Mural e Discord) con task asincroni, migliorando la coesione e abbattendo le barriere del lavoro da remoto. Nel ruolo di "CEO" della fittizia NexaStream Solutions, ho progettato una strategia di assunzione per un IT Project Manager, redigendo una Job Description pienamente conforme alle normative antidiscriminatorie europee e al GDPR.<br><br>Ho inoltre condotto sessioni di colloqui tramite roleplay, valutando l'allineamento tecnico/culturale dei candidati in contesti di Global English e fornendo feedback empatici e strutturati, consolidando forti competenze in <b>Cultural Intelligence</b> e leadership.`,
                 lungaEN: `<b>International Project Manager & HR Strategist</b>: End-to-end simulation of international project management and recruiting processes within a distributed multicultural team (Italy, France, Spain).<br><br>Applying Hofstede's cultural metrics, I optimized the team's workflow by combining synchronous sessions (brainstorming on Mural and Discord) with asynchronous tasks, improving cohesion and breaking down remote work barriers. Acting as "CEO" of the fictitious NexaStream Solutions, I designed a hiring strategy for an IT Project Manager, drafting a Job Description fully compliant with European anti-discrimination laws and GDPR.<br><br>I also conducted roleplay interview sessions, evaluating candidates' technical/cultural alignment in Global English contexts and providing empathetic and structured feedback, consolidating strong skills in <b>Cultural Intelligence</b> and leadership.`,
-                linkGithub: "https://github.com/licia6/Project-Managment"
+                linkGithub: "https://github.com/liciacongedo/Project-Managment"
             },
             {
                 data: "Dicembre 2025",
@@ -817,7 +821,7 @@
                 breveEN: `Development of "Critical Condition", an investigative Escape Room to educate healthcare infrastructures on Awareness.`,
                 lungaIT: `<b>Game Designer & Front-End Developer</b> - Progetto "Critical Condition" (Cybersecurity Serious Game): Progettazione e sviluppo Zero-Budget di un Serious Game web-based (HTML5, CSS3, JavaScript) orientato alla Security Awareness in contesti critici (Health Critical Infrastructure).<br><br>Ho redatto il Game Design Document (GDD) strutturando una Digital Escape Room investigativa volta a mitigare il rischio del fattore umano (Human Firewall). Ho ideato e programmato puzzle logici per addestrare gli utenti al riconoscimento di attacchi di Social Engineering, Spear Phishing e vulnerabilità di rete (Wi-Fi/VPN).<br><br>Ho curato la UI/UX dell'hub investigativo e implementato meccanismi di resource management (Investigation Points) per bilanciare l'engagement ludico con gli obiettivi didattici di Digital Forensics e Incident Response.`,
                 lungaEN: `<b>Game Designer & Front-End Developer</b> - "Critical Condition" Project (Cybersecurity Serious Game): Zero-Budget design and development of a web-based Serious Game (HTML5, CSS3, JavaScript) oriented towards Security Awareness in critical contexts (Health Critical Infrastructure).<br><br>I drafted the Game Design Document (GDD) structuring an investigative Digital Escape Room aimed at mitigating human factor risk (Human Firewall). I designed and programmed logic puzzles to train users in recognizing Social Engineering attacks, Spear Phishing, and network vulnerabilities (Wi-Fi/VPN).<br><br>I managed the UI/UX of the investigative hub and implemented resource management mechanisms (Investigation Points) to balance playful engagement with the educational goals of Digital Forensics and Incident Response.`,
-                linkGithub: "https://github.com/licia6/Serious-Game-x-CyberSecurity"
+                linkGithub: "https://github.com/liciacongedo/Serious-Game-x-CyberSecurity"
             },
             {
                 data: "Novembre 2025",
@@ -828,7 +832,7 @@
                 breveEN: `Design and development of an object-relational database (Oracle) and web app to catalog astronomical discoveries.`,
                 lungaIT: `<b>Database & Backend Developer</b> - Astronomy Agency Consortium: Progettazione e implementazione end-to-end di un sistema informativo a oggetti-relazionale (<b>Oracle DB</b>) dedicato al tracciamento di scoperte astronomiche.<br><br>Ho gestito il ciclo di vita del dato partendo dalla modellazione concettuale e logica (Schema ER, Analisi Volumi/Accessi) fino all'implementazione strutturale, traducendo le Business Rules tramite vincoli CHECK, procedure PL/SQL e Triggers avanzati per il controllo di unicità e integrità referenziale.<br><br>Ho condotto un'accurata attività di Performance Tuning (Physical Design), analizzando gli Explain Plan e implementando indici B-Tree compositi che hanno eliminato i colli di bottiglia causati dai TABLE ACCESS FULL. Per rendere il database esplorabile dagli utenti finali, ho infine progettato e sviluppato una web application integrata utilizzando <b>Python (Flask)</b>, HTML e la libreria oracledb.`,
                 lungaEN: `<b>Database & Backend Developer</b> - Astronomy Agency Consortium: End-to-end design and implementation of an object-relational information system (<b>Oracle DB</b>) dedicated to tracking astronomical discoveries.<br><br>I managed the data lifecycle starting from conceptual and logical modeling (ER Schema, Volume/Access Analysis) to structural implementation, translating Business Rules via CHECK constraints, PL/SQL procedures, and advanced Triggers for uniqueness and referential integrity control.<br><br>I conducted careful Performance Tuning (Physical Design), analyzing Explain Plans and implementing composite B-Tree indexes that eliminated bottlenecks caused by TABLE ACCESS FULL. Finally, to make the database explorable by end users, I designed and developed an integrated web application using <b>Python (Flask)</b>, HTML, and the oracledb library.`,
-                linkGithub: "https://github.com/licia6/progetto-DATABASE"
+                linkGithub: "https://github.com/liciacongedo/progetto-DATABASE"
             },
             {
                 data: "Luglio 2025",
@@ -839,7 +843,7 @@
                 breveEN: `Vulnerability Assessment & Hardening on a Java/Spring Boot e-commerce app (SAST, DAST, and GDPR Compliance).`,
                 lungaIT: `<b>Application Security Engineer</b> - Progetto IWA-Pharmacy: Conduzione di un audit di sicurezza completo (Vulnerability Assessment & Hardening) su una web application e-commerce in <b>Java/Spring Boot</b> in ambito Healthcare.<br><br>Ho eseguito test di analisi statica (SAST con <b>Fortify</b>) e dinamica (DAST con <b>OWASP ZAP</b>), effettuando il triage di oltre 60 vulnerabilità critiche. Ho implementato Security Fix a livello di codice per mitigare falle OWASP Top 10, come SQL Injection (tramite Parameterized Queries), XSS, Insecure Transport e Weak Cryptography (implementando l'hashing BCrypt).<br><br>A livello architetturale e organizzativo, ho definito il workflow di Incident Response e condotto un Privacy Assessment approfondito, applicando metodologie di Privacy by Design e specifici Privacy Patterns (Onion Routing, Data Stripping, Encryption) per garantire la compliance al GDPR nella gestione dei dati sensibili e dei log di sistema.`,
                 lungaEN: `<b>Application Security Engineer</b> - IWA-Pharmacy Project: Conducting a complete security audit (Vulnerability Assessment & Hardening) on a <b>Java/Spring Boot</b> e-commerce web application in the Healthcare sector.<br><br>I performed static (SAST with <b>Fortify</b>) and dynamic (DAST with <b>OWASP ZAP</b>) analysis tests, triaging over 60 critical vulnerabilities. I implemented code-level Security Fixes to mitigate OWASP Top 10 flaws, such as SQL Injection (via Parameterized Queries), XSS, Insecure Transport, and Weak Cryptography (implementing BCrypt hashing).<br><br>At the architectural and organizational level, I defined the Incident Response workflow and conducted an in-depth Privacy Assessment, applying Privacy by Design methodologies and specific Privacy Patterns (Onion Routing, Data Stripping, Encryption) to ensure GDPR compliance in handling sensitive data and system logs.`,
-                linkGithub: "https://github.com/licia6/Secure-Sofware-Engineering"
+                linkGithub: "https://github.com/liciacongedo/Secure-Sofware-Engineering"
             },
             {
                 data: "Giugno 2025",
@@ -850,7 +854,7 @@
                 breveEN: `Redesign of Facebook's privacy interface, optimized to make controls accessible to older adults.`,
                 lungaIT: `<b>UX Researcher (Usable Privacy & Security)</b> - Progetto Facebook for Older Adults: Ricerca e ridisegno user-centered dell'interfaccia delle impostazioni di privacy di Facebook, con focus sull'accessibilità cognitiva per gli utenti anziani (Older Adults).<br><br>Ho strutturato lo studio su 4 step metodologici (Task Identification, Task Automation, Failure Identification, Mitigation), conducendo sessioni di Usability Testing su prototipi interattivi. Ho analizzato metriche quantitative (tassi di successo, tempi di completamento, frequenza degli errori) e fattori umani qualitativi per isolare i colli di bottiglia cognitivi causati dal gergo tecnico e da flussi complessi.<br><br>I risultati hanno guidato il design di un sistema di gestione della privacy mitigato, più inclusivo ed efficace nel prevenire la sovraesposizione accidentale dei dati sensibili in categorie di utenti vulnerabili. L'intero processo è stato documentato in un paper accademico formattato in standard ACM (<b>LaTeX</b>).`,
                 lungaEN: `<b>UX Researcher (Usable Privacy & Security)</b> - Facebook for Older Adults Project: User-centered research and redesign of Facebook's privacy settings interface, focusing on cognitive accessibility for Older Adults.<br><br>I structured the study on 4 methodological steps (Task Identification, Task Automation, Failure Identification, Mitigation), conducting Usability Testing sessions on interactive prototypes. I analyzed quantitative metrics (success rates, completion times, error frequency) and qualitative human factors to isolate cognitive bottlenecks caused by technical jargon and complex workflows.<br><br>The results guided the design of a mitigated privacy management system, more inclusive and effective in preventing accidental overexposure of sensitive data in vulnerable user categories. The entire process was documented in an academic paper formatted to ACM standards (<b>LaTeX</b>).`,
-                linkGithub: "https://github.com/licia6/progetto-usable-privacy-and-security"
+                linkGithub: "https://github.com/liciacongedo/progetto-usable-privacy-and-security"
             },
             {
                 data: "Giugno 2025",
@@ -861,7 +865,7 @@
                 breveEN: `Predictive ML framework for identifying breast cancer biomarkers using multi-omics genomic data.`,
                 lungaIT: `<b>Machine Learning Engineer / Data Scientist</b> - Progetto CT-GENOMICS AI: Sviluppo end-to-end di un framework predittivo in ambito Precision Oncology per l'identificazione di biomarcatori del cancro al seno tramite l'integrazione di dati genomici multi-omici (TCGA-BRCA dataset).<br><br>Ho strutturato complesse pipeline di pre-processing su dati trascrittomici ad alta dimensionalità (mRNA, miRNA, isoforme), implementando strategie avanzate per la gestione di valori mancanti e dati categorici nativi. Ho progettato e addestrato un modello di classificazione basato su <b>CatBoost</b>, ottimizzando gli iperparametri (L2 regularization, Early Stopping) e validando la robustezza tramite 5-fold Stratified Cross-Validation. Il modello ha garantito performance di classificazione eccezionali (AUC=1.00, F1-Score=0.99).<br><br>Infine, ho condotto un'analisi critica basata sulle Feature Importances, mappando il peso dei trascritti genici rispetto ai layer non-genici (miRNA), documentando le sfide nel bilanciamento dei framework di IA per i futuri <b>Molecular Digital Twins</b>.`,
                 lungaEN: `<b>Machine Learning Engineer / Data Scientist</b> - CT-GENOMICS AI Project: End-to-end development of a predictive framework in Precision Oncology for the identification of breast cancer biomarkers through the integration of multi-omics genomic data (TCGA-BRCA dataset).<br><br>I structured complex pre-processing pipelines on high-dimensionality transcriptomic data (mRNA, miRNA, isoforms), implementing advanced strategies for handling missing values and native categorical data. I designed and trained a classification model based on <b>CatBoost</b>, optimizing hyperparameters (L2 regularization, Early Stopping) and validating robustness via 5-fold Stratified Cross-Validation. The model guaranteed exceptional classification performance (AUC=1.00, F1-Score=0.99).<br><br>Finally, I conducted a critical analysis based on Feature Importances, mapping the weight of gene transcripts against non-gene layers (miRNA), documenting the challenges in balancing AI frameworks for future <b>Molecular Digital Twins</b>.`,
-                linkGithub: "https://github.com/licia6/Progetto-Breast-Cancer"
+                linkGithub: "https://github.com/liciacongedo/Progetto-Breast-Cancer"
             },
             {
                 data: "Giugno 2025",
@@ -872,7 +876,7 @@
                 breveEN: `Development of "CrackMate", an automated desktop tool for Penetration Testing and Wardriving of Wi-Fi networks.`,
                 lungaIT: `<b>IoT Security Engineer / Penetration Tester</b> - Progetto Wardriving (CrackMate): Sviluppo e ingegnerizzazione di "CrackMate", un tool desktop automatizzato in <b>Python (Tkinter)</b> per l'auditing di sicurezza delle reti Wi-Fi (IoT Security).<br><br>Ho orchestrato in multithreading le utility della suite <b>Aircrack-ng</b> e <b>Hashcat</b> per condurre attacchi di packet sniffing, deautenticazione (WPA/WPA2) e password cracking offline. Per abilitare funzionalità avanzate di Wardriving, ho integrato l'uso di ADB (Android Debug Bridge) per estrarre le coordinate GPS in tempo reale durante la cattura degli handshake, archiviando i metadati su un database SQLite ottimizzato.<br><br>L'applicativo espone un server web locale per mappare visivamente la topologia delle vulnerabilità urbane. L'intero ambiente è stato pacchettizzato tramite <b>Docker</b> (immagine Kali Linux) con supporto X11 per il forwarding della GUI, dimostrando efficienza operativa durante una campagna di auditing reale condotta su decine di Access Point.`,
                 lungaEN: `<b>IoT Security Engineer / Penetration Tester</b> - Wardriving Project (CrackMate): Development and engineering of "CrackMate", an automated desktop tool in <b>Python (Tkinter)</b> for Wi-Fi network security auditing (IoT Security).<br><br>I orchestrated in multithreading the utilities of the <b>Aircrack-ng</b> suite and <b>Hashcat</b> to conduct packet sniffing, deauthentication (WPA/WPA2), and offline password cracking attacks. To enable advanced Wardriving features, I integrated the use of ADB (Android Debug Bridge) to extract real-time GPS coordinates during handshake capture, archiving metadata on an optimized SQLite database.<br><br>The application exposes a local web server to visually map the topology of urban vulnerabilities. The entire environment was packaged via <b>Docker</b> (Kali Linux image) with X11 support for GUI forwarding, demonstrating operational efficiency during a real auditing campaign conducted on dozens of Access Points.`,
-                linkGithub: "https://github.com/licia6/progetto-IoT-crackmate"
+                linkGithub: "https://github.com/liciacongedo/progetto-IoT-crackmate"
             },
             {
                 data: "Gennaio 2025",
@@ -883,7 +887,7 @@
                 breveEN: `Development of an IR engine based on knowledge extraction from unstructured texts via Text Mining and NLP.`,
                 lungaIT: `<b>Data Scientist / NLP Engineer</b> - Progetto Information Retrieval: Sviluppo end-to-end di un motore di ricerca semantico sul dataset Cranfield utilizzando tecniche avanzate di Text Mining e NLP.<br><br>Ho curato il data preprocessing (stemming, stopword removal via Gensim) e la vettorizzazione testuale (Scikit-learn), implementando e confrontando algoritmi di riduzione della dimensionalità tra cui Fattorizzazione QR Pivotata e Singular Value Decomposition (SVD/LSI) in <b>Python</b> (NumPy, SciPy). Ho gestito criticità legate alla stabilità numerica delle matrici e ottimizzato il recupero dell'informazione calcolando la similarità del coseno nello spazio latente.<br><br>L'implementazione del modello LSI, basato sull'estrazione di 253 componenti principali, ha garantito le migliori performance di classificazione, incrementando sensibilmente le metriche di valutazione (Recall fino al 95.83% e F1-Score al 57.78%) rispetto ai metodi algebrici standard.`,
                 lungaEN: `<b>Data Scientist / NLP Engineer</b> - Information Retrieval Project: End-to-end development of a semantic search engine on the Cranfield dataset using advanced Text Mining and NLP techniques.<br><br>I managed data preprocessing (stemming, stopword removal via Gensim) and textual vectorization (Scikit-learn), implementing and comparing dimensionality reduction algorithms including Pivoted QR Factorization and Singular Value Decomposition (SVD/LSI) in <b>Python</b> (NumPy, SciPy). I handled critical issues related to the numerical stability of matrices and optimized information retrieval by calculating cosine similarity in the latent space.<br><br>The implementation of the LSI model, based on the extraction of 253 principal components, guaranteed the best classification performance, significantly increasing evaluation metrics (Recall up to 95.83% and F1-Score to 57.78%) compared to standard algebraic methods.`,
-                linkGithub: "https://github.com/licia6/Numerical-methods"
+                linkGithub: "https://github.com/liciacongedo/Numerical-methods"
             },
             {
                 data: "Dicembre 2024",
@@ -894,7 +898,7 @@
                 breveEN: `Process Mining research comparing traditional algorithms (PM4Py) with the advanced WoMan framework (ILP).`,
                 lungaIT: `<b>Data Analyst / Process Mining Engineer</b> - Progetto WoMan vs PM4Py: Esecuzione di un progetto di Process Mining focalizzato sull'estrazione e ottimizzazione di workflow a partire da event log non strutturati.<br><br>Ho sviluppato pipeline in <b>Python</b> per il parsing dei dati e l'estrazione dei processi, applicando algoritmi di discovery standard (Alpha, Heuristic e Inductive Miner) tramite la libreria PM4Py e modellando i risultati attraverso le Reti di Petri. Il core del progetto è consistito in un'analisi comparativa tra questi modelli tradizionali e il framework WoMan, basato su <b>Inductive Logic Programming (ILP)</b>.<br><br>L'analisi ha dimostrato i limiti matematici dei classici miner su dataset complessi (generazione eccessiva di task paralleli e dummy transitions), validando invece la capacità dell'IA simbolica (WoMan) di catturare accuratamente relazioni sequenziali e legami di causa-effetto nei comportamenti degli utenti.`,
                 lungaEN: `<b>Data Analyst / Process Mining Engineer</b> - WoMan vs PM4Py Project: Execution of a Process Mining project focused on the extraction and optimization of workflows from unstructured event logs.<br><br>I developed pipelines in <b>Python</b> for data parsing and process extraction, applying standard discovery algorithms (Alpha, Heuristic, and Inductive Miner) via the PM4Py library and modeling the results through Petri Nets. The core of the project consisted of a comparative analysis between these traditional models and the WoMan framework, based on <b>Inductive Logic Programming (ILP)</b>.<br><br>The analysis demonstrated the mathematical limits of classic miners on complex datasets (excessive generation of parallel tasks and dummy transitions), validating instead the ability of symbolic AI (WoMan) to accurately capture sequential relationships and cause-effect links in user behaviors.`,
-                linkGithub: "https://github.com/licia6/PetriNet-formal-methods"
+                linkGithub: "https://github.com/liciacongedo/PetriNet-formal-methods"
             },
             {
                 data: "Luglio 2024",
@@ -905,7 +909,7 @@
                 breveEN: `Research project focused on User-Centered Design for a medical app treating pediatric feeding disorders.`,
                 lungaIT: `<b>UX Researcher & Analyst</b> - Progetto di Tesi (Feeding Disorders App): Ricerca, analisi dei requisiti e progettazione logica (User-Centered Design) di un sistema integrato per il monitoraggio dei disturbi alimentari in pazienti pediatrici con problematiche di neurosviluppo.<br><br>Ho condotto ricerche miste (qualitative e quantitative) somministrando interviste in presenza a specialisti clinici (Ospedale Giovanni XXII di Bari) e questionari digitali via Google Forms (Ospedale Gemelli di Roma). Le necessità emerse sono state tradotte in Casi d'Uso e User Story per delineare le funzionalità del sistema.<br><br>In ottica sperimentale, ho sfruttato le potenzialità dei Large Language Models (<b>ChatGPT</b>) applicando tecniche di <b>Prompt Engineering</b> per generare un'estrazione automatizzata dei requisiti, conducendo un'analisi comparativa tra approccio umano e Intelligenza Artificiale al fine di valutare accuratezza, scalabilità e fattori etico-empatici nello sviluppo software.`,
                 lungaEN: `<b>UX Researcher & Analyst</b> - Thesis Project (Feeding Disorders App): Research, requirements analysis, and logical design (User-Centered Design) of an integrated system for monitoring eating disorders in pediatric patients with neurodevelopmental issues.<br><br>I conducted mixed research (qualitative and quantitative) by administering in-person interviews to clinical specialists (Giovanni XXII Hospital in Bari) and digital questionnaires via Google Forms (Gemelli Hospital in Rome). The emerging needs were translated into Use Cases and User Stories to outline system functionalities.<br><br>Experimentally, I exploited the potential of Large Language Models (<b>ChatGPT</b>) applying <b>Prompt Engineering</b> techniques to generate automated requirements extraction, conducting a comparative analysis between the human approach and Artificial Intelligence to evaluate accuracy, scalability, and ethical-empathic factors in software development.`,
-                linkGithub: "https://github.com/licia6/progetto-TESI-TRIENNALE"
+                linkGithub: "https://github.com/liciacongedo/progetto-TESI-TRIENNALE"
             },
             {
                 data: "Gennaio 2024",
@@ -916,7 +920,7 @@
                 breveEN: `Tailor-made training, a tap away. A user-centered mobile app connecting personal trainers and students.`,
                 lungaIT: `<b>UX/UI Designer</b> - Progetto PowerFitness: Progettazione end-to-end di un'app mobile user-centered per la gestione personalizzata degli allenamenti.<br><br>Applicando metodologie UCD, ho condotto sessioni di User Research (interviste) e Usability Testing, traducendo i bisogni degli utenti in flussi operativi ottimizzati. Ho utilizzato <b>Figma</b> per curare l'intero sviluppo visivo e funzionale: dall'ideazione tramite paper prototyping (Crazy 8s) e wireframe, fino alla definizione dell'architettura dell'informazione e alla realizzazione del prototipo interattivo ad alta fedeltà, garantendo un'interfaccia accessibile e allineata agli UX Goals per entrambi i target di riferimento (allievi e istruttori).`,
                 lungaEN: `<b>UX/UI Designer</b> - PowerFitness Project: End-to-end design of a user-centered mobile app for personalized workout management.<br><br>Applying UCD methodologies, I conducted User Research sessions (interviews) and Usability Testing, translating user needs into optimized workflows. I used <b>Figma</b> to oversee the entire visual and functional development: from ideation via paper prototyping (Crazy 8s) and wireframes, to defining the information architecture and creating the high-fidelity interactive prototype, ensuring an accessible interface aligned with UX Goals for both target audiences (students and instructors).`,
-                linkGithub: "https://github.com/licia6/progetto-IUM"
+                linkGithub: "https://github.com/liciacongedo/progetto-IUM"
             }
         ];
         // =====================================================================
@@ -997,12 +1001,11 @@
         function closeProjectsModal() {
             document.body.classList.remove('chaos-lock');
             document.getElementById('projects-modal').classList.remove('active');
-            setTimeout(() => { showProjectsGrid(); }, 300); // Ripristina la griglia di base quando si chiude
+            setTimeout(() => { showProjectsGrid(); }, 300);
         }
         function openProjectDetail(index) {
             const prog = mieiProgetti[index];
             
-            // Nascondi intestazione principale ed elenchi, mostra il dettaglio
             document.querySelector('#projects-modal .modal-header').style.display = 'none';
             document.getElementById('projects-grid-container').style.display = 'none';
             document.getElementById('project-detail-container').style.display = 'block';
@@ -1013,7 +1016,7 @@
             document.getElementById('detail-github-btn').href = prog.linkGithub;
             document.getElementById('project-detail-container').setAttribute('data-current-index', index);
             
-            document.querySelector('#projects-modal .modal-content').scrollTop = 0;
+            document.querySelector('#projects-modal .modal-body-scroll').scrollTop = 0;
         }
         function showProjectsGrid() {
             document.querySelector('#projects-modal .modal-header').style.display = 'flex';
